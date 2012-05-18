@@ -1376,7 +1376,7 @@
 				else
 					echo $crumblink;
 
-				echo "{$lang['strseparator']}";
+				echo "<span class=\"separator\" unselectable=\"on\">{$lang['strseparator']}</span>";
 				echo "</td>";
 			}
 
@@ -1627,7 +1627,7 @@
 			if ($help) {
 				echo "<a class=\"help\" href=\"";
 				echo htmlspecialchars("help.php?help=".urlencode($help)."&server=".urlencode($_REQUEST['server']));
-				echo "\" title=\"{$lang['strhelp']}\" target=\"phppgadminhelp\">{$lang['strhelpicon']}</a>";
+				echo "\" title=\"{$lang['strhelp']}\" target=\"phppgadminhelp\" unselectable=\"on\">{$lang['strhelpicon']}</a>";
 			}
 		}
 
