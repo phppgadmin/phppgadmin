@@ -47,11 +47,11 @@ function replace($str, $params) {
 
 // Resolving functions:
 
-function value(&$var, &$fields, $esc = null) {
+function value( $var, $fields, $esc = null) {
 	if (is_a($var, 'Decorator')) {
 		$val = $var->value($fields);
 	} else {
-		$val =& $var;
+		$val = $var;
 	}
 
 	if (is_string($val)) {
