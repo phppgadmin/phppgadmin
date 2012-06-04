@@ -11,7 +11,7 @@ include_once('./classes/database/ADODB_base.php');
 
 class Postgres extends ADODB_base {
 
-	var $major_version = 9.0;
+	var $major_version = 9.2;
 	// Max object name length
 	var $_maxNameLen = 63;
 	// Store the current schema
@@ -415,7 +415,7 @@ class Postgres extends ADODB_base {
 	}
 
 	function getHelpPages() {
-		include_once('./help/PostgresDoc90.php');
+		include_once('./help/PostgresDoc92.php');
 		return $this->help_page;
 	}
 
@@ -6941,7 +6941,7 @@ class Postgres extends ADODB_base {
 	function getTablespaces($all = false) {
 		global $conf;
 
-		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation,
+		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, pg_catalog.pg_tablespace_location(oid) as spclocation,
                     (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pg_tablespace.oid=pd.objoid) AS spccomment
 					FROM pg_catalog.pg_tablespace";
 
@@ -6961,7 +6961,7 @@ class Postgres extends ADODB_base {
 	function getTablespace($spcname) {
 		$this->clean($spcname);
 
-		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation,
+		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, pg_catalog.pg_tablespace_location(oid) as spclocation,
                     (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pg_tablespace.oid=pd.objoid) AS spccomment
 					FROM pg_catalog.pg_tablespace WHERE spcname='{$spcname}'";
 

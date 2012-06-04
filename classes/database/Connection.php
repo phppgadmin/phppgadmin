@@ -76,7 +76,10 @@ class Connection {
 
 		// Detect version and choose appropriate database driver
 		switch (substr($version,0,3)) {
-			case '8.4': return 'Postgres'; break;
+			case '9.2': return 'Postgres'; break;
+			case '9.1': return 'Postgres91'; break;
+			case '9.0': return 'Postgres90'; break;
+			case '8.4': return 'Postgres84'; break;
 			case '8.3': return 'Postgres83'; break;
 			case '8.2': return 'Postgres82'; break;
 			case '8.1': return 'Postgres81'; break;
@@ -86,7 +89,7 @@ class Connection {
 		}
 
 		/* All <7.4 versions are not supported */
-		// if major version is 7 or less and wasn't catch in the
+		// if major version is 7 or less and wasn't cought in the
 		// switch/case block, we have an unsupported version.
 		if ((int)substr($version, 0, 1) < 8)
 			return null;
