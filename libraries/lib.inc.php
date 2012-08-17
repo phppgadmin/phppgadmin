@@ -95,7 +95,6 @@
 
 	/* select the theme */
 	unset($_theme);
-	$conf['theme'] = 'default';
 
 	// 1. Check for the theme from a request var
 	if (isset($_REQUEST['theme']) && is_file("./themes/{$_REQUEST['theme']}/global.css")) {
