@@ -50,7 +50,7 @@
 			$misc->printTitle(sprintf($lang['strgroupgroups'],htmlentities($conf['srv_groups'][$group]['desc'], ENT_QUOTES, 'UTF-8')));
 		}
 
-		$misc->printTable($groups, $columns, $actions);
+		$misc->printTable($groups, $columns, $actions,'servers-servers');
 
 		$servers = $misc->getServers(true, $group);
 		

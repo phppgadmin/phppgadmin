@@ -565,12 +565,14 @@
 				);
 			}
 
-			$edit_params = $actions['actionbuttons']['edit'];
-			$delete_params = $actions['actionbuttons']['delete'];
+			if (isset($actions['actionbuttons']['edit']))
+				$edit_params = $actions['actionbuttons']['edit'];
+			if (isset($actions['actionbuttons']['delete']))
+				$delete_params = $actions['actionbuttons']['delete'];
 
 			// Display edit and delete actions if we have a key
 			$colspan = count($buttons);
-			if (sizeof($key) > 0)
+			if ((sizeof($key) > 0) && ($colspan > 0) )
 				echo "<th colspan=\"{$colspan}\" class=\"data\">{$lang['stractions']}</th>\n";
 
 			/* we show OIDs only if we are in TABLE or SELECT type browsing */

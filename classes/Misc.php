@@ -2258,8 +2258,11 @@
 			$srvs = array();
 
 			if (($group !== false) and ($group !== 'all'))
-				$group = array_fill_keys(explode(',', preg_replace('/\s/', '',
-					$conf['srv_groups'][$group]['servers'])), 1);
+				if (isset($conf['srv_groups'][$group]['servers']))
+					$group = array_fill_keys(explode(',', preg_replace('/\s/', '',
+						$conf['srv_groups'][$group]['servers'])), 1);
+				else
+					$group = '';
 			
 			foreach($conf['servers'] as $idx => $info) {
 				$server_id = $info['host'].':'.$info['port'].':'.$info['sslmode'];
