@@ -176,7 +176,7 @@ with(jQuery('tr.acline')) {
 		var a = jQuery(this).find('td > a.fkval');
 
 		for (i=0; i < a.length; i++) {
-			jQuery('input[name="values['+ a[i].name +']"]').val(a[i].innerHTML);
+                       jQuery('input[name="values['+ a[i].name +']"]').val(jQuery(a[i]).text()); 
 		}
 		hideAc();
 	});
