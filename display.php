@@ -530,11 +530,14 @@
 					'attr'=> array (
 						'href' => array (
 							'url' => 'display.php',
-							'urlvars' => array_merge(array (
-								'action' => 'confeditrow',
-								'strings' => $_REQUEST['strings'],
-								'page' => $_REQUEST['page'],
-							), $_gets)
+							//Update the state variables for this button
+							'urlvars' => array_merge(
+								$_gets,
+								array (
+									'action' => 'confeditrow',
+									'strings' => $_REQUEST['strings'],
+									'page' => $_REQUEST['page'])
+							)
 						)
 					)
 				),
@@ -543,11 +546,14 @@
 					'attr'=> array (
 						'href' => array (
 							'url' => 'display.php',
-							'urlvars' => array_merge(array (
-								'action' => 'confdelrow',
-								'strings' => $_REQUEST['strings'],
-								'page' => $_REQUEST['page'],
-							), $_gets)
+							//Update the state variables for this button
+							'urlvars' => array_merge(
+								$_gets,
+								array (
+									'action' => 'confeditrow',
+									'strings' => $_REQUEST['strings'],
+									'page' => $_REQUEST['page'])
+							)
 						)
 					)
 				),
@@ -557,13 +563,6 @@
 				'place' => 'display-browse'
 			);
 			$plugin_manager->do_hook('actionbuttons', $actions);
-
-			foreach (array_keys($actions['actionbuttons']) as $action) {
-				$actions['actionbuttons'][$action]['attr']['href']['urlvars'] = array_merge(
-					$actions['actionbuttons'][$action]['attr']['href']['urlvars'],
-					$_gets
-				);
-			}
 
 			$edit_params = isset($actions['actionbuttons']['edit'])?
 				$actions['actionbuttons']['edit']:array();
