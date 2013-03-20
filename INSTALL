@@ -59,7 +59,7 @@ phpPgAdmin Installation Guide
 6. IMPORTANT - SECURITY
 
    PostgreSQL by default does not require you to use a password to log in.
-   We STRONGLY recomment that you enable md5 passwords for local connections
+   We STRONGLY recommend that you enable md5 passwords for local connections
    in your pg_hba.conf, and set a password for the default superuser account.
 
    Due to the large number of phpPgAdmin installations that have not set
