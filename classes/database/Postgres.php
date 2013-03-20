@@ -230,7 +230,7 @@ class Postgres extends ADODB_base {
 	 * @return Data formatted for on-screen display
 	 */
 	function escapeBytea($data) {
-		return stripslashes(pg_escape_bytea($data));
+		return $data;
 	}
 
 	/**
@@ -7987,6 +7987,7 @@ class Postgres extends ADODB_base {
 	function hasQueryKill() { return true; }
 	function hasConcurrentIndexBuild() { return true; }
 	function hasForceReindex() { return false; }
+	function hasByteaHexDefault() { return true; } 
 	
 }
 ?>

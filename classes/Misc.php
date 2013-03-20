@@ -505,6 +505,10 @@
 			/* we work on UTF-8 only encoding */
 			$data->execute("SET client_encoding TO 'UTF-8'");
 
+			if ($data->hasByteaHexDefault()) {
+				$data->execute("SET bytea_output TO escape");
+			}
+
 			return $data;
 		}
 

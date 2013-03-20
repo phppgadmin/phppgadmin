@@ -956,6 +956,9 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 	
 	function _fixblobs()
 	{
+        
+        return; # bypass adodb's bytea handling, so we can handle it ourselves within PHP 
+
 		if ($this->fetchMode == PGSQL_NUM || $this->fetchMode == PGSQL_BOTH) {
 			foreach($this->_blobArr as $k => $v) {
 				$this->fields[$k] = ADORecordSet_postgres64::_decode($this->fields[$k]);

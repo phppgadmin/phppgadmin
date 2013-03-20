@@ -224,6 +224,8 @@ class Postgres84 extends Postgres90 {
 
 	// Capabilities
 
+	function hasByteaHexDefault() { return false; } 
+
 }
 
 ?>
