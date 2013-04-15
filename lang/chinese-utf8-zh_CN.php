@@ -1,9 +1,8 @@
 <?php
 /**
-* English language file for phpPgAdmin.  Use this as a basis
-* for new translations.
+* Chinese language file for phpPgAdmin.
 *
-* $Id: chinese-utf8-zh_CN.php,v 1.5 2007/12/31 13:00:29 ioguix Exp $
+* $Id: chinese-utf8-zh_CN.php,v 1.6 2013/04/15 cozhan $
 */
 	
 	// Language and character set
@@ -12,7 +11,7 @@
 	$lang['applangdir'] = 'ltr';
 	
 	// Welcome
-	$lang['strintro'] = '迎使用 phpPgAdmin。';
+	$lang['strintro'] = '欢迎使用 phpPgAdmin。';
 	$lang['strppahome'] = 'phpPgAdmin 主页';
 	$lang['strpgsqlhome'] = 'PostgreSQL 主页';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
@@ -27,6 +26,8 @@
 	$lang['strlogindisallowed'] = '出于安全原因禁止登录。';
 	$lang['strserver'] = '服务器';
 	$lang['strservers'] = '服务器';
+	$lang['strgroupservers']  =  '群组"%s"中的服务器';
+	$lang['strallservers']  =  '所有服务器';
 	$lang['strintroduction'] = '介绍';
 	$lang['strhost'] = '主机';
 	$lang['strport'] = '端口';
@@ -57,9 +58,11 @@
 	$lang['stralter'] = '变更';
 	$lang['strok'] = '确认';
 	$lang['strcancel'] = '取消';
+	$lang['strkill']  =  '终止';
 	$lang['strac'] = '自动完成有效';
 	$lang['strsave'] = '保存';
 	$lang['strreset'] = '重置';
+	$lang['strrestart']  =  '重启';
 	$lang['strinsert'] = '插入';
 	$lang['strselect'] = '选择';
 	$lang['strdelete'] = '删除';
@@ -74,7 +77,7 @@
 	$lang['strcolumns'] = '列';
 	$lang['strrows'] = '行';
 	$lang['strrowsaff'] = '行已影响（变更）。';
-	$lang['strobjects'] = '对象(s)';
+	$lang['strobjects'] = '对象';
 	$lang['strback'] = '返回';
 	$lang['strqueryresults'] = '查询结果';
 	$lang['strshow'] = '显示';
@@ -110,8 +113,6 @@
 	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = '扩展';
 	$lang['strcollapse'] = '崩溃';
-	$lang['strexplain'] = '解释';
-	$lang['strexplainanalyze'] = '解释分析';
 	$lang['strfind'] = '查找';
 	$lang['stroptions'] = '选项';
 	$lang['strrefresh'] = '刷新';
@@ -132,10 +133,24 @@
 	$lang['strfile'] = '文件';
 	$lang['strfileimported'] = '文件已导入。';
 	$lang['strtrycred'] = '对所有服务器使用该用户名和密码';
+	$lang['strconfdropcred']  =  '因为安全原因，中断连接将会销毁你的登录信息。你确定要中断连接吗？';
 	$lang['stractionsonmultiplelines'] = '多行上的操作';
 	$lang['strselectall'] = '选择所有';
 	$lang['strunselectall'] = '取消选择所有';
 	$lang['strlocale'] = '本地';
+	$lang['strcollation']  =  '校对';
+	$lang['strctype']  =  '字符类型';
+	$lang['strdefaultvalues']  =  '默认值';
+	$lang['strnewvalues']  =  '新值';
+	$lang['strstart']  =  '启动';
+	$lang['strstop']  =  '停止';
+	$lang['strgotoppage']  =  '回到顶端';
+	$lang['strtheme']  =  '主题';
+	$lang['strcluster']  =  '集群';
+
+	// Admin
+	$lang['stradminondatabase'] = '以下管理功能可应用于数据库 %s.';
+	$lang['stradminontable'] = '以下管理功能可应用于表 %s.';
 
 	// User-supplied SQL history
 	$lang['strhistory'] = '历史';
@@ -147,6 +162,7 @@
 	$lang['strnodatabaseselected'] = '请选择一个数据库.';
 	
 	// Database sizes
+	$lang['strnoaccess']  =  '无法访问'; 
 	$lang['strsize'] = '大小';
 	$lang['strbytes'] = '字节';
 	$lang['strkb'] = 'kB';
@@ -155,11 +171,11 @@
 	$lang['strtb'] = 'TB';
 	
 	// Error handling
-	$lang['strnoframes'] = '该程序在具有框架（frames）功能的浏览器上工作的更好，但是也可以在不支持框架（frames）的浏览器上工作，请按下面的链接。';
-	$lang['strnoframeslink'] = '不使用框架（frames）';
+	$lang['strnoframes'] = '该程序在具有框架功能的浏览器上工作的更好，请按下面的链接在不支持框架的浏览器上工作。';
+	$lang['strnoframeslink'] = '不使用框架';
 	$lang['strbadconfig'] = '您的 config.inc.php 已失效。您需要自行通过 config.inc.php-ist 恢复。';
 	$lang['strnotloaded'] = '您安装的 PHP 不支持PostgreSQL。 你需要重新编译PHP并使用 --with-pgsql 配置选项。';
-	$lang['strpostgresqlversionnotsupported'] = '版本的PostgreSQL不被支持。 请更新到版本 %s 或更高版本。';
+	$lang['strpostgresqlversionnotsupported'] = '旧版本的PostgreSQL不被支持。 请更新到版本 %s 或更高版本。';
 	$lang['strbadschema'] = '无效的模式。';
 	$lang['strbadencoding'] = '设定客户端编码错误。';
 	$lang['strsqlerror'] = 'SQL:错误';
@@ -177,6 +193,9 @@
 	$lang['strcannotdumponwindows'] = '复杂表和模式名称的转储在Windows 不被支持。';
 	$lang['strinvalidserverparam'] = '尝试用无效的服务器参数连接,可能有人正尝试攻击你的系统。';
 	$lang['strnoserversupplied'] = '没有选择数据库!';
+	$lang['strbadpgdumppath']  =  '导出错误：在 conf/config.inc.php 中指定的路径 %s 下执行pg_dump失败。请在配置中修改路径并重新登录。';
+	$lang['strbadpgdumpallpath']  =  '导出错误：在 conf/config.inc.php 中指定的路径 %s 下执行pg_dumpall失败。请在配置中修改路径并重新登录。';
+	$lang['strconnectionfail']  =  '无法连接服务器。';
 	
 	// Tables
 	$lang['strtable'] = '数据表';
@@ -185,7 +204,7 @@
 	$lang['strnotables'] = '查无数据表。';
 	$lang['strnotable'] = '查无此表。';
 	$lang['strcreatetable'] = '创建表';
-	$lang['strcreatetablelike'] = '创建表从';
+	$lang['strcreatetablelike'] = '创建表(以现有表为模板)';
 	$lang['strcreatetablelikeparent'] = '源表';
 	$lang['strcreatelikewithdefaults'] = '包含默认值';
 	$lang['strcreatelikewithconstraints'] = '包含约束';
@@ -206,6 +225,7 @@
 	$lang['strinsertrow'] = '插入行';
 	$lang['strrowinserted'] = '行已插入。';
 	$lang['strrowinsertedbad'] = '行插入失败。';
+	$lang['strnofkref']  =  '在外键 %s 中找不到相应的值。';
 	$lang['strrowduplicate'] = '行插入失败, 尝试再次插入。';
 	$lang['streditrow'] = '编辑行';
 	$lang['strrowupdated'] = '行已更新。';
@@ -236,17 +256,22 @@
 	$lang['strstructureanddata'] = '结构和数据';
 	$lang['strtabbed'] = '固定（Tabbed）';
 	$lang['strauto'] = '自动';
-	$lang['strconfvacuumtable'] = '确定要清理 "%s"吗?';
+	$lang['strconfvacuumtable'] = '确定要清理 "%s" 吗?';
 	$lang['strconfanalyzetable'] = '确定要分析 "%s" 吗?';
+	$lang['strconfreindextable']  =  '确定要重新索引 "%s" 吗?';
+	$lang['strconfclustertable']  =  '确定要集群 "%s" 吗?';
 	$lang['strestimatedrowcount'] = '估计的行数';
 	$lang['strspecifytabletoanalyze'] = '必须至少选择一个表来分析';
 	$lang['strspecifytabletoempty'] = '必须至少选择一个表来清空';
 	$lang['strspecifytabletodrop'] = '必须至少选择一个表来移除';
 	$lang['strspecifytabletovacuum'] = '必须至少选择一个表来清理（vacuum）';
+	$lang['strspecifytabletoreindex']  =  '必须至少选择一个要重新索引的表。';
+	$lang['strspecifytabletocluster']  =  '必须至少选择一个要集群的表。';
+	$lang['strnofieldsforinsert']  =  '无法在没有任何列定义的表中插入数据。';
 	
 	// Columns
 	$lang['strcolprop'] = '列属性';
-	$lang['strnotableprovided'] = '没有指表!';
+	$lang['strnotableprovided'] = '没有相应的表!';
 	
 	// Users
 	$lang['struser'] = '用户';
@@ -278,6 +303,7 @@
 	// Groups
 	$lang['strgroup'] = '群组';
 	$lang['strgroups'] = '群组';
+	$lang['strgroupgroups']  =  '在"%s"中的群组';
 	$lang['strshowallgroups'] = '显示所有群组';
 	$lang['strnogroup'] = '查无此群组。';
 	$lang['strnogroups'] = '查无群组。';
@@ -362,7 +388,12 @@
 	$lang['strallobjects'] = '所有对象';
 	$lang['strdatabasealtered'] = '数据库已变更。';
 	$lang['strdatabasealteredbad'] = '数据库变更失败。';
-	$lang['strspecifydatabasetodrop'] = '必须至少指定一个数据库来移除';
+	$lang['strspecifydatabasetodrop'] = '必须至少指定一个要移除的数据库';
+	$lang['strtemplatedb']  =  '模板';
+	$lang['strconfanalyzedatabase']  =  '你确定要分析数据库"%s"中的所有表吗?';
+	$lang['strconfvacuumdatabase']  =  '你确定要清理数据库"%s"中的所有表吗?';
+	$lang['strconfreindexdatabase']  =  '你确定要重新索引数据库"%s"中的所有表吗?';
+	$lang['strconfclusterdatabase']  =  '你确定要集群数据库"%s"中的所有表吗?';
 	
 	// Views
 	$lang['strview'] = '视图';
@@ -390,7 +421,7 @@
 	$lang['strerrordupfields'] = '复制字段时发生错误';
 	$lang['strviewaltered'] = '视图已变更。';
 	$lang['strviewalteredbad'] = '视图变更失败。';
-	$lang['strspecifyviewtodrop'] = '必须至少指定一个视图来移除';
+	$lang['strspecifyviewtodrop'] = '必须至少指定一个要移除的视图';
 	
 	// Sequences
 	$lang['strsequence'] = '序列';
@@ -402,6 +433,7 @@
 	$lang['strlastvalue'] = '最后值';
 	$lang['strincrementby'] = '增量';
 	$lang['strstartvalue'] = '起始值';
+	$lang['strrestartvalue']  =  '重新计算';
 	$lang['strmaxvalue'] = '最大值';
 	$lang['strminvalue'] = '最小值';
 	$lang['strcachevalue'] = '缓存值';
@@ -414,6 +446,8 @@
 	$lang['strconfdropsequence'] = '确定要删除序列"%s"吗？';
 	$lang['strsequencedropped'] = '序列已删除。';
 	$lang['strsequencedroppedbad'] = '序列删除失败。';
+	$lang['strsequencerestart']  =  '重新计算序列。';
+	$lang['strsequencerestartbad']  =  '序列重新计算失败。';
 	$lang['strsequencereset'] = '序列已重置。';
 	$lang['strsequenceresetbad'] = '序列重置失败。';
 	$lang['strsequencealtered'] = '序列已变更。';
@@ -452,7 +486,8 @@
 	$lang['strconfcluster'] = '确定要集群 "%s"吗?';
 	$lang['strclusteredgood'] = '集群完成。';
 	$lang['strclusteredbad'] = '集群失败。';
-	$lang['strcluster'] = '集群';
+	$lang['strconcurrently']  =  '并发';
+	$lang['strnoclusteravailable']  =  '表中没有集群索引。';
 	
 	// Rules
 	$lang['strrules'] = '规则';
@@ -587,7 +622,6 @@
 	$lang['strdelimiter'] = '分隔符';
 	$lang['strstorage'] = '磁盘存储';
 	$lang['strfield'] = '字段';
-	$lang['strvalue'] = '值';
 	$lang['strnumfields'] = '列数';
 	$lang['strnumvalues'] = '值数';
 	$lang['strtypeneedsname'] = '必须指定类型名称。';
@@ -775,12 +809,24 @@
 	$lang['strturnedon'] = '打开';
 	$lang['strturnedoff'] = '关闭';
 	$lang['strenabled'] = '有效';
+	$lang['strnovacuumconf']  =  '没有自动清理配置。';
 	$lang['strvacuumbasethreshold'] = '清理基本临界值';
 	$lang['strvacuumscalefactor'] = '清理换算系数';
 	$lang['stranalybasethreshold'] = '分析基本临界值';
 	$lang['stranalyzescalefactor'] = '分析换算系数';
 	$lang['strvacuumcostdelay'] = '清理成本延迟';
 	$lang['strvacuumcostlimit'] = '清理成本限制';
+	$lang['strvacuumpertable']  =  '此表的自动清理配置';
+	$lang['straddvacuumtable']  =  '为此表增加自动清理配置';
+	$lang['streditvacuumtable']  =  '编辑表 %s 的自动清理配置';
+	$lang['strdelvacuumtable']  =  '删除表 %s 的自动清理配置?';
+	$lang['strvacuumtablereset']  =  '还原表 %s 的自动清理配置为默认值';
+	$lang['strdelvacuumtablefail']  =  '无法删除表 %s 的自动清理配置';
+	$lang['strsetvacuumtablesaved']  =  '已保存表 %s 的自动清理配置';
+	$lang['strsetvacuumtablefail']  =  '表 %s 的自动清理配置失败';
+	$lang['strspecifydelvacuumtable']  =  '请指定你希望移除自动清理配置的表。';
+	$lang['strspecifyeditvacuumtable']  =  '请指定你希望编辑自动清理配置的表。';
+	$lang['strnotdefaultinred']  =  '非默认值被标注为红色。';
 	
 	// Table-level Locks
 	$lang['strlocks'] = '锁';
@@ -818,14 +864,12 @@
 	$lang['strftsdicts'] = '字典';
 	$lang['strftsdict'] = '字典';
 	$lang['strftsemptymap'] = '空的全文检索配置映射。';
-	$lang['strftswithmap'] = '附带映射（With map）';
-	$lang['strftsmakedefault'] = '为本地化作成默认值';
 	$lang['strftsconfigaltered'] = '全文检索已变更。';
 	$lang['strftsconfigalteredbad'] = '全文检索变更失败。';
 	$lang['strftsconfigmap'] = '全文检索配置映射';
 	$lang['strftsparsers'] = '全文检索分析器';
-	$lang['strftsnoparsers'] = '无 有效的全文检索分析器。';
-	$lang['strftsnodicts'] = '无 有效的全文检索字典。';
+	$lang['strftsnoparsers'] = '无有效的全文检索分析器。';
+	$lang['strftsnodicts'] = '无有效的全文检索字典。';
 	$lang['strftsdictcreated'] = '全文检索字典已创建';
 	$lang['strftsdictcreatedbad'] = '全文检索字典创建失败。';
 	$lang['strftslexize'] = 'Lexize';
@@ -846,9 +890,13 @@
 	$lang['strftsmappingalteredbad'] = '全文检索映射变更失败。';
 	$lang['strftsmappingadded'] = '全文检索映射已添加。';
 	$lang['strftsmappingaddedbad'] = '全文检索映射添加失败。';
-	$lang['strftsmappingdropped'] = '全文检索映射已删除。';
-	$lang['strftsmappingdroppedbad'] = '全文检索映射移除失败。';
 	$lang['strftstabconfigs'] = '配置';
 	$lang['strftstabdicts'] = '字典';
 	$lang['strftstabparsers'] = '分析器';
+	$lang['strftscantparsercopy']  =  '不能在创建全文检索配置时指定分析器和模板。';
+
+	//Plugins
+	$lang['strpluginnotfound']  =  '错误：没有找到\'%s\'插件。请检查该插件是否在plugins/目录下，或插件是否包含plugin.php。注意插件名大小写敏感。';
+	$lang['stractionnotfound']  =  '错误：动作\'%s\'不在插件\'%s\'中，或没有被指定为合法的动作。';
+	$lang['strhooknotfound']  =  '错误：连接\'%s\'不可用.';
 ?>
