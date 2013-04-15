@@ -4,13 +4,35 @@ phpPgAdmin History
 Version 5.1
 -----------
 
-Released:
+Released: 14th April 2013 
 
 Features
-* Support for PostgreSQL 9.1 and 9.2
-* New plugin architecture
+* Full support for PostgreSQL 9.1 and 9.2
+* New plugin architecture, including addition of several new hooks (ioguix)
 * Support nested groups of servers (Julien Rouhaud & ioguix)
-* ...
+* Expanded test coverage in Selenium test suite 
+* Highlight referencing fields on hovering Foriegn Key values when browsing tables (asleonardo) 
+* Simplified translation system implementation
+* Don't show cancel/kill options in process page to non-superusers
+* Add download ability from the History window
+* User queries now paginate by default
+
+Bugs
+* Fix several bugs with bytea support, including possible data corruption bugs when updating rows that have bytea fields
+* Numeruous fixes for running under PHP Strict Standards 
+* Fix navigation links when browsing results from a report
+* Fix multiple bugs related to GPC parameters pollution from code
+* Fix an issue with autocompletion of text based Foreign Keys
+* Fix a bug when browsing tables with no unique key
+* Fix a bug with nested groups when no server was set (rjuju) 
+
+Translations
+* Lithuanian (artvras) 
+
+Incompatabilities
+* We have stopped testing against Postgres versions < 8.4, which are EOL
+* phpPgAdmin core is now UTF-8 only
+
 
 Version 5.0
 -----------

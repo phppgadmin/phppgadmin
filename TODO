@@ -212,7 +212,6 @@ Miscellaneous
 Exotic
 ------
 
-* Support contrib/tsearch2 for easy full text indexes
 * Pivot reports (ADODB has a feature for this)
 * Parameterized reports (use prepared queries)
 * Full web accessability conformance
@@ -228,7 +227,7 @@ Principles
 * One day we should make it all XHTML
 * everything properly escaped - prevent sql injection and cross-site scripting 
   probs
-* Support Postgres 7.4 and upwards
+* Support Postgres 8.4 and upwards
 * psql -E is a cool way of seeing how to do schema queries
 * Checking out older versions of describe.c in src/bin/psql in the postgres 
   distro is a good way of seeing how to query older versions of postgres for 
