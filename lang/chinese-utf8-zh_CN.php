@@ -185,7 +185,7 @@
 	$lang['strnotables'] = '查无数据表。';
 	$lang['strnotable'] = '查无此表。';
 	$lang['strcreatetable'] = '创建表';
-	$lang['strcreatetablelike'] = '创建表从';
+	$lang['strcreatetablelike'] = '创建表(以现有表为模板)';
 	$lang['strcreatetablelikeparent'] = '源表';
 	$lang['strcreatelikewithdefaults'] = '包含默认值';
 	$lang['strcreatelikewithconstraints'] = '包含约束';
