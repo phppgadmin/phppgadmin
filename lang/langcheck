@@ -12,7 +12,9 @@
 	if (!ini_get('safe_mode')) set_time_limit(0);
 
 	// Check arguments
-	if (sizeof($_SERVER['argv']) != 2) {
+	if (sizeof($_SERVER['argv']) != 2 or (
+	       is_file($_SERVER['argv'][1]) ? (
+	         substr_compare(pathinfo($_SERVER['argv'][1], PATHINFO_EXTENSION), "php", 0, 3, FALSE) == 0 ? TRUE : FALSE) : FALSE )) {
 		echo "Usage: langcheck <language>\n\n";
 		echo "   <language> is the filename without the .php extension\n";
 		exit;
