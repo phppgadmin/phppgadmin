@@ -12,7 +12,9 @@
 	if (!ini_get('safe_mode')) set_time_limit(0);
 
 	// Check arguments
-	if (sizeof($_SERVER['argv']) != 2) {
+	if (sizeof($_SERVER['argv']) !=2 or (
+	       is_file($_SERVER['argv'][1]) ? (
+	         substr_compare(pathinfo($_SERVER['argv'][1], PATHINFO_EXTENSION), "php", 0, 3, FALSE) == 0 ? TRUE : FALSE) : FALSE )) {
 		echo "Usage: langcheck <language>\n\n";
 		echo "   <language> is the filename without the .php extension\n";
 		exit;
@@ -42,12 +44,27 @@
 	echo "Missing Strings\n";
 	echo "---------------\n\n";
 	if (sizeof($diff) > 0) {
-		foreach ($diff as $v) {
-			echo "\$lang['{$v}'] = '", str_replace("'", "\\'", $master[$v]), "';\n";
+		$fileslave = file_get_contents ("./{$_SERVER['argv'][1]}.php"); //slave file content
+		$slaveoffset = strpos ($fileslave, "?>");		       //offset before php ending
+		$misseditem = "";
+
+		if ($slaveoffset === false) {
+		   	echo "Error: the language file is not an available php file.\n";
+			exit;
 		}
+		
+		foreach ($diff as $v) {
+			 $misseditem = "\$lang['{$v}'] = '". str_replace("'", "\\'", $master[$v]). "';\n";
+			 $fileslave = substr_replace ($fileslave, "\t".$misseditem, $slaveoffset, 0);
+			 $slaveoffset += strlen ("\t".$misseditem);
+
+			 echo $misseditem;
+		}
+
+		file_put_contents ("./{$_SERVER['argv'][1]}.php", $fileslave);
+
 		echo "\n";
 		echo "Translations: ", sizeof($master_keys) - sizeof($diff), "/", sizeof($master_keys), "\n\n";
-
 	}
 	else echo "None\n\n";
 

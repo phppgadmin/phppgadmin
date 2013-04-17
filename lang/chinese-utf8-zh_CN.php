@@ -1,9 +1,8 @@
 <?php
 /**
-* English language file for phpPgAdmin.  Use this as a basis
-* for new translations.
+* Chinese language file for phpPgAdmin.
 *
-* $Id: chinese-utf8-zh_CN.php,v 1.5 2007/12/31 13:00:29 ioguix Exp $
+* $Id: chinese-utf8-zh_CN.php,v 1.6 2013/04/15 cozhan $
 */
 	
 	// Language and character set
@@ -137,6 +136,10 @@
 	$lang['strunselectall'] = '取消选择所有';
 	$lang['strlocale'] = '本地';
 
+	// Admin
+	$lang['stradminondatabase'] = '以下管理功能可应用于数据库 %s.';
+	$lang['stradminontable'] = '以下管理功能可应用于表 %s.';
+
 	// User-supplied SQL history
 	$lang['strhistory'] = '历史';
 	$lang['strnohistory'] = '无历史.';
@@ -185,7 +188,7 @@
 	$lang['strnotables'] = '查无数据表。';
 	$lang['strnotable'] = '查无此表。';
 	$lang['strcreatetable'] = '创建表';
-	$lang['strcreatetablelike'] = '创建表从';
+	$lang['strcreatetablelike'] = '创建表(以现有表为模板)';
 	$lang['strcreatetablelikeparent'] = '源表';
 	$lang['strcreatelikewithdefaults'] = '包含默认值';
 	$lang['strcreatelikewithconstraints'] = '包含约束';
