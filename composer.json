@@ -4,7 +4,7 @@
     "type": "Application",
     "license": "GPL-2.0+",
     "require": {
-        "php": ">=5.3"
+        "php": ">=5.0"
     },
     "minimum-stability": "stable",
     "autoload": {
