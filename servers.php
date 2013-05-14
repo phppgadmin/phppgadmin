@@ -155,10 +155,8 @@
 	}
 
 
-	if ($action == 'tree') {
-		if (isset($_GET['group'])) doTree($_GET['group']);
-		else doTree(false);
-	}
+	if ($action == 'tree')
+		doTree();
 
 	$misc->printHeader($lang['strservers']);
 	$misc->printBody();
