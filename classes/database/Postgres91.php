@@ -39,10 +39,10 @@ class Postgres91 extends Postgres92 {
 				FROM pg_catalog.pg_stat_activity
 				ORDER BY datname, usename, procpid";
 		else {
-			//$this->clean($database);
+			$this->clean($database);
 			$sql = "SELECT datname, usename, procpid AS pid, current_query AS query, query_start
 				FROM pg_catalog.pg_stat_activity
-				-- WHERE datname='{$database}'
+				WHERE datname='{$database}'
 				ORDER BY usename, procpid";
 		}
 
