@@ -23,7 +23,7 @@
 	function doSignal() {
 		global $data, $lang;
 
-		$status = $data->sendSignal($_REQUEST['procpid'], $_REQUEST['signal']);
+		$status = $data->sendSignal($_REQUEST['pid'], $_REQUEST['signal']);
 		if ($status == 0)
 			doProcesses($lang['strsignalsent']);
 		else
@@ -469,7 +469,7 @@
 							'urlvars' => array (
 								'action' => 'signal',
 								'signal' => 'CANCEL',
-								'procpid' => field('procpid')
+								'pid' => field('pid')
 							)
 						)
 					)
@@ -482,7 +482,7 @@
 							'urlvars' => array (
 								'action' => 'signal',
 								'signal' => 'KILL',
-								'procpid' => field('procpid')
+								'pid' => field('pid')
 							)
 						)
 					)
