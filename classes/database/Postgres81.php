@@ -226,6 +226,30 @@ class Postgres81 extends Postgres82 {
 		return $status;
 	}
 
+	/**
+	 * Returns all available process information.
+	 * @param $database (optional) Find only connections to specified database
+	 * @return A recordset
+	 */
+	function getProcesses($database = null) {
+		if ($database === null)
+			$sql = "SELECT datname, usename, procpid AS pid, current_query AS query, query_start, 
+                  case when (select count(*) from pg_locks where pid=pg_stat_activity.procpid and granted is false) > 0 then 't' else 'f' end as waiting  
+				FROM pg_catalog.pg_stat_activity
+				ORDER BY datname, usename, procpid";
+		else {
+			$this->clean($database);
+			$sql = "SELECT datname, usename, procpid AS pid, current_query AS query, query_start
+                    case when (select count(*) from pg_locks where pid=pg_stat_activity.procpid and granted is false) > 0 then 't' else 'f' end as waiting 
+				FROM pg_catalog.pg_stat_activity
+				WHERE datname='{$database}'
+				ORDER BY usename, procpid";
+		}
+
+		$rc = $this->selectSet($sql);
+
+		return $rc;
+	}
 
 	// Tablespace functions
 	
