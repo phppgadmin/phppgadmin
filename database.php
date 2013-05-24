@@ -459,7 +459,7 @@
 		$columns['actions'] = array('title' => $lang['stractions']);
 
 		$actions = array();
-		if ($data->isSuperUser()) {
+		if ($data->hasUserSignals() || $data->isSuperUser()) {
 			$actions = array(
 				'cancel' => array(
 					'content' => $lang['strcancel'],

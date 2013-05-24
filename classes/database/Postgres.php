@@ -7980,6 +7980,7 @@ class Postgres extends ADODB_base {
 	function hasQueryCancel() { return true; }
 	function hasTablespaces() { return true; }
 	function hasUserRename() { return true; }
+    function hasUserSignals() { return true; }
 	function hasVirtualTransactionId() { return true; }
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
 	function hasDatabaseCollation() { return true; }
