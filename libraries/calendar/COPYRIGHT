@@ -1,0 +1,20 @@
+Dynarch calendar
+----------------
+
+symfony contains the dynarch calendar software
+
+Url:       http://www.dynarch.com/projects/calendar/
+Copyright: Mihai Bazon, 2002-2005
+License:   LGPL - http://www.gnu.org/licenses/lgpl.html
+
+
+This release origins from symfony project, as original code is no longer maintained.
+
+symfony
+-------
+
+symfony is originally based on Mojavi3 by Sean Kerr <sean@code-box.org>
+
+Url:       http://www.symfony-project.com/
+Copyright: Fabien Potencier
+License:   MIT - see LICENSE file

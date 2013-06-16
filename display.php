@@ -60,6 +60,7 @@
 				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
 
 				$i = 0;
+				$shift=0;
 				while (!$attrs->EOF) {
 
 					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
@@ -105,7 +106,7 @@
 					// keep track of which element offset we're up to.  We can't refer to the null checkbox by name
 					// as it contains '[' and ']' characters.
 					if (!$attrs->fields['attnotnull']) {
-						$extras['onChange'] = 'elements[' . ($elements - 1) . '].checked = false;';
+						$extras['onChange'] = 'elements[' . ($elements - 1 + $shift) . '].checked = false;';
 					}
 
 					if (($fksprops !== false) && isset($fksprops['byfield'][$attrs->fields['attnum']])) {
@@ -115,6 +116,7 @@
 
 					echo $data->printField("values[{$attrs->fields['attname']}]", $rs->fields[$attrs->fields['attname']], $attrs->fields['type'], $extras);
 
+					if (in_array(substr($attrs->fields['type'],0,9),array('date','timestamp'))) $shift++;
 					echo "</td>";
 					$elements++;
 					echo "</tr>\n";

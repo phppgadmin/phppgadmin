@@ -541,6 +541,12 @@
 				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
 				// Theme
 				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" />\n";
+?>
+<link rel="stylesheet" href="libraries/calendar/skins/aqua/theme.css" type="text/css" />
+<script src="libraries/calendar/calendar.js" type="text/javascript"></script>
+<script src="libraries/calendar/lang/calendar-en.js" type="text/javascript"></script>
+<script src="libraries/calendar/calendar-setup.js" type="text/javascript"></script>
+<?php
 				echo "<link rel=\"shortcut icon\" href=\"images/themes/{$conf['theme']}/Favicon.ico\" type=\"image/vnd.microsoft.icon\" />\n";
 				echo "<link rel=\"icon\" type=\"image/png\" href=\"images/themes/{$conf['theme']}/Introduction.png\" />\n";
 				echo "<script type=\"text/javascript\" src=\"libraries/js/jquery.js\"></script>";
