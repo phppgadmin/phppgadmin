@@ -103,6 +103,17 @@ input, textarea, select {
 input, textarea, select {
 	color:#210;
 }
+td label {
+	display:table;
+	text-align:center;
+	height:100%;
+	width:100%;
+	border-collapse: collapse;
+}
+td label span {
+	display:table-cell;
+	vertical-align:middle;
+}
 .data1 select, .data2 select {
 	font-weight:bold;
 }

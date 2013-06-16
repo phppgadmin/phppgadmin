@@ -90,8 +90,8 @@
 						if ($_REQUEST['action'] == 'confeditrow' && $rs->fields[$attrs->fields['attname']] === null) {
 							$_REQUEST['nulls'][$attrs->fields['attname']] = 'on';
 						}
-						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->fields['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>\n";
+						echo "<label><span><input type=\"checkbox\" name=\"nulls[{$attrs->fields['attname']}]\"",
+							isset($_REQUEST['nulls'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></span></label></td>\n";
 						$elements++;
 					}
 					else
