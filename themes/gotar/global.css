@@ -19,6 +19,9 @@ p {
 p.comment, td.comment {
 	color: #aff;
 }
+p.message {
+	color: #faa;
+}
 table {
 	border:1px gray solid;
 }
