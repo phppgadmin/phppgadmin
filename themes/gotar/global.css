@@ -16,6 +16,9 @@ body {
 p {
 	color: #fff;
 }
+p.comment, td.comment {
+	color: #aff;
+}
 table {
 	border:1px gray solid;
 }
@@ -57,6 +60,7 @@ th.data {
 }
 th.data a:active, th.data a:link, th.data a:visited, th.data a:hover {
 	font-weight: bold;
+	display:block;
 }
 td.dat {
 	color: #ff0;
@@ -86,7 +90,7 @@ tr.data1:hover, tr.data2:hover, tr.data3:hover {
 	background-color: #39663e;
 }
 .row1, .data1 {
-	background-color: #1a3f1e;
+	background-color: #2b482e;
 	text-align: left;
 }
 input, textarea, select {
@@ -105,7 +109,7 @@ p input:focus, .data input:focus, .data1 input:focus, .data2 input:focus, textar
 	color:#000;
 }
 .row2, .data2 {
-	background-color: #2b482e;
+	background-color: #1a3f1e;
 	text-align: left;
 }
 td.opbutton1 {
@@ -151,7 +155,7 @@ table.tabs {
 .tabs .active {background-color: #449}
 .tab .icon {display: block}
 tr,td { height:100% }
-td a:not(.help), th a { display:inline-block; height:100% }	/* vertical-align:middle doesn't work for block elements, CSS sux */
+td a:not(.help):not(.img), th a { display:inline-block; height:100% }	/* vertical-align:middle doesn't work for block elements, CSS sux */
 td.crumb a, td.tab a { width:90% }
 tr.data1 a, tr.data2 a { width:100% }
 td.opbutton1 a, td.opbutton2 a { width:inherit }

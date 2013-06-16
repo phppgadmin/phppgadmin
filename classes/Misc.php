@@ -1977,6 +1977,14 @@
 									}
 								}
 								break;
+							case 'comment':
+								echo "<td class='comment'>";
+								$val = value($column['field'], $tabledata->fields);
+								if (!is_null($val)) {
+									echo $val;
+								}
+								echo "</td>";
+								break;
 							default:
 								echo "<td>";
 								$val = value($column['field'], $tabledata->fields);
