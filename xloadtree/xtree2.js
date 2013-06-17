@@ -292,7 +292,7 @@ function WebFXTreeAbstractNode(sText, oAction, oIconAction) {
 	if (sText) this.text = sText;
 	if (oAction) {
 		this.action = oAction;
-		this.id = adler32(oAction);
+		if(oAction.length>0) this.id = adler32(oAction);
 	}
 	if (oIconAction) this.iconAction = oIconAction;
 	if (webFXTreeConfig.usePersistence) {
