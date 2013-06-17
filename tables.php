@@ -405,7 +405,7 @@
 					$attrs->moveNext();
 				}
 				// Select all checkbox
-				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" accesskey=\"a\" onclick=\"javascript:selectAll()\" /><label for=\"selectall\">{$lang['strselectallfields']}</label></td>";
+				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" accesskey=\"a\" onclick=\"javascript:selectAll()\" /><label for=\"selectall\" style=\"display:inline-block; width:95%\">{$lang['strselectallfields']}</label></td>";
 				echo "</tr></table>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
