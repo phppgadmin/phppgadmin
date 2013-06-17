@@ -4162,6 +4162,8 @@ class Postgres extends ADODB_base {
 			$distinct = '';
 		}
 
+		if (!$conf['show_advanced']) $where .= " AND pl.lanname!='c'";
+
 		$sql = "
 			SELECT
 				{$distinct}
