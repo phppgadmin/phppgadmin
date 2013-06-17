@@ -169,7 +169,7 @@ table.tabs {
 .tabs .active {background-color: #449}
 .tab .icon {display: block}
 tr,td { height:100% }
-td a:not(.help):not(.img), th a { display:inline-block; height:100% }	/* vertical-align:middle doesn't work for block elements, CSS sux */
+td a:not(.help):not(.img):not(#fkprev), th a { display:inline-block; height:100% }	/* vertical-align:middle doesn't work for block elements, CSS sux */
 td.crumb a, td.tab a { width:90% }
 tr.data1 a, tr.data2 a { width:100% }
 td.opbutton1 a, td.opbutton2 a { width:inherit }
@@ -257,4 +257,10 @@ div.fk {
     background: rgba(128,32,64,0.6);
 	border-left: 1px solid #000;
 	padding: 5px 0 5px 0;
+}
+div#fklist {
+	min-width:60%;
+}
+div#fklist th {
+	color:black;
 }
