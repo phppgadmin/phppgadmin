@@ -50,7 +50,7 @@
 			echo "\t\t<td class=\"data1\"><textarea style=\"width: 100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td class=\"data1\"><textarea rows=\"3\" cols=\"32\" name=\"formComment\">", 
+			echo "\t\t<td class=\"data1\"><textarea style=\"width: 100%;\" rows=\"3\" cols=\"50\" name=\"formComment\">", 
 				htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
