@@ -23,12 +23,18 @@
 	
 	$misc->printBody('browser');
 	echo "<div dir=\"ltr\">\n";
+	$idPrefix='';
+	foreach($_SESSION['webdbLogin'] as $a) {
+		$idPrefix.=$a['username'];
+	}
+	if($idPrefix) $idPrefix.='-'; else $idPrefix='wfxt-';
 ?>
 
 	<div class="logo"><a href="intro.php" target="detail"><img src="<?php echo $misc->icon('title') ?>" width="200" height="50" alt="<?php echo htmlspecialchars($appName) ?>" title="<?php echo htmlspecialchars($appName) ?>" /></a></div>
 	<div class="refreshTree"><a href="browser.php" target="browser" ><img src="<?php echo $misc->icon('Refresh'); ?>" alt="<?php echo $lang['strrefresh']; ?>" title="<?php echo $lang['strrefresh']; ?>" /></a></div>
 <script type="text/javascript">
 
+webFXTreeHandler.idPrefix		= "<?php echo $idPrefix ?>";
 webFXTreeConfig.rootIcon		= "<?php echo $misc->icon('Servers') ?>";
 webFXTreeConfig.openRootIcon	= "<?php echo $misc->icon('Servers') ?>";
 webFXTreeConfig.folderIcon		= "";
