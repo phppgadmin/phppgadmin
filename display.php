@@ -114,7 +114,8 @@
 						$extras['autocomplete'] = 'off';
 					}
 
-					echo $data->printField("values[{$attrs->fields['attname']}]", $rs->fields[$attrs->fields['attname']], $attrs->fields['type'], $extras);
+					echo $data->printField("values[{$attrs->fields['attname']}]", $_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type'], $extras);
+					echo $rs->fields[$attrs->fields['attname']];
 
 					if (in_array(substr($attrs->fields['type'],0,9),array('date','timestamp'))) $shift++;
 					echo "</td>";
