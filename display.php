@@ -324,8 +324,13 @@
 				$sortLink = http_build_query($args);
 
 				echo "<th class=\"data\"><a href=\"?{$sortLink}\">"
-					, $misc->printVal($finfo->name)
-					, "</a></th>\n";
+					, $misc->printVal($finfo->name);
+				if($_REQUEST['sortkey'] == ($j + 1)) {
+					if($_REQUEST['sortdir'] == 'asc')
+						echo '<img src="images/themes/default/RaiseArgument.png" alt="">';
+					else	echo '<img src="images/themes/default/LowerArgument.png" alt="">';
+				}
+				echo "</a></th>\n";
 			}
 			$j++;
 		}
