@@ -297,7 +297,7 @@
 	/* Print table header cells 
 	 * @param $args - associative array for sort link parameters
 	 * */
-	function printTableHeaderCells(&$rs, $args, $withOid) {
+	function printTableHeaderCells(&$rs, $args, $withOid, $bottom=0) {
 		global $misc, $data, $conf;
 		$j = 0;
 
@@ -319,6 +319,7 @@
 				$args['sortdir'] = (
 					$_REQUEST['sortdir'] == 'asc'
 					and $_REQUEST['sortkey'] == ($j + 1)
+					or $_REQUEST['sortkey'] != ($j + 1) and $bottom
 				) ? 'desc' : 'asc';
 
 				$sortLink = http_build_query($args);
@@ -662,7 +663,7 @@
 				echo "<th colspan=\"{$colspan}\" class=\"data\">{$lang['stractions']}</th>\n";
 
 			/* we show OIDs only if we are in TABLE or SELECT type browsing */
-			printTableHeaderCells($rs_saved, $_gets, isset($object));
+			printTableHeaderCells($rs_saved, $_gets, isset($object), 1);
 
 			echo "</tr>\n";
 
