@@ -1656,13 +1656,12 @@
 			global $lang;
 
 			if ($page < 0 || $page > $pages) return;
-			if ($pages < 0) return;
+			if ($pages <= 1) return;
 			if ($max_width <= 0) return;
 
 			unset ($gets['page']);
 			$url = http_build_query($gets);
 
-			if ($pages > 1) {
 				echo "<p style=\"text-align: center\">\n";
 				if ($page != 1) {
 					echo "<a class='pagenav' href='display.php?{$url}&amp;page=1'>{$lang['strfirst']}</a>\n";
@@ -1694,7 +1693,6 @@
 					echo "<a class='pagenav' href='display.php?{$url}&amp;page={$pages}'>{$lang['strlast']}</a>\n";
 				}
 				echo "</p>\n";
-			}
 		}
 
 		/**
