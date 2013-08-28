@@ -694,7 +694,7 @@
 					$tablink = '<a href="' . htmlentities($this->getActionUrl($tab, $_REQUEST)) . '">';
 
 					if (isset($tab['icon']) && $icon = $this->icon($tab['icon']))
-						$tablink .= "<span class=\"icon\"><img src=\"{$icon}\" alt=\"{$tab['title']}\" /></span>";
+						$tablink .= "<span class=\"icon\"><img src=\"{$icon}\" alt=\"\" /></span>";
 
 					$tablink .= "<span class=\"label\">{$tab['title']}</span></a>";
 
@@ -938,7 +938,7 @@
 							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.fts',
 							'tree'  => true,
-							'icon'  => 'Fts',
+							'icon'  => 'FTS',
 						),
 						'domains' => array (
 							'title' => $lang['strdomains'],
