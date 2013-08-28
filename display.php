@@ -506,7 +506,16 @@
 			isset($_SESSION['sqlquery']) ? $_SESSION['sqlquery'] : null,
 			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
 			$conf['max_rows'], $max_pages);
-		$rs_saved = clone $rs;
+
+		if(!is_object($rs) && $rs==-3) $_REQUEST['page']=$max_pages;
+
+		$rs = $data->browseQuery($type,
+			isset($object) ? $object : null,
+			isset($_SESSION['sqlquery']) ? $_SESSION['sqlquery'] : null,
+			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
+			$conf['max_rows'], $max_pages);
+
+		if(is_object($rs)) $rs_saved = clone $rs;
 
 		$fkey_information =& getFKInfo();
 
