@@ -694,7 +694,7 @@
 					$tablink = '<a href="' . htmlentities($this->getActionUrl($tab, $_REQUEST)) . '">';
 
 					if (isset($tab['icon']) && $icon = $this->icon($tab['icon']))
-						$tablink .= "<span class=\"icon\"><img src=\"{$icon}\" alt=\"\" /></span>";
+						$tablink .= "<span class='icon'><img src='{$icon}' alt='' /></span>";
 
 					$tablink .= "<span class=\"label\">{$tab['title']}</span></a>";
 
@@ -1667,9 +1667,9 @@
 			if ($pages > 1) {
 				echo "<p style=\"text-align: center\">\n";
 				if ($page != 1) {
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page=1\">{$lang['strfirst']}</a>\n";
+					echo "<a class='pagenav' href='display.php?{$url}&amp;page=1'>{$lang['strfirst']}</a>\n";
 					$temp = $page - 1;
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$temp}\">{$lang['strprev']}</a>\n";
+					echo "<a class='pagenav' href='display.php?{$url}&amp;page={$temp}'>{$lang['strprev']}</a>\n";
 				}
 
 				if ($page <= $window) {
@@ -1691,13 +1691,13 @@
 				$max_page = min($max_page, $pages);
 
 				for ($i = $min_page; $i <= $max_page; $i++) {
-					if ($i != $page) echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$i}\">$i</a>\n";
+					if ($i != $page) echo "<a class='pagenav' href='display.php?{$url}&amp;page={$i}'>$i</a>\n";
 					else echo "$i\n";
 				}
 				if ($page != $pages) {
 					$temp = $page + 1;
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$temp}\">{$lang['strnext']}</a>\n";
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$pages}\">{$lang['strlast']}</a>\n";
+					echo "<a class='pagenav' href='display.php?{$url}&amp;page={$temp}'>{$lang['strnext']}</a>\n";
+					echo "<a class='pagenav' href='display.php?{$url}&amp;page={$pages}'>{$lang['strlast']}</a>\n";
 				}
 				echo "</p>\n";
 			}
