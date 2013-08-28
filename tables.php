@@ -431,7 +431,7 @@
 				}
 			}
 
-			if (sizeof($_POST['show']) == 0)
+			if (sizeof($_POST['show']) == 0 && !isset($_POST['selectall']))
 				doSelectRows(true, $lang['strselectneedscol']);
 			else {
 				// Generate query SQL
