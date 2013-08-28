@@ -507,7 +507,10 @@
 			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
 			$conf['max_rows'], $max_pages);
 
-		if(!is_object($rs) && $rs==-3) $_REQUEST['page']=$max_pages;
+		if(!is_object($rs) && $rs==-3) {
+			$_REQUEST['page']=$max_pages;
+			echo "<p>$lang[strnodata] $lang[strlast] $max_pages</p>\n";
+		}
 
 		$rs = $data->browseQuery($type,
 			isset($object) ? $object : null,
