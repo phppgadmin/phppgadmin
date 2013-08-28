@@ -1652,10 +1652,8 @@
 		 * @param $gets -  the parameters to include in the link to the wanted page
 		 * @param $max_width - the number of pages to make available at any one time (default = 20)
 		 */
-		function printPages($page, $pages, $gets, $max_width = 20) {
+		function printPages($page, $pages, $gets, $max_width = 21) {
 			global $lang;
-
-			$window = 10;
 
 			if ($page < 0 || $page > $pages) return;
 			if ($pages < 0) return;
@@ -1672,23 +1670,19 @@
 					echo "<a class='pagenav' href='display.php?{$url}&amp;page={$temp}'>{$lang['strprev']}</a>\n";
 				}
 
+				$window = round($max_width/2);
 				if ($page <= $window) {
 					$min_page = 1;
-					$max_page = min(2 * $window, $pages);
+					$max_page = min($max_width, $pages);
 				}
-				elseif ($page > $window && $pages >= $page + $window) {
-					$min_page = ($page - $window) + 1;
-					$max_page = $page + $window;
+				elseif ($pages >= $page + $window) {
+					$min_page = $page - $window + 1;
+					$max_page = $page + $window - $max_width%2;
 				}
 				else {
-					$min_page = ($page - (2 * $window - ($pages - $page))) + 1;
+					$min_page = $pages - $max_width + 1;
 					$max_page = $pages;
 				}
-
-				// Make sure min_page is always at least 1
-				// and max_page is never greater than $pages
-				$min_page = max($min_page, 1);
-				$max_page = min($max_page, $pages);
 
 				for ($i = $min_page; $i <= $max_page; $i++) {
 					if ($i != $page) echo "<a class='pagenav' href='display.php?{$url}&amp;page={$i}'>$i</a>\n";
