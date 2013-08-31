@@ -60,8 +60,8 @@
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr class=\"data{$id}\">\n";
 					echo "<td style=\"white-space:nowrap;\">";
-					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->fields['attname']), "]\"",
-						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
+					echo "<label class='valign'><span><input type='checkbox' name='show[", htmlspecialchars($attrs->fields['attname']), "]'",
+						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', ' /></span></label></td>';
 					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
 					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
 					echo "<td style=\"white-space:nowrap;\">";
@@ -78,7 +78,7 @@
 					$attrs->moveNext();
 				}
 				// Select all checkbox
-				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" accesskey=\"a\" onclick=\"javascript:selectAll()\" /><label for=\"selectall\" style=\"display:inline-block; width:95%\">{$lang['strselectallfields']}</label></td></tr>";
+				echo "<tr><td colspan='5'><input type='checkbox' id='selectall' name='selectall' accesskey='a' onclick='javascript:selectAll()' /><label for='selectall' style='display:inline-block; width:95%'>{$lang['strselectallfields']}</label></td></tr>";
 				echo "</table>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
