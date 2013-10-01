@@ -669,17 +669,19 @@
 				$i++;
 			}
 
-			echo "<tr>\n";
+			if ($rs->recordCount()>1) {
+				echo "<tr>\n";
 
-			// Display edit and delete actions if we have a key
-			$colspan = count($buttons);
-			if ($colspan > 0 and count($key) > 0)
-				echo "<th colspan=\"{$colspan}\" class=\"data\">{$lang['stractions']}</th>\n";
+				// Display edit and delete actions if we have a key
+				$colspan = count($buttons);
+				if ($colspan > 0 and count($key) > 0)
+					echo "<th colspan=\"{$colspan}\" class=\"data\">{$lang['stractions']}</th>\n";
 
-			/* we show OIDs only if we are in TABLE or SELECT type browsing */
-			printTableHeaderCells($rs_saved, $_gets, isset($object), 1);
+				/* we show OIDs only if we are in TABLE or SELECT type browsing */
+				printTableHeaderCells($rs_saved, $_gets, isset($object), 1);
 
-			echo "</tr>\n";
+				echo "</tr>\n";
+			}
 
 			echo "</table>\n";
 
