@@ -669,7 +669,7 @@
 				$i++;
 			}
 
-			if ($rs->recordCount()>1) {
+			if ($max_pages>1 || $rs->recordCount()>1) {
 				echo "<tr>\n";
 
 				// Display edit and delete actions if we have a key
