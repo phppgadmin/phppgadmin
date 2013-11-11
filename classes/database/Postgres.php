@@ -293,6 +293,14 @@ class Postgres extends ADODB_base {
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;
+			case 'date':
+				$showsTime='false'; $timeFormat='';
+			case 'timestamp':
+				if(!isset($showsTime)) { $showsTime='true'; $timeFormat=' %H:%M:%S'; }
+				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$extra_str} id=\"", htmlspecialchars($name), "\"/>\n";
+				echo "<button type=\"button\" onclick=\"return false\" id=\"trigger", htmlspecialchars($name), "\">...</button>";
+				echo "<script type=\"text/javascript\">Calendar.setup( { inputField: \"", htmlspecialchars($name), "\", button: \"trigger", htmlspecialchars($name), "\", showsTime: $showsTime, ifFormat: \"%Y-%m-%d$timeFormat\" }); </script>";
+				break;
 			default:
 				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$extra_str} />\n";
 				break;
@@ -4153,6 +4161,8 @@ class Postgres extends ADODB_base {
 			$where = "n.nspname = '{$c_schema}'";
 			$distinct = '';
 		}
+
+		if (!$conf['show_advanced']) $where .= " AND pl.lanname!='c'";
 
 		$sql = "
 			SELECT

@@ -72,6 +72,7 @@
 	ini_set('magic_quotes_runtime', 0);
 	ini_set('magic_quotes_sybase', 0);
 	ini_set('arg_separator.output', '&amp;');
+	ini_set('default_charset', '');
 
 	// If login action is set, then set session variables
 	if (isset($_POST['loginServer']) && isset($_POST['loginUsername']) &&

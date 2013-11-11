@@ -285,12 +285,16 @@ var webFXTreeHandler = {
 // WebFXTreeAbstractNode
 ///////////////////////////////////////////////////////////////////////////////
 
+function adler32(a,b,c,d,e,f){for(b=65521,c=1,d=e=0;f=a.charCodeAt(e++);d=(d+c)%b)c=(c+f)%b;return(d<<16)|c}
+
 function WebFXTreeAbstractNode(sText, oAction, oIconAction) {
 	this.childNodes = [];
 	if (sText) this.text = sText;
-	if (oAction) this.action = oAction;
+	if (oAction) {
+		this.action = oAction;
+		if(oAction.length>0) this.id = adler32(oAction);
+	}
 	if (oIconAction) this.iconAction = oIconAction;
-	this.id = webFXTreeHandler.getUniqueId();
 	if (webFXTreeConfig.usePersistence) {
 		this.open = webFXTreeHandler.persistenceManager.getExpanded(this);
 	}
@@ -774,8 +778,8 @@ _p.toHtml = function () {
 		sb.join("") +
 		"</div>";
 
-	return "<div class=\"webfx-tree-item\" id=\"" +
-		this.id + "\"" + this.getEventHandlersHtml() + ">" +
+	return "<div class=\"webfx-tree-item\"" + (this.id?(" id=\"" +
+		this.id + "\""):'') + this.getEventHandlersHtml() + ">" +
 		this.getRowHtml() +
 		childrenHtml +
 		"</div>";

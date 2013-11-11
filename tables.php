@@ -387,8 +387,8 @@
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr class=\"data{$id}\">\n";
 					echo "<td style=\"white-space:nowrap;\">";
-					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->fields['attname']), "]\"",
-						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
+					echo "<label class='valign'><span><input type='checkbox' name='show[", htmlspecialchars($attrs->fields['attname']), "]'",
+						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', ' /></span></label></td>';
 					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
 					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
 					echo "<td style=\"white-space:nowrap;\">";
@@ -405,7 +405,7 @@
 					$attrs->moveNext();
 				}
 				// Select all checkbox
-				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" onclick=\"javascript:selectAll()\" /><label for=\"selectall\">{$lang['strselectallfields']}</label></td>";
+				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" accesskey=\"a\" onclick=\"javascript:selectAll()\" /><label for=\"selectall\" style=\"display:inline-block; width:95%\">{$lang['strselectallfields']}</label></td>";
 				echo "</tr></table>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
@@ -414,7 +414,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"subject\" value=\"table\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"select\" value=\"{$lang['strselect']}\" />\n";
+			echo "<input type=\"submit\" name=\"select\" accesskey=\"r\" value=\"{$lang['strselect']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
@@ -431,7 +431,7 @@
 				}
 			}
 
-			if (sizeof($_POST['show']) == 0)
+			if (sizeof($_POST['show']) == 0 && !isset($_POST['selectall']))
 				doSelectRows(true, $lang['strselectneedscol']);
 			else {
 				// Generate query SQL
@@ -505,8 +505,8 @@
 					echo "<td style=\"white-space:nowrap;\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->fields['attnotnull']) {
-						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->fields['attnum']}]\"",
-							isset($_REQUEST['nulls'][$attrs->fields['attnum']]) ? ' checked="checked"' : '', " /></td>";
+						echo "<label class='valign'><span><input type=\"checkbox\" name=\"nulls[{$attrs->fields['attnum']}]\"",
+							isset($_REQUEST['nulls'][$attrs->fields['attnum']]) ? ' checked="checked"' : '', " /></span></label></td>";
 					}
 					else {
 						echo "&nbsp;</td>";
@@ -537,7 +537,7 @@
 				echo "<input type=\"hidden\" name=\"protection_counter\" value=\"".$_SESSION['counter']."\" />\n";
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
-				echo "<input type=\"submit\" name=\"insertandrepeat\" value=\"{$lang['strinsertandrepeat']}\" />\n";
+				echo "<input type=\"submit\" name=\"insertandrepeat\" accesskey=\"r\" value=\"{$lang['strinsertandrepeat']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 				
 				if($fksprops !== false) {

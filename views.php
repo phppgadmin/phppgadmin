@@ -60,8 +60,8 @@
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr class=\"data{$id}\">\n";
 					echo "<td style=\"white-space:nowrap;\">";
-					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->fields['attname']), "]\"",
-						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
+					echo "<label class='valign'><span><input type='checkbox' name='show[", htmlspecialchars($attrs->fields['attname']), "]'",
+						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', ' /></span></label></td>';
 					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
 					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
 					echo "<td style=\"white-space:nowrap;\">";
@@ -78,7 +78,7 @@
 					$attrs->moveNext();
 				}
 				// Select all checkbox
-				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" onclick=\"javascript:selectAll()\" /><label for=\"selectall\">{$lang['strselectallfields']}</label></td></tr>";
+				echo "<tr><td colspan='5'><input type='checkbox' id='selectall' name='selectall' accesskey='a' onclick='javascript:selectAll()' /><label for='selectall' style='display:inline-block; width:95%'>{$lang['strselectallfields']}</label></td></tr>";
 				echo "</table>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
@@ -87,7 +87,7 @@
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"subject\" value=\"view\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"select\" value=\"{$lang['strselect']}\" />\n";
+			echo "<input type=\"submit\" name=\"select\" accesskey=\"r\" value=\"{$lang['strselect']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
@@ -399,7 +399,7 @@
 		echo "\t<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\">", 
 			htmlspecialchars($_REQUEST['formDefinition']), "</textarea></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
+		echo "\t\t<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"3\" cols=\"50\" name=\"formComment\">", 
 			htmlspecialchars($_REQUEST['formComment']), "</textarea></td>\n\t</tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";

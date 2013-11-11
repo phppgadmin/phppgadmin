@@ -60,6 +60,7 @@
 				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
 
 				$i = 0;
+				$shift=0;
 				while (!$attrs->EOF) {
 
 					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
@@ -89,8 +90,8 @@
 						if ($_REQUEST['action'] == 'confeditrow' && $rs->fields[$attrs->fields['attname']] === null) {
 							$_REQUEST['nulls'][$attrs->fields['attname']] = 'on';
 						}
-						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->fields['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>\n";
+						echo "<label class='valign'><span><input type=\"checkbox\" name=\"nulls[{$attrs->fields['attname']}]\"",
+							isset($_REQUEST['nulls'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></span></label></td>\n";
 						$elements++;
 					}
 					else
@@ -105,16 +106,20 @@
 					// keep track of which element offset we're up to.  We can't refer to the null checkbox by name
 					// as it contains '[' and ']' characters.
 					if (!$attrs->fields['attnotnull']) {
-						$extras['onChange'] = 'elements[' . ($elements - 1) . '].checked = false;';
+						$extras['onChange'] = 'elements[' . ($elements - 1 + $shift) . '].checked = false;';
 					}
 
 					if (($fksprops !== false) && isset($fksprops['byfield'][$attrs->fields['attnum']])) {
 						$extras['id'] = "attr_{$attrs->fields['attnum']}";
 						$extras['autocomplete'] = 'off';
 					}
+					if(isset($_REQUEST['values'])) {
+						echo $data->printField("values[{$attrs->fields['attname']}]", $_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type'], $extras);
+						if($_REQUEST['values'][$attrs->fields['attname']]!=$rs->fields[$attrs->fields['attname']]) echo '<span class="ac_field">'.$rs->fields[$attrs->fields['attname']].'</span>';
+					} else
+						echo $data->printField("values[{$attrs->fields['attname']}]", $rs->fields[$attrs->fields['attname']], $attrs->fields['type'], $extras);
 
-					echo $data->printField("values[{$attrs->fields['attname']}]", $rs->fields[$attrs->fields['attname']], $attrs->fields['type'], $extras);
-
+					if (in_array(substr($attrs->fields['type'],0,9),array('date','timestamp'))) $shift++;
 					echo "</td>";
 					$elements++;
 					echo "</tr>\n";
@@ -150,7 +155,7 @@
 			echo "<input type=\"hidden\" name=\"strings\" value=\"", htmlspecialchars($_REQUEST['strings']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(urlencode(serialize($key))), "\" />\n";
 			echo "<p>";
-			if (!$error) echo "<input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
+			if (!$error) echo "<input type=\"submit\" name=\"save\" accesskey=\"r\" value=\"{$lang['strsave']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 
 			if($fksprops !== false) {
@@ -294,7 +299,7 @@
 	/* Print table header cells 
 	 * @param $args - associative array for sort link parameters
 	 * */
-	function printTableHeaderCells(&$rs, $args, $withOid) {
+	function printTableHeaderCells(&$rs, $args, $withOid, $bottom=0) {
 		global $misc, $data, $conf;
 		$j = 0;
 
@@ -316,13 +321,19 @@
 				$args['sortdir'] = (
 					$_REQUEST['sortdir'] == 'asc'
 					and $_REQUEST['sortkey'] == ($j + 1)
+					or $_REQUEST['sortkey'] != ($j + 1) and $bottom
 				) ? 'desc' : 'asc';
 
 				$sortLink = http_build_query($args);
 
-				echo "<th class=\"data\"><a href=\"?{$sortLink}\">"
-					, $misc->printVal($finfo->name)
-					, "</a></th>\n";
+				echo "<th class='data'><a href='display.php?{$sortLink}'>"
+					, $misc->printVal($finfo->name);
+				if($_REQUEST['sortkey'] == ($j + 1)) {
+					if($_REQUEST['sortdir'] == 'asc')
+						echo '<img src="images/themes/default/RaiseArgument.png" alt="asc">';
+					else	echo '<img src="images/themes/default/LowerArgument.png" alt="desc">';
+				}
+				echo "</a></th>\n";
 			}
 			$j++;
 		}
@@ -496,6 +507,19 @@
 			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
 			$conf['max_rows'], $max_pages);
 
+		if(!is_object($rs) && $rs==-3) {
+			$_REQUEST['page']=$max_pages;
+			echo "<p>$lang[strnodata] $lang[strlast] $max_pages</p>\n";
+		}
+
+		$rs = $data->browseQuery($type,
+			isset($object) ? $object : null,
+			isset($_SESSION['sqlquery']) ? $_SESSION['sqlquery'] : null,
+			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
+			$conf['max_rows'], $max_pages);
+
+		if(is_object($rs)) $rs_saved = clone $rs;
+
 		$fkey_information =& getFKInfo();
 
 		// Build strings for GETs in array
@@ -644,6 +668,21 @@
 				$rs->moveNext();
 				$i++;
 			}
+
+			if ($max_pages>1 || $rs->recordCount()>1) {
+				echo "<tr>\n";
+
+				// Display edit and delete actions if we have a key
+				$colspan = count($buttons);
+				if ($colspan > 0 and count($key) > 0)
+					echo "<th colspan=\"{$colspan}\" class=\"data\">{$lang['stractions']}</th>\n";
+
+				/* we show OIDs only if we are in TABLE or SELECT type browsing */
+				printTableHeaderCells($rs_saved, $_gets, isset($object), 1);
+
+				echo "</tr>\n";
+			}
+
 			echo "</table>\n";
 
 			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
@@ -811,7 +850,7 @@
 
 	// If a table is specified, then set the title differently
 	if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']]))
-		$misc->printHeader($lang['strtables'], $scripts);
+		$misc->printHeader($lang['strtables'].': '.$_REQUEST[$_REQUEST['subject']], $scripts);
 	else	
 		$misc->printHeader($lang['strqueryresults']);
 

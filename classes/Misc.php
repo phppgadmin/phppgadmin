@@ -541,6 +541,12 @@
 				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
 				// Theme
 				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" />\n";
+?>
+<link rel="stylesheet" href="libraries/calendar/skins/aqua/theme.css" type="text/css" />
+<script src="libraries/calendar/calendar.js" type="text/javascript"></script>
+<script src="libraries/calendar/lang/calendar-en.js" type="text/javascript"></script>
+<script src="libraries/calendar/calendar-setup.js" type="text/javascript"></script>
+<?php
 				echo "<link rel=\"shortcut icon\" href=\"images/themes/{$conf['theme']}/Favicon.ico\" type=\"image/vnd.microsoft.icon\" />\n";
 				echo "<link rel=\"icon\" type=\"image/png\" href=\"images/themes/{$conf['theme']}/Introduction.png\" />\n";
 				echo "<script type=\"text/javascript\" src=\"libraries/js/jquery.js\"></script>";
@@ -688,7 +694,7 @@
 					$tablink = '<a href="' . htmlentities($this->getActionUrl($tab, $_REQUEST)) . '">';
 
 					if (isset($tab['icon']) && $icon = $this->icon($tab['icon']))
-						$tablink .= "<span class=\"icon\"><img src=\"{$icon}\" alt=\"{$tab['title']}\" /></span>";
+						$tablink .= "<span class='icon'><img src='{$icon}' alt='' /></span>";
 
 					$tablink .= "<span class=\"label\">{$tab['title']}</span></a>";
 
@@ -932,7 +938,7 @@
 							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.fts',
 							'tree'  => true,
-							'icon'  => 'Fts',
+							'icon'  => 'FTS',
 						),
 						'domains' => array (
 							'title' => $lang['strdomains'],
@@ -1646,55 +1652,47 @@
 		 * @param $gets -  the parameters to include in the link to the wanted page
 		 * @param $max_width - the number of pages to make available at any one time (default = 20)
 		 */
-		function printPages($page, $pages, $gets, $max_width = 20) {
+		function printPages($page, $pages, $gets, $max_width = 21) {
 			global $lang;
 
-			$window = 10;
-
 			if ($page < 0 || $page > $pages) return;
-			if ($pages < 0) return;
+			if ($pages <= 1) return;
 			if ($max_width <= 0) return;
 
 			unset ($gets['page']);
 			$url = http_build_query($gets);
 
-			if ($pages > 1) {
 				echo "<p style=\"text-align: center\">\n";
 				if ($page != 1) {
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page=1\">{$lang['strfirst']}</a>\n";
+					echo "<a class='pagenav' href='display.php?{$url}&amp;page=1'>{$lang['strfirst']}</a>\n";
 					$temp = $page - 1;
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$temp}\">{$lang['strprev']}</a>\n";
+					echo "<a class='pagenav' href='display.php?{$url}&amp;page={$temp}'>{$lang['strprev']}</a>\n";
 				}
 
+				$window = round($max_width/2);
 				if ($page <= $window) {
 					$min_page = 1;
-					$max_page = min(2 * $window, $pages);
+					$max_page = min($max_width, $pages);
 				}
-				elseif ($page > $window && $pages >= $page + $window) {
-					$min_page = ($page - $window) + 1;
-					$max_page = $page + $window;
+				elseif ($pages >= $page + $window) {
+					$min_page = $page - $window + 1;
+					$max_page = $page + $window - $max_width%2;
 				}
 				else {
-					$min_page = ($page - (2 * $window - ($pages - $page))) + 1;
+					$min_page = $pages - $max_width + 1;
 					$max_page = $pages;
 				}
 
-				// Make sure min_page is always at least 1
-				// and max_page is never greater than $pages
-				$min_page = max($min_page, 1);
-				$max_page = min($max_page, $pages);
-
 				for ($i = $min_page; $i <= $max_page; $i++) {
-					if ($i != $page) echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$i}\">$i</a>\n";
+					if ($i != $page) echo "<a class='pagenav' href='display.php?{$url}&amp;page={$i}'>$i</a>\n";
 					else echo "$i\n";
 				}
 				if ($page != $pages) {
 					$temp = $page + 1;
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$temp}\">{$lang['strnext']}</a>\n";
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$pages}\">{$lang['strlast']}</a>\n";
+					echo "<a class='pagenav' href='display.php?{$url}&amp;page={$temp}'>{$lang['strnext']}</a>\n";
+					echo "<a class='pagenav' href='display.php?{$url}&amp;page={$pages}'>{$lang['strlast']}</a>\n";
 				}
 				echo "</p>\n";
-			}
 		}
 
 		/**
@@ -1970,6 +1968,14 @@
 										echo "</td>\n";
 									}
 								}
+								break;
+							case 'comment':
+								echo "<td class='comment'>";
+								$val = value($column['field'], $tabledata->fields);
+								if (!is_null($val)) {
+									echo $val;
+								}
+								echo "</td>";
 								break;
 							default:
 								echo "<td>";
