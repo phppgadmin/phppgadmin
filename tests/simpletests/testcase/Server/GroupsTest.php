@@ -3,37 +3,36 @@
  * Function area: Server
  * Sub function area: Groups
  *
- * @author     Augmentum SpikeSource Team 
+ * @author     Augmentum SpikeSource Team
  * @copyright  2005 by Augmentum, Inc.
  */
 
 // Import the precondition class.
-if(is_dir('../Public')) 
-{
-    require_once('../Public/SetPrecondition.php');
+if (is_dir('../Public')) {
+    require_once '../Public/SetPrecondition.php';
 }
 
 /**
  * This class is to test the group management.
  * It includes create/drop/alter/list groups.
  */
-class GroupsTest extends PreconditionSet 
+class GroupsTest extends PreconditionSet
 {
     // Declare the member variable for group name.
     private $_groupName = "testgroup";
-        
-    function setUp()
+
+    public function setUp()
     {
         global $webUrl;
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
-        
+
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, "$webUrl/login.php");
-        
+
         return TRUE;
     }
 
-    function tearDown()
+    public function tearDown()
     {
         $this->logout();
 
@@ -42,9 +41,9 @@ class GroupsTest extends PreconditionSet
 
     /*
      * TestCaseID: SCG01
-     * Test to create group. 
+     * Test to create group.
      */
-    function testCreate() 
+    public function testCreate()
     {
         global $webUrl;
         global $POWER_USER_NAME;
@@ -52,7 +51,7 @@ class GroupsTest extends PreconditionSet
         global $lang, $SERVER;
 
         // Turn to create group page.
-		$this->assertTrue($this->get("$webUrl/groups.php", array('server' => $SERVER)));
+        $this->assertTrue($this->get("$webUrl/groups.php", array('server' => $SERVER)));
         $this->assertTrue($this->clickLink($lang['strcreategroup']));
 
         // Enter the information for creating group.
@@ -67,94 +66,90 @@ class GroupsTest extends PreconditionSet
         return TRUE;
     }
 
-
     /*
      * TestCaseID: SAG01
      * Test to add users to the gruop.
      */
-    function testAddUser() 
+    public function testAddUser()
     {
         global $webUrl;
         global $SUPER_USER_NAME;
         global $POWER_USER_NAME;
         global $NORMAL_USER_NAME;
         global $lang, $SERVER;
-        
+
         // Turn to the gruop's properties page.
         $this->assertTrue($this->get("$webUrl/groups.php", array('server' => $SERVER)));
-		$this->assertTrue($this->get("$webUrl/groups.php",
-			array('action' => 'properties',
-				'group' => $this->_groupName,
-				'server' => $SERVER))
-		);
-       
+        $this->assertTrue($this->get("$webUrl/groups.php",
+            array('action' => 'properties',
+                'group' => $this->_groupName,
+                'server' => $SERVER))
+        );
+
         // Select user and add it to the group.
         $this->assertTrue($this->setField('user', $SUPER_USER_NAME));
         $this->assertTrue($this->clickSubmit($lang['straddmember']));
         $this->assertTrue($this->setField('user', $POWER_USER_NAME));
         $this->assertTrue($this->clickSubmit($lang['straddmember']));
-       
+
         // Verify the group's memebers.
         $this->assertWantedText($SUPER_USER_NAME);
         $this->assertWantedText($POWER_USER_NAME);
         $this->assertWantedText($NORMAL_USER_NAME);
-        
+
         return TRUE;
     }
-    
-    
+
     /*
      * TestCaseID: SRG01
      * Test to Remove users from the group.
      */
-    function testRemoveUser() 
+    public function testRemoveUser()
     {
         global $webUrl;
         global $SUPER_USER_NAME;
         global $POWER_USER_NAME;
         global $NORMAL_USER_NAME;
         global $lang, $SERVER;
-        
+
         // Turn to the gruop properties page.
         $this->assertTrue($this->get("$webUrl/groups.php", array('server' => $SERVER)));
-		$this->assertTrue($this->get("$webUrl/groups.php",
-			array('action' => 'properties',
-				'group' => $this->_groupName,
-				'server' => $SERVER))
-		);
-       
+        $this->assertTrue($this->get("$webUrl/groups.php",
+            array('action' => 'properties',
+                'group' => $this->_groupName,
+                'server' => $SERVER))
+        );
+
         // Drop users from the group and verify it.
         $this->assertTrue($this->clickLink($lang['strdrop']));
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         $this->assertWantedText($lang['strmemberdropped']);
-        
+
         return TRUE;
     }
-    
-    
+
     /*
      * TestCaseID: SDG01
-     * Test to drop the group. 
+     * Test to drop the group.
      */
-    function testDrop() 
+    public function testDrop()
     {
         global $webUrl;
         global $lang, $SERVER;
-        
+
         // Turn to the drop group page..
         $this->assertTrue($this->get("$webUrl/groups.php", array('server' => $SERVER)));
-		$this->assertTrue($this->get("$webUrl/groups.php",
-			array('server' => $SERVER,
-				'action' => 'confirm_drop',
-			   	'group' => $this->_groupName))
-		);
-       
+        $this->assertTrue($this->get("$webUrl/groups.php",
+            array('server' => $SERVER,
+                'action' => 'confirm_drop',
+                'group' => $this->_groupName))
+        );
+
         // Confirm to drop the group and verify it.
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         $this->assertWantedText($lang['strgroupdropped']);
         $this->assertNoUnWantedText($this->_groupName);
-        
+
         return TRUE;
     }
 }
-?>

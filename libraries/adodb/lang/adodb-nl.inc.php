@@ -1,7 +1,7 @@
 <?php
 // Translated by Pim Koeman (pim#wittenborg-university.com)
 $ADODB_LANG_ARRAY = array (
-			'LANG'                      => 'nl',
+            'LANG'                      => 'nl',
             DB_ERROR                    => 'onbekende fout',
             DB_ERROR_ALREADY_EXISTS     => 'bestaat al',
             DB_ERROR_CANNOT_CREATE      => 'kan niet aanmaken',
@@ -24,10 +24,9 @@ $ADODB_LANG_ARRAY = array (
             DB_ERROR_VALUE_COUNT_ON_ROW => 'waarde telling op rij',
             DB_ERROR_INVALID_DSN        => 'ongeldige DSN',
             DB_ERROR_CONNECT_FAILED     => 'connectie mislukt',
-            0	                       => 'geen fout', // DB_OK
+            0                           => 'geen fout', // DB_OK
             DB_ERROR_NEED_MORE_DATA     => 'onvoldoende data gegeven',
             DB_ERROR_EXTENSION_NOT_FOUND=> 'extensie niet gevonden',
             DB_ERROR_NOSUCHDB           => 'onbekende database',
             DB_ERROR_ACCESS_VIOLATION   => 'onvoldoende rechten'
 );
-?>

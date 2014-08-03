@@ -1,31 +1,26 @@
 <?php
 /**
- * This file sets global variables for 
+ * This file sets global variables for
  * $PHP_SIMPLETEST_HOME and $PHP_SIMPLETEST_REPORT_PATH.
  *
  * Derived from SpikeSource sample code.
  *
- * @author     Augmentum SpikeSource Team 
+ * @author     Augmentum SpikeSource Team
  * @copyright  2005 by Augmentum, Inc.
  */
 ?>
 <?php
     $PHP_SIMPLETEST_REPORT_PATH = false;
     global $PHP_SIMPLETEST_REPORT_PATH;
-    for($ii=1; $ii < $argc; $ii++) 
-    {
-        if(strpos($argv[$ii], "PHP_SIMPLETEST_HOME=") !== false) 
-        {
+    for ($ii=1; $ii < $argc; $ii++) {
+        if (strpos($argv[$ii], "PHP_SIMPLETEST_HOME=") !== false) {
             parse_str($argv[$ii]);
-        }
-        else if(strpos($argv[$ii], "PHP_SIMPLETEST_REPORT_PATH=") !== false) 
-        {
+        } elseif (strpos($argv[$ii], "PHP_SIMPLETEST_REPORT_PATH=") !== false) {
             parse_str($argv[$ii]);
         }
     }
 
-    if(empty($PHP_SIMPLETEST_HOME) || !is_dir($PHP_SIMPLETEST_HOME)) 
-    {
+    if (empty($PHP_SIMPLETEST_HOME) || !is_dir($PHP_SIMPLETEST_HOME)) {
         $msg = "ERROR: Could not locate PHP_SIMPLETEST_HOME [$PHP_SIMPLETEST_HOME]. ";
         $msg .= "Use 'php <filename> PHP_SIMPLETEST_HOME=/path/to/simpletest/home'\n";
         die($msg);

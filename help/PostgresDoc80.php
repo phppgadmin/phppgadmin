@@ -6,7 +6,7 @@
  * $Id: PostgresDoc80.php,v 1.5 2005/02/16 10:27:44 jollytoad Exp $
  */
 
-include('./help/PostgresDoc74.php');
+include './help/PostgresDoc74.php';
 
 $this->help_base = sprintf($GLOBALS['conf']['help_base'], '8.0');
 
@@ -24,5 +24,3 @@ $this->help_page['pg.domain'] = 'extend-type-system.html#AEN27940';
 $this->help_page['pg.function'][2] = 'sql-expressions.html#AEN1652';
 
 $this->help_page['pg.operator'][2] = 'sql-expressions.html#AEN1623';
-
-?>

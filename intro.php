@@ -1,21 +1,21 @@
 <?php
 
-	/**
+    /**
 	 * Intro screen
 	 *
 	 * $Id: intro.php,v 1.19 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
-	// Include application functions (no db conn)
-	$_no_db_connection = true;
-	include_once('./libraries/lib.inc.php');
-	include_once('./themes/themes.php');
+    // Include application functions (no db conn)
+    $_no_db_connection = true;
+    include_once './libraries/lib.inc.php';
+    include_once './themes/themes.php';
 
-	$misc->printHeader();
-	$misc->printBody();
+    $misc->printHeader();
+    $misc->printBody();
 
-	$misc->printTrail('root');
-	$misc->printTabs('root','intro');
+    $misc->printTrail('root');
+    $misc->printTabs('root','intro');
 ?>
 
 <h1><?php echo "$appName $appVersion (PHP ". phpversion() .')' ?></h1>
@@ -27,13 +27,13 @@
 		<td>
 			<select name="language" onchange="this.form.submit()">
 			<?php
-			$language = isset($_SESSION['webdbLanguage']) ? $_SESSION['webdbLanguage'] : 'english';
-			foreach ($appLangFiles as $k => $v) {
-				echo "\t<option value=\"{$k}\"",
-					($k == $language) ? ' selected="selected"' : '',
-					">{$v}</option>\n";
-			}
-			?>
+            $language = isset($_SESSION['webdbLanguage']) ? $_SESSION['webdbLanguage'] : 'english';
+            foreach ($appLangFiles as $k => $v) {
+                echo "\t<option value=\"{$k}\"",
+                    ($k == $language) ? ' selected="selected"' : '',
+                    ">{$v}</option>\n";
+            }
+            ?>
 			</select>
 		</td>
 	</tr>
@@ -42,12 +42,12 @@
 		<td>
 			<select name="theme" onchange="this.form.submit()">
 			<?php
-			foreach ($appThemes as $k => $v) {
-				echo "\t<option value=\"{$k}\"",
-					($k == $conf['theme']) ? ' selected="selected"' : '',
-					">{$v}</option>\n";
-			}
-			?>
+            foreach ($appThemes as $k => $v) {
+                echo "\t<option value=\"{$k}\"",
+                    ($k == $conf['theme']) ? ' selected="selected"' : '',
+                    ">{$v}</option>\n";
+            }
+            ?>
 			</select>
 		</td>
 	</tr>
@@ -66,6 +66,6 @@
 </ul>
 
 <?php
-	if (isset($_GET['language'])) $_reload_browser = true;
-	$misc->printFooter();
+    if (isset($_GET['language'])) $_reload_browser = true;
+    $misc->printFooter();
 ?>

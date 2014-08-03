@@ -2,10 +2,10 @@
 /**
  * This file just declare global variables.
  *
- * @author     Allen Xiao 
+ * @author     Allen Xiao
  * @copyright  2005 by Augmentum, Inc.
  */
- 
+
 // The home page of phpPgAdmin.
 global $webUrl;
 $webUrl = 'http://localhost/phpPgAdmin';
@@ -22,7 +22,7 @@ $POWER_USER_NAME = 'tester';
 
 global $NORMAL_USER_NAME;
 $NORMAL_USER_NAME = 'guest';
-    
+
 //The password for these users.
 global $SUPER_USER_PASSWORD;
 $SUPER_USER_PASSWORD = 'super';
@@ -32,4 +32,3 @@ $POWER_USER_PASSWORD = 'tester';
 
 global $NORMAL_USER_PASSWORD;
 $NORMAL_USER_PASSWORD = 'guest';
-?>

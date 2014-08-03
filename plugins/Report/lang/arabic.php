@@ -20,4 +20,3 @@
     $plugin_lang['strreportneedsdef'] = 'يجب كتابة عبارة SQL للتقرير.';
     $plugin_lang['strreportcreated'] = 'تم حفظ التقرير.';
     $plugin_lang['strreportcreatedbad'] = 'لم يتم حفظ التقرير، لقد فشلت عملية الحفظ.';
-?>

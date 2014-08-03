@@ -2,7 +2,7 @@
 /**
  * This is entrance to run all the test suites and generate a report for the results.
  *
- * @author     Augmentum SpikeSource Team 
+ * @author     Augmentum SpikeSource Team
  * @copyright  2005 by Augmentum, Inc.
  */
 
@@ -12,13 +12,13 @@
 require_once("$PHP_SIMPLETEST_HOME/web_tester.php");
 require_once("$PHP_SIMPLETEST_HOME/reporter.php");
 
-require_once('Public/SetPrecondition.php');  
+require_once 'Public/SetPrecondition.php';
 
-require_once('Server/ServerGroupTest.php');
-require_once('Databases/DatabaseGroupTest.php');
-require_once('Schemas/SchemasGroupTest.php');
-require_once('Tables/TableGroupTest.php');
-require_once('Common/CommonGroupTest.php');
+require_once 'Server/ServerGroupTest.php';
+require_once 'Databases/DatabaseGroupTest.php';
+require_once 'Schemas/SchemasGroupTest.php';
+require_once 'Tables/TableGroupTest.php';
+require_once 'Common/CommonGroupTest.php';
 
 /**
  * This class is to test the whole phpPgAdmin.
@@ -26,14 +26,14 @@ require_once('Common/CommonGroupTest.php');
  */
 class phpPgAdminGroupTest extends GroupTest
 {
-    function phpPgAdminGroupTest() 
+    public function phpPgAdminGroupTest()
     {
-		$this->GroupTest('phpPgAdmin automation test.');
-		$this->addTestClass(new ServerGroupTest());
-		$this->addTestClass(new DatabaseGroupTest());
-		$this->addTestClass(new SchemasGroupTest());
-		$this->addTestClass(new TableGroupTest());
-		$this->addTestClass(new CommonGroupTest());
+        $this->GroupTest('phpPgAdmin automation test.');
+        $this->addTestClass(new ServerGroupTest());
+        $this->addTestClass(new DatabaseGroupTest());
+        $this->addTestClass(new SchemasGroupTest());
+        $this->addTestClass(new TableGroupTest());
+        $this->addTestClass(new CommonGroupTest());
 
     }
 }
@@ -41,5 +41,3 @@ class phpPgAdminGroupTest extends GroupTest
 $phpPgAdminTest = &new phpPgAdminGroupTest();
 
 $phpPgAdminTest->run(new HtmlReporter());
-
-?>

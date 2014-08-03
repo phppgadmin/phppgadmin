@@ -2,15 +2,14 @@
  /**
   * Function area:       Schemas
   * Subfunction area:    Conversion
-  * @author     Augmentum SpikeSource Team 
+  * @author     Augmentum SpikeSource Team
   * @copyright  2005 by Augmentum, Inc.
   */
- 
-// Import the precondition class.
-if(is_dir('../Public')) {
-    require_once('../Public/SetPrecondition.php');
-}
 
+// Import the precondition class.
+if (is_dir('../Public')) {
+    require_once '../Public/SetPrecondition.php';
+}
 
 /**
  * A test case suite for testing CONVERSION feature in phpPgAdmin, including
@@ -19,48 +18,48 @@ if(is_dir('../Public')) {
 class ConversionTest extends PreconditionSet
 {
     /**
-     * Set up the precondition. 
+     * Set up the precondition.
      */
-    function setUp()
+    public function setUp()
     {
         global $webUrl;
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
-        
-        // Login the system.
-        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     "$webUrl/login.php"); 
 
-        return TRUE;           
+        // Login the system.
+        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD,
+                     "$webUrl/login.php");
+
+        return TRUE;
     }
 
     /**
-     * Clean up all the result. 
+     * Clean up all the result.
      */
-    function tearDown()
+    public function tearDown()
     {
         // Logout from the system.
-        $this->logout(); 
-        
+        $this->logout();
+
         return TRUE;
     }
-    
+
     /**
      * TestCaseID: HBC01
      * Browse the conversions.
      */
-    function testBrowseConversion()
+    public function testBrowseConversion()
     {
         global $webUrl;
         global $lang, $SERVER;
 
         // Turn to schema "pg_catalog" page.
-		$this->assertTrue($this->get("$webUrl/redirect.php", array(
-			            'server' => $SERVER,
-						'section' => 'schema',
-						'database' => 'template1',
-						'schema' => 'pg_catalog'))
-					);
+        $this->assertTrue($this->get("$webUrl/redirect.php", array(
+                        'server' => $SERVER,
+                        'section' => 'schema',
+                        'database' => 'template1',
+                        'schema' => 'pg_catalog'))
+                    );
         // Click the "Conversions" hyper link.
         $this->assertTrue($this->clickLink($lang['strconversions']));
 
@@ -70,7 +69,5 @@ class ConversionTest extends PreconditionSet
         $this->assertTrue($this->assertWantedText($lang['strsourceencoding']));
 
         return TRUE;
-    } 
-}    
-
-?>
+    }
+}

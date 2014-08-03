@@ -19,4 +19,3 @@
     $plugin_lang['strreportneedsname'] = '你必须给您的报表命名';
     $plugin_lang['strreportcreated'] = '储存报表完成';
     $plugin_lang['strreportcreatedbad'] = '储存报表失败';
-?>

@@ -21,7 +21,7 @@
  $lang['strreportbug'] = 'الإبلاغ عن خطأ في البرنامج.';
  $lang['strviewfaq'] = 'قراءة الأسئلة المتكررة على الموقع';
  $lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
- 
+
  // Basic strings
  $lang['strlogin'] = 'الدخول';
 $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
@@ -219,7 +219,7 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['strpasswordchangedbad'] = 'لم ينجح تغيير كلمة السر.';
  $lang['strpasswordshort'] = 'كلمة السر أقصر من الحد الأدنى.';
  $lang['strpasswordconfirm'] = 'كلمة السر المدخلة لم تتطابق مع تأكيد كلمة السر.';
- 
+
  // Groups
  $lang['strgroup'] = 'المجموعة';
  $lang['strgroups'] = 'المجموعات';
@@ -229,7 +229,7 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['strshowallgroups'] = 'عرض جميع المجموعات';
  $lang['strgroupneedsname'] = 'يجب إعطاء إسم للمجموعة.';
  $lang['strgroupcreated'] = 'لقد تمت إضافة المجموعة بنجاح.';
- $lang['strgroupcreatedbad'] = 'لقد فشلت عملية إضافة المجموعة.'; 
+ $lang['strgroupcreatedbad'] = 'لقد فشلت عملية إضافة المجموعة.';
  $lang['strconfdropgroup'] = 'هل انت متأكد تريد حذف المجموعة "%s"؟';
  $lang['strgroupdropped'] = 'تم حذف المجموعة بنجاح.';
  $lang['strgroupdroppedbad'] = 'لقد فشلت عملية حذف المجموعة.';
@@ -310,7 +310,7 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['strnosequences'] = 'لم يوجد تسلسلات.';
  $lang['strcreatesequence'] = 'إنشاء تسلسل جديد';
  $lang['strlastvalue'] = 'آخر قيمة';
- $lang['strincrementby'] = 'مقدار الزيادة Increment by'; 
+ $lang['strincrementby'] = 'مقدار الزيادة Increment by';
  $lang['strstartvalue'] = 'قيمة البداية';
  $lang['strmaxvalue'] = 'القيمة القصوى';
  $lang['strminvalue'] = 'القيمة الدنيا';
@@ -319,12 +319,12 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['striscycled'] = 'Is cycled?';
  $lang['strsequenceneedsname'] = 'يجب إعطاء إسم للتسلسل sequence.';
  $lang['strsequencecreated'] = 'تم إنشاء التسلسل بنجاح.';
- $lang['strsequencecreatedbad'] = 'لقد فشل إنشاء التسلسل.'; 
+ $lang['strsequencecreatedbad'] = 'لقد فشل إنشاء التسلسل.';
  $lang['strconfdropsequence'] = 'هل أنت متأكد تريد حذف التسلسل بإسم "%s"؟';
  $lang['strsequencedropped'] = 'لقد تم حذف التسلسل بنجاح.';
  $lang['strsequencedroppedbad'] = 'لقد فشلت عملية حذف التسلسل.';
  $lang['strsequencereset'] = 'لقد تمت إعادة التسلسل بنجاح.';
- $lang['strsequenceresetbad'] = 'لقد فشلت إعادة التسلسل.'; 
+ $lang['strsequenceresetbad'] = 'لقد فشلت إعادة التسلسل.';
 
  // Indexes
  $lang['strindex'] = 'فهرسIndex';
@@ -490,9 +490,9 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['strconfdropdomain'] = 'هل أنت متأكد تريد حذف النطاق domain بإسم "%s"؟';
  $lang['strdomainneedsname'] = 'يجب إعطاء إسم للنطاق.';
  $lang['strdomaincreated'] = 'تم إنشاء النطاق بنجاح.';
- $lang['strdomaincreatedbad'] = 'لم يتم إنشاء النطاق، فشلت العملية.'; 
+ $lang['strdomaincreatedbad'] = 'لم يتم إنشاء النطاق، فشلت العملية.';
  $lang['strdomainaltered'] = 'تم تعديل النطاق.';
- $lang['strdomainalteredbad'] = 'فشلت عملية تعديل النطاق.'; 
+ $lang['strdomainalteredbad'] = 'فشلت عملية تعديل النطاق.';
 
  // Operators
  $lang['stroperator'] = 'Operator';
@@ -528,24 +528,24 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['strimplicit'] = 'Implicit';
  $lang['strinassignment'] = 'In assignment';
  $lang['strbinarycompat'] = '(Binary compatible)';
- 
+
  // Conversions
  $lang['strconversions'] = 'Conversions';
  $lang['strnoconversions'] = 'No conversions found.';
  $lang['strsourceencoding'] = 'Source encoding';
  $lang['strtargetencoding'] = 'Target encoding';
- 
+
  // Languages
  $lang['strlanguages'] = 'Languages';
  $lang['strnolanguages'] = 'No languages found.';
  $lang['strtrusted'] = 'Trusted';
- 
+
  // Info
  $lang['strnoinfo'] = 'No information available.';
  $lang['strreferringtables'] = 'Referring tables';
  $lang['strparenttables'] = 'Parent tables';
  $lang['strchildtables'] = 'Child tables';
- 
+
  // Aggregates
  $lang['straggregates'] = 'Aggregates';
  $lang['strnoaggregates'] = 'No aggregates found.';
@@ -577,5 +577,3 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['strtopbar'] = '%s يعمل على %s:%s -- You are logged in as user "%s"';
  $lang['strtimefmt'] = 'jS M, Y g:iA';
  $lang['strhelp'] = 'مساعدة';
-
-?>

@@ -3,7 +3,7 @@
 // Contributed by Grzegorz Pacan <gp#dione.cc>
 
 $ADODB_LANG_ARRAY = array (
-			'LANG'                      => 'pl',
+            'LANG'                      => 'pl',
             DB_ERROR                    => 'niezidentyfikowany b³±d',
             DB_ERROR_ALREADY_EXISTS     => 'ju¿ istniej±',
             DB_ERROR_CANNOT_CREATE      => 'nie mo¿na stworzyæ',
@@ -26,10 +26,9 @@ $ADODB_LANG_ARRAY = array (
             DB_ERROR_VALUE_COUNT_ON_ROW => 'warto¶æ liczona w szeregu',
             DB_ERROR_INVALID_DSN        => 'b³êdny DSN',
             DB_ERROR_CONNECT_FAILED     => 'po³±czenie nie zosta³o zrealizowane',
-            0	                       => 'brak b³êdów', // DB_OK
+            0                           => 'brak b³êdów', // DB_OK
             DB_ERROR_NEED_MORE_DATA     => 'niedostateczna ilo¶æ informacji',
             DB_ERROR_EXTENSION_NOT_FOUND=> 'nie znaleziono rozszerzenia',
             DB_ERROR_NOSUCHDB           => 'nie znaleziono bazy',
             DB_ERROR_ACCESS_VIOLATION   => 'niedostateczne uprawnienia'
 );
-?>
