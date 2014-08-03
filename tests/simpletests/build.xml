@@ -86,8 +86,8 @@
     <exec dir="${basedir}/testcase" executable="${spike.bin.dir}/php"
       failonerror="false">
       <!-- The name of the testcase/testsuite(if the testcases are grouped) should be mentioned as the first
-      argument . For eg testNewsletterApp.php is the sample test case that is to be executed. 
-      The second and third arguments would be PHP_SIMPLETEST_HOME and the PHP_SIMPLETEST_REPORT_PATH (which is a must).	 
+      argument . For eg testNewsletterApp.php is the sample test case that is to be executed.
+      The second and third arguments would be PHP_SIMPLETEST_HOME and the PHP_SIMPLETEST_REPORT_PATH (which is a must).
       -->
       <arg line="testphpPgAdminMain.php PHP_SIMPLETEST_HOME='${spike.simpletest.home}' PHP_SIMPLETEST_REPORT_PATH='${spike.report.dir}/index.html'"/>
     </exec>
@@ -177,4 +177,4 @@
     <echo> "Do nothing"</echo>
   </target>
 
-</project> 
+</project>

@@ -2,7 +2,7 @@
 # Hungarian language, encoding by ISO 8859-2 charset (Iso Latin-2)
 # Halászvári Gábor <g.halaszvari#portmax.hu>
 $ADODB_LANG_ARRAY = array (
-			'LANG'                      => 'hu',
+            'LANG'                      => 'hu',
             DB_ERROR                    => 'ismeretlen hiba',
             DB_ERROR_ALREADY_EXISTS     => 'már létezik',
             DB_ERROR_CANNOT_CREATE      => 'nem sikerült létrehozni',
@@ -25,10 +25,9 @@ $ADODB_LANG_ARRAY = array (
             DB_ERROR_VALUE_COUNT_ON_ROW => 'soron végzett érték számlálás',
             DB_ERROR_INVALID_DSN        => 'hibás DSN',
             DB_ERROR_CONNECT_FAILED     => 'sikertelen csatlakozás',
-            0	                       => 'nincs hiba', // DB_OK
+            0                           => 'nincs hiba', // DB_OK
             DB_ERROR_NEED_MORE_DATA     => 'túl kevés az adat',
             DB_ERROR_EXTENSION_NOT_FOUND=> 'bõvítmény nem található',
             DB_ERROR_NOSUCHDB           => 'nincs ilyen adatbázis',
             DB_ERROR_ACCESS_VIOLATION   => 'nincs jogosultság'
 );
-?>

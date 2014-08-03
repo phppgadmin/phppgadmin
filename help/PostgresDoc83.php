@@ -6,7 +6,7 @@
  * $Id: PostgresDoc83.php,v 1.3 2008/03/17 21:35:48 ioguix Exp $
  */
 
-include('./help/PostgresDoc82.php');
+include './help/PostgresDoc82.php';
 
 $this->help_base = sprintf($GLOBALS['conf']['help_base'], '8.3');
 
@@ -24,4 +24,3 @@ $this->help_page['pg.ftsdict.create'] = array('sql-createtsdictionary.html', 'sq
 $this->help_page['pg.ftsdict.alter'] = 'sql-altertsdictionary.html';
 
 $this->help_page['pg.ftsparser'] = 'textsearch-parsers.html';
-?>

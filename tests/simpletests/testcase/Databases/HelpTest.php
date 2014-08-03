@@ -8,11 +8,9 @@
  */
 
 // Import the precondition class.
-if (is_dir('../Public'))
-{
-    require_once('../Public/SetPrecondition.php');
+if (is_dir('../Public')) {
+    require_once '../Public/SetPrecondition.php';
 }
-
 
 /**
  * This class is to test the help sub function.
@@ -22,7 +20,7 @@ class HelpTest extends PreconditionSet
     /**
      * Set up the preconditon.
      */
-    function setUp()
+    public function setUp()
     {
         global $webUrl;
         global $SUPER_USER_NAME;
@@ -34,18 +32,16 @@ class HelpTest extends PreconditionSet
         return TRUE;
     }
 
-
     /**
      * Release the relational resource.
      */
-    function tearDown()
+    public function tearDown()
     {
         // Logout this system.
         $this->logout();
 
         return TRUE;
     }
-
 
     /**
      * TestCaseId:DCD001;
@@ -54,17 +50,17 @@ class HelpTest extends PreconditionSet
      * Note: It's strange here, because all the links are outside.
      *       So the Pattern cannot be invoked directly.
      */
-    function testHelpWithInnerSchema()
+    public function testHelpWithInnerSchema()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
 
         // Locate the list page of database.
-		$this->assertTrue($this->get("$webUrl/database.php", array(
-		               'server' => $SERVER,
-					   'database' => $DATABASE,
-					   'subject' => 'database'))
-				   );
+        $this->assertTrue($this->get("$webUrl/database.php", array(
+                       'server' => $SERVER,
+                       'database' => $DATABASE,
+                       'subject' => 'database'))
+                   );
 
         // Click the link about help.
         $this->assertTrue($this->get("$webUrl/help.php"));
@@ -75,7 +71,6 @@ class HelpTest extends PreconditionSet
         // Becase we cannot assert something about the content of the page via
         // hyperlink outside
         // $this->assertWantedPattern('/"Schemas"/');
-
         return TRUE;
     }
 
@@ -84,26 +79,24 @@ class HelpTest extends PreconditionSet
      * TestCaseId:DCD002;
      * This test is used to test help links from the index links.
      */
-    function testHelpWithInrClk()
+    public function testHelpWithInrClk()
     {
         global $webUrl, $SERVER, $DATABASE;
 
         // Locate the list page of language.
-		$this->assertTrue($this->get("$webUrl/database.php", array(
-			'server' => $SERVER,
-			'database' => $DATABASE,
-			'subject' => 'database'))
-		);
+        $this->assertTrue($this->get("$webUrl/database.php", array(
+            'server' => $SERVER,
+            'database' => $DATABASE,
+            'subject' => 'database'))
+        );
 
-        $this->assertTrue($this->get("$webUrl/help.php", array('server' => $SERVER)));        
+        $this->assertTrue($this->get("$webUrl/help.php", array('server' => $SERVER)));
 
-		// XXX fail because of the version number in the URL
-		$this->assertTrue($this->clickLink(/*'http://www.postgresql.org/docs/8.0/' .*/
+        // XXX fail because of the version number in the URL
+        $this->assertTrue($this->clickLink(/*'http://www.postgresql.org/docs/8.0/' .*/
                                            'interactive/sql-expressions.html' .
                                            '#SQL-SYNTAX-TYPE-CASTS'));
 
         return TRUE;
     }
 }
-
-?>

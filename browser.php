@@ -1,6 +1,6 @@
 <?php
 
-	/**
+    /**
 	 * Main object browser.  This page first shows a list of databases and then
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
@@ -8,26 +8,26 @@
 	 * $Id: browser.php,v 1.59 2008/02/13 23:03:05 ioguix Exp $
 	 */
 
-	// Include application functions
-	$_no_db_connection = true;
-	$_no_bottom_link = true;
-	include_once('./libraries/lib.inc.php');
-	
-	// Output header
-	$misc->printHeader('', '
+    // Include application functions
+    $_no_db_connection = true;
+    $_no_bottom_link = true;
+    include_once './libraries/lib.inc.php';
+
+    // Output header
+    $misc->printHeader('', '
 		<script src="xloadtree/xtree2.js" type="text/javascript"></script>
 		<script src="xloadtree/xloadtree2.js" type="text/javascript"></script>
 		<style type="text/css">
 			.webfx-tree-children { background-image: url("' . $misc->icon('I') . '"); }
 		</style>');
-	
-	$misc->printBody('browser');
-	echo "<div dir=\"ltr\">\n";
+
+    $misc->printBody('browser');
+    echo "<div dir=\"ltr\">\n";
 ?>
 
 	<div class="logo">
 		<a href="intro.php" target="detail">
-			<?php echo htmlspecialchars($appName) ?> 
+			<?php echo htmlspecialchars($appName) ?>
 		</a>
 	</div>
 	<div class="refreshTree"><a href="browser.php" target="browser" ><img src="<?php echo $misc->icon('Refresh'); ?>" alt="<?php echo $lang['strrefresh']; ?>" title="<?php echo $lang['strrefresh']; ?>" /></a></div>
@@ -56,12 +56,12 @@ webFXTreeConfig.reloadText		= "<?php echo $lang['strclicktoreload'] ?>";
 WebFXTreeAbstractNode.prototype.target = 'detail';
 
 // Disable double click:
-WebFXTreeAbstractNode.prototype._ondblclick = function(){}
+WebFXTreeAbstractNode.prototype._ondblclick = function () {}
 
 // Show tree XML on double click - for debugging purposes only
 /*
 // UNCOMMENT THIS FOR DEBUGGING (SHOWS THE SOURCE XML)
-WebFXTreeAbstractNode.prototype._ondblclick = function(e){
+WebFXTreeAbstractNode.prototype._ondblclick = function (e) {
 	var el = e.target || e.srcElement;
 
 	if (this.src != null)

@@ -255,7 +255,7 @@ $plugin_conf = array(
             // 'browse' => true,
             // 'select' => true,
             // 'insert' => true,
-	    'empty' => true,
+        'empty' => true,
             // 'drop' => true,
             // 'addcolumn' => true,
             // 'alter' => true,
@@ -303,7 +303,7 @@ $plugin_conf = array(
         ),
         'aggregates-aggregates' => array(
             // 'alter' => true,
-			// 'drop' => true,
+            // 'drop' => true,
         ),
         'all_db-databases' => array(
             // 'drop' => true,
@@ -345,7 +345,7 @@ $plugin_conf = array(
         ),
         'domains-domains' => array(
             // 'alter' => true,
-			// 'drop' => true,
+            // 'drop' => true,
         ),
         'fulltext-fulltext' => array(
             // 'drop' => true,
@@ -480,5 +480,3 @@ $plugin_conf = array(
         ),
     ),
 );
-
-?>

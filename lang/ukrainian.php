@@ -1,7 +1,7 @@
 <?php
 
         /**
-         * Ukrainian KOI8-U language file for phpPgAdmin. 
+         * Ukrainian KOI8-U language file for phpPgAdmin.
          * @maintainer Alex Rootoff [rootoff{AT}pisem.net]
          */
 
@@ -10,7 +10,7 @@
         $lang['applocale'] = 'uk-UA';
         $lang['applangdir'] = 'ltr';
 
-        // Welcome  
+        // Welcome
         $lang['strintro'] = 'В╕та╓мо вас в phpPgAdmin.';
         $lang['strppahome'] = 'phpPgAdmin - домашня стор╕нка';
         $lang['strpgsqlhome'] = 'PostgreSQL - домашня стор╕нка';
@@ -19,7 +19,7 @@
         $lang['strreportbug'] = 'Зв╕т про помилки';
         $lang['strviewfaq'] = 'Перегляд онлайн FAQ';
         $lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
-        
+
         // Basic strings
         $lang['strlogin'] = 'Лог╕н';
         $lang['strloginfailed'] = 'Неправильний пароль';
@@ -67,7 +67,7 @@
         $lang['strrowsaff'] = 'запис(и/╕в) опрацьовано.';
         $lang['strobjects'] = 'об"╓кт(и/╕в)';
         $lang['strexample'] = '╕ т.д.';
-        $lang['strback'] = 'Назад';         
+        $lang['strback'] = 'Назад';
         $lang['strqueryresults'] = 'Результати запиту';
         $lang['strshow'] = 'Показати';
         $lang['strempty'] = 'Очистити';
@@ -324,7 +324,7 @@
         $lang['strsequencedropped'] = 'Посл╕довн╕сть видалено.';
         $lang['strsequencedroppedbad'] = 'Видалення посл╕довност╕ перервано.';
         $lang['strsequencereset'] = 'Посл╕довн╕сть скинуто.';
-        $lang['strsequenceresetbad'] = 'Скинення посл╕довност╕ перервано.'; 
+        $lang['strsequenceresetbad'] = 'Скинення посл╕довност╕ перервано.';
 
         // Indexes
         $lang['strindex'] = '╤ндекс';
@@ -399,7 +399,7 @@
         $lang['strfktarget'] = 'Ц╕льова таблиця';
         $lang['strfkcolumnlist'] = 'Атрибуты в ключ╕';
         $lang['strondelete'] = 'ON DELETE';
-        $lang['stronupdate'] = 'ON UPDATE';        
+        $lang['stronupdate'] = 'ON UPDATE';
 
         // Functions
         $lang['strfunction'] = 'Функц╕я';
@@ -493,9 +493,9 @@
         $lang['strconfdropdomain'] = 'Ви впевнен╕, що бажа╓те видалити домен "%s"?';
         $lang['strdomainneedsname'] = 'Вам необх╕дно вказати ╕м"я домена.';
         $lang['strdomaincreated'] = 'Домен створено.';
-        $lang['strdomaincreatedbad'] = 'Створення домена перервано.';        
+        $lang['strdomaincreatedbad'] = 'Створення домена перервано.';
         $lang['strdomainaltered'] = 'Домен зм╕нено.';
-        $lang['strdomainalteredbad'] = 'Зм╕ну домена перервано.';        
+        $lang['strdomainalteredbad'] = 'Зм╕ну домена перервано.';
 
         // Operators
         $lang['stroperator'] = 'Оператор';
@@ -531,18 +531,18 @@
         $lang['strimplicit'] = 'Неявний';
         $lang['strinassignment'] = 'В призначенн╕';
         $lang['strbinarycompat'] = '(дв╕йково сум╕сний)';
-        
+
         // Conversions
         $lang['strconversions'] = 'Перетворення';
         $lang['strnoconversions'] = 'Перетворень не виявлено.';
         $lang['strsourceencoding'] = 'Кодування джерела';
         $lang['strtargetencoding'] = 'Кодування приймача';
-        
+
         // Languages
         $lang['strlanguages'] = 'Мови';
         $lang['strnolanguages'] = 'Мов не виявлено.';
         $lang['strtrusted'] = 'Перев╕рено';
-        
+
         // Info
         $lang['strnoinfo'] = 'Нема╓ доступно╖ ╕нформац╕╖.';
         $lang['strreferringtables'] = 'Таблиц╕, що посилаються';
@@ -580,5 +580,3 @@
         $lang['strtopbar'] = '%s викону╓ться на %s:%s -- Ви заре╓струвались як "%s"';
         $lang['strtimefmt'] = ' j-m-Y  g:i';
         $lang['strhelp'] = 'Допомога';
-
-?>

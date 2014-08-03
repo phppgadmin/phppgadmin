@@ -2,7 +2,7 @@
 /**
  * This is entrance to run all the test suites and generate a report for code coverage.
  *
- * @author     Augmentum SpikeSource Team 
+ * @author     Augmentum SpikeSource Team
  * @copyright  2005 by Augmentum, Inc.
  */
 
@@ -11,17 +11,17 @@ require_once 'simpletest/web_tester.php';
 require_once 'simpletest/reporter.php';
 
 // Import the language file for phpPgAdmi to avoid hard code.
-require_once('lang/recoded/english.php');
+require_once 'lang/recoded/english.php';
 
-require_once('Public/common.php');
-require_once('Public/SetPrecondition.php');
+require_once 'Public/common.php';
+require_once 'Public/SetPrecondition.php';
 
 // Creates GroupTest objects for running all the testcase.
-require_once('Server/ServerGroupTest.php');
-require_once('Databases/DatabaseGroupTest.php');
-require_once('Schemas/SchemasGroupTest.php');
-require_once('Tables/TableGroupTest.php');
-require_once('Common/CommonGroupTest.php');
+require_once 'Server/ServerGroupTest.php';
+require_once 'Databases/DatabaseGroupTest.php';
+require_once 'Schemas/SchemasGroupTest.php';
+require_once 'Tables/TableGroupTest.php';
+require_once 'Common/CommonGroupTest.php';
 
 $testServer = &new ServerGroupTest();
 $testDatabase = &new DatabaseGroupTest();
@@ -39,7 +39,7 @@ global $PHPCOVERAGE_REPORT_DIR, $PHPCOVERAGE_APPBASE_PATH;
 $cov_weburl = $webUrl . "/phpcoverage.remote.top.inc.php";
 
 // Initialize RemoteCoverageRecorder
-file_get_contents($cov_weburl . "?phpcoverage-action=init&cov-file-name=" . 
+file_get_contents($cov_weburl . "?phpcoverage-action=init&cov-file-name=" .
                   urlencode("TestphpPgAdmin.xml") . "&tmp-dir=". urlencode("/tmp"));
 
 // Run the simpletest test cases
@@ -61,10 +61,8 @@ $reporter = new HtmlCoverageReporter("phpPgAdmin Code coverage report","","$PHPC
 $includePaths = array(realpath($PHPCOVERAGE_APPBASE_PATH));
 $excludePaths = array(realpath($PHPCOVERAGE_APPBASE_PATH)."/lang", realpath($PHPCOVERAGE_APPBASE_PATH)."/libraries/adodb/drivers");
 $cov = new RemoteCoverageRecorder($includePaths, $excludePaths, $reporter);
-    
+
 // Generate the code coverage report
 $cov->generateReport($xml);
 
 $reporter->printTextSummary();
-
-?>

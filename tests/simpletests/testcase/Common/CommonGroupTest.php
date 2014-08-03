@@ -2,14 +2,14 @@
 /**
  * Function area: Common manipulation
  *
- * @author     Augmentum SpikeSource Team 
+ * @author     Augmentum SpikeSource Team
  * @copyright  2005 by Augmentum, Inc.
  */
 
-// Import the test cases.   
-require_once('SecurityTest.php');
-require_once('ExportTest.php');
-require_once('ImportTest.php');
+// Import the test cases.
+require_once 'SecurityTest.php';
+require_once 'ExportTest.php';
+require_once 'ImportTest.php';
 
 /**
  * This class is to test the whole common manipulation function area.
@@ -17,7 +17,7 @@ require_once('ImportTest.php');
  */
 class CommonGroupTest extends GroupTest
 {
-    function CommonGroupTest()
+    public function CommonGroupTest()
     {
         $this->GroupTest('Common manipulation group test.');
         $this->addTestClass(new SecurityTest());
@@ -25,4 +25,3 @@ class CommonGroupTest extends GroupTest
         $this->addTestClass(new ImportTest());
     }
 }
-?>

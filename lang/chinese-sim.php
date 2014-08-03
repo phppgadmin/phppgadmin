@@ -350,10 +350,6 @@ $lang['strtypename'] = '类型名称';
 $lang['strnoschema'] = '查无此模式';
 $lang['strschemaname'] = '模式名称';
 
-
-
 // Miscellaneous
 $lang['strtopbar'] = '%s 架于 %s：%s － 您是 "%s"';
 $lang['strtimefmt'] = 'jS M, Y g:iA';
-
-?>

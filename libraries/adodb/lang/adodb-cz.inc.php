@@ -31,10 +31,9 @@ $ADODB_LANG_ARRAY = array (
             DB_ERROR_VALUE_COUNT_ON_ROW => '',
             DB_ERROR_INVALID_DSN        => 'neplatné DSN',
             DB_ERROR_CONNECT_FAILED     => 'p?ipojení selhalo',
-            0	                        => 'bez chyb', // DB_OK
+            0                            => 'bez chyb', // DB_OK
             DB_ERROR_NEED_MORE_DATA     => 'málo zdrojových dat',
             DB_ERROR_EXTENSION_NOT_FOUND=> 'roz?í?ení nenalezeno',
             DB_ERROR_NOSUCHDB           => 'databáze neexistuje',
             DB_ERROR_ACCESS_VIOLATION   => 'nedostate?ná práva'
 );
-?>

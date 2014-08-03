@@ -2,14 +2,14 @@
 /**
  * Function area     : Database.
  * Sub Function area : Sql.
- * 
+ *
  * @author     Augmentum SpikeSource Team
  * @copyright  Copyright (c) 2005 by Augmentum, Inc.
  */
 
 // Import the precondition class.
 if (is_dir('../Public')) {
-    require_once('../Public/SetPrecondition.php');
+    require_once '../Public/SetPrecondition.php';
 }
 
 /**
@@ -20,7 +20,7 @@ class SqlTest extends PreconditionSet
     /**
      * Set up the preconditon.
      */
-    function setUp()
+    public function setUp()
     {
         global $webUrl;
         global $SUPER_USER_NAME;
@@ -32,11 +32,10 @@ class SqlTest extends PreconditionSet
         return TRUE;
     }
 
-
     /**
      * Release the relational resource.
      */
-    function tearDown()
+    public function tearDown()
     {
         // Logout this system.
         $this->logout();
@@ -44,128 +43,123 @@ class SqlTest extends PreconditionSet
         return TRUE;
     }
 
-
     /**
      * TestCaseId: DES001
      * This test is used to send the "select" sql script to phpPgAdmin for
      * implementation.
      */
-    function testSimpleSelectSql()
+    public function testSimpleSelectSql()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
 
-		$this->assertTrue($this->get("$webUrl/database.php", 
-			array('database' => $DATABASE,
-				'subject' => 'database',
-				'action' => 'sql',
-				'server' => $SERVER))
-		);
+        $this->assertTrue($this->get("$webUrl/database.php",
+            array('database' => $DATABASE,
+                'subject' => 'database',
+                'action' => 'sql',
+                'server' => $SERVER))
+        );
         $this->assertTrue($this->setFieldById(0, "select id from student;"));
-        
+
         $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         return TRUE;
     }
-
 
     /**
      * TestCaseId: DES003
      * This test is used to send the "delete" sql script to phpPgAdmin for
      * implementation.
      */
-    function testSimpleDeleteSql()
+    public function testSimpleDeleteSql()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
 
-		$this->assertTrue($this->get("$webUrl/database.php", array(
-			'server' => $SERVER,
-			'database' => $DATABASE,
-			'subject' => 'database',
-			'action' => 'sql'))
-		);
+        $this->assertTrue($this->get("$webUrl/database.php", array(
+            'server' => $SERVER,
+            'database' => $DATABASE,
+            'subject' => 'database',
+            'action' => 'sql'))
+        );
         $this->assertTrue($this->setField('query', 'delete from "student";'));
-        
+
         $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         return TRUE;
     }
 
-
     /**
      * TestCaseId: DES002
      * This test is used to send the "insert" sql script to phpPgAdmin for implement.
      */
-    function testSimpleInsertSql()
+    public function testSimpleInsertSql()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
 
-		$this->assertTrue($this->get("$webUrl/database.php", array(
-			'server' => $SERVER,
-			'database' => $DATABASE,
-			'subject' => 'database',
-			'action' => 'sql'))
-		);
+        $this->assertTrue($this->get("$webUrl/database.php", array(
+            'server' => $SERVER,
+            'database' => $DATABASE,
+            'subject' => 'database',
+            'action' => 'sql'))
+        );
         $this->assertTrue($this->setField('query',
                                           "insert into studen t values " .
                                           "(nextval('public.student_id_seq'::text)" .
                                           ", 'test2', now(), 'test2 is a student.');"));
-        
+
         $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         return true;
     }
-
 
     /**
      * TestCaseId: DES004
      * This test is used to send the "update" sql script to phpPgAdmin
      * for implementation.
      */
-    function testSimpleUpdateSql()
+    public function testSimpleUpdateSql()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
 
-		$this->assertTrue($this->get("$webUrl/database.php", array(
-			'database' => $DATABASE,
-			'server' => $SERVER,
-			'subject' => 'database',
-			'action' => 'sql'))
-		);
+        $this->assertTrue($this->get("$webUrl/database.php", array(
+            'database' => $DATABASE,
+            'server' => $SERVER,
+            'subject' => 'database',
+            'action' => 'sql'))
+        );
         $this->assertTrue($this->setField('query',
                                           'update public."student" ' .
                                           'set "birthday" = now();'));
-        
+
         $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         return TRUE;
     }
-
 
     /**
      * TestCaseId: DES005
      * This test is used to send the "select"" sql script to PostgreSQL
      * for implementation about "Explain".
      */
-    function testExplain()
+    public function testExplain()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
 
-		$this->assertTrue($this->get("$webUrl/database.php", array(
-			'server' => $SERVER,
-			'database' => $DATABASE,
-			'subject' => 'database',
-			'action' => 'sql'))
-		);
+        $this->assertTrue($this->get("$webUrl/database.php", array(
+            'server' => $SERVER,
+            'database' => $DATABASE,
+            'subject' => 'database',
+            'action' => 'sql'))
+        );
 
         $this->assertTrue($this->setField('query',
                                           'select "id" from "student";'));
 
-        $this->assertTrue($this->setField('paginate', TRUE));
+        $this->assertTrue($this->setField('paginate', true));
 
         $this->assertTrue($this->clickSubmit($lang['strexplain']));
 
@@ -182,21 +176,21 @@ class SqlTest extends PreconditionSet
      * This test is used to send the "select" sql script to phpPgAdmin
      * for implementation about "Explain Analyze".
      */
-    function testExplainAnalyze()
+    public function testExplainAnalyze()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
 
-		$this->assertTrue($this->get("$webUrl/database.php", array(
-			'database' => $DATABASE,
-			'server' => $SERVER,
-			'subject' => 'database',
-			'action' => 'sql'))
-		);
+        $this->assertTrue($this->get("$webUrl/database.php", array(
+            'database' => $DATABASE,
+            'server' => $SERVER,
+            'subject' => 'database',
+            'action' => 'sql'))
+        );
         $this->assertTrue($this->setField('query',
                                           'select "id" from "student";'));
 
-        $this->assertTrue($this->setField('paginate', TRUE));
+        $this->assertTrue($this->setField('paginate', true));
 
         $this->assertTrue($this->clickSubmit($lang['strexplainanalyze']));
 
@@ -216,25 +210,25 @@ class SqlTest extends PreconditionSet
      * Note: The SimpleTest doesn't support this yet currently.
      *       So this failed.
      */
-    function testUploadSQLFile()
+    public function testUploadSQLFile()
     {
 
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
 
-		$this->assertTrue($this->get("$webUrl/database.php", array(
-			'server' => $SERVER,
-			'database' => $DATABASE,
-			'subject' => 'database',
-			'action' => 'sql'))
-		);
+        $this->assertTrue($this->get("$webUrl/database.php", array(
+            'server' => $SERVER,
+            'database' => $DATABASE,
+            'subject' => 'database',
+            'action' => 'sql'))
+        );
 
         $webServerUrl = getcwd();
         $sqlScriptUrl = getcwd() . "/data/select.sql";
 
         $this->assertTrue ($this->setField('script', $sqlScriptUrl));
 
-		$this->assertTrue($this->clickSubmit($lang['strexecute']));
+        $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         $this->assertWantedText($lang['strsqlexecuted']);
 
@@ -247,7 +241,7 @@ class SqlTest extends PreconditionSet
      * This test is used to send the "select" sql script to the topbar link
      * in phpPgAdmin for implementation.
      */
-    function testSelectTopSQL()
+    public function testSelectTopSQL()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
@@ -270,7 +264,7 @@ class SqlTest extends PreconditionSet
      * This test is used to send the "select" sql script to the topbar link
      * in phpPgAdmin for implementation.
      */
-    function testResultFromSelectTopSQL()
+    public function testResultFromSelectTopSQL()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
@@ -279,7 +273,7 @@ class SqlTest extends PreconditionSet
 
         $this->assertTrue($this->setField('database', $DATABASE));
         $this->assertTrue($this->setField('query', 'select * from student;'));
-        $this->assertTrue($this->setField('paginate', TRUE));
+        $this->assertTrue($this->setField('paginate', true));
         $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         $this->assertTrue($this->clickLink($lang['strexpand']));
@@ -299,17 +293,17 @@ class SqlTest extends PreconditionSet
      * This test is used to generate the report by the sql in topbar
      * in phpPgAdmin for implementation.
      */
-    function testReportByTopSql()
+    public function testReportByTopSql()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
 
-		$this->assertTrue($this->get("$webUrl/reports.php", array(
-			'action' => 'create',
-			'server' => $SERVER,
-			'db_name' => $DATABASE,
-			'report_sql' => 'select id from student;')
-		));
+        $this->assertTrue($this->get("$webUrl/reports.php", array(
+            'action' => 'create',
+            'server' => $SERVER,
+            'db_name' => $DATABASE,
+            'report_sql' => 'select id from student;')
+        ));
 
         $this->assertTrue($this->setField('report_name', 'ppasimpletestreport'));
         $this->assertTrue($this->setField('descr', 'ppasimpletest tests'));
@@ -325,16 +319,16 @@ class SqlTest extends PreconditionSet
      * This test is used to download the specified format of
      * report by the sql in topbar in phpPgAdmin for implementation.
      */
-    function testDownloadTopSql()
+    public function testDownloadTopSql()
     {
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
 
-		$this->assertTrue($this->get("$webUrl/dataexport.php", array(
-			'server' => $SERVER,
-			'query' => 'select+id+from+student%3B',
-			'database' => $DATABASE))
-		);
+        $this->assertTrue($this->get("$webUrl/dataexport.php", array(
+            'server' => $SERVER,
+            'query' => 'select+id+from+student%3B',
+            'database' => $DATABASE))
+        );
 
         $this->assertTrue($this->setField('d_format', 'XML'));
         $this->assertTrue($this->setField('output', 'show'));
@@ -345,5 +339,3 @@ class SqlTest extends PreconditionSet
         $this->assertWantedPattern('/<?xml/');
     }
 }
-
-?>

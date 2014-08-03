@@ -1,7 +1,7 @@
 <?php
 // Christian Tiberg" christian@commsoft.nu
 $ADODB_LANG_ARRAY = array (
-			'LANG'                      => 'en',
+            'LANG'                      => 'en',
             DB_ERROR                    => 'Okänt fel',
             DB_ERROR_ALREADY_EXISTS     => 'finns redan',
             DB_ERROR_CANNOT_CREATE      => 'kan inte skapa',
@@ -24,10 +24,9 @@ $ADODB_LANG_ARRAY = array (
             DB_ERROR_VALUE_COUNT_ON_ROW => 'värde räknat på rad',
             DB_ERROR_INVALID_DSN        => 'ogiltig DSN',
             DB_ERROR_CONNECT_FAILED     => 'anslutning misslyckades',
-            0	                       => 'inget fel', // DB_OK
+            0                           => 'inget fel', // DB_OK
             DB_ERROR_NEED_MORE_DATA     => 'otillräckligt med data angivet',
             DB_ERROR_EXTENSION_NOT_FOUND=> 'utökning hittades ej',
             DB_ERROR_NOSUCHDB           => 'ingen sådan databas',
             DB_ERROR_ACCESS_VIOLATION   => 'otillräckliga rättigheter'
 );
-?>

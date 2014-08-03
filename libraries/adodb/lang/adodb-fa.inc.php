@@ -3,7 +3,7 @@
 /* Farsi - by "Peyman Hooshmandi Raad" <phooshmand#gmail.com> */
 
 $ADODB_LANG_ARRAY = array (
-			'LANG'                      => 'fa',
+            'LANG'                      => 'fa',
             DB_ERROR                    => 'خطای ناشناخته',
             DB_ERROR_ALREADY_EXISTS     => 'وجود دارد',
             DB_ERROR_CANNOT_CREATE      => 'امکان create وجود ندارد',
@@ -26,10 +26,9 @@ $ADODB_LANG_ARRAY = array (
             DB_ERROR_VALUE_COUNT_ON_ROW => 'شمارش مقادیر روی ردیف',
             DB_ERROR_INVALID_DSN        => 'DSN نامعتبر',
             DB_ERROR_CONNECT_FAILED     => 'ارتباط برقرار نشد',
-            0	                       => 'بدون خطا', // DB_OK
+            0                           => 'بدون خطا', // DB_OK
             DB_ERROR_NEED_MORE_DATA     => 'داده ناکافی است',
             DB_ERROR_EXTENSION_NOT_FOUND=> 'extension پیدا نشد',
             DB_ERROR_NOSUCHDB           => 'چنین بانک اطلاعاتی وجود ندارد',
             DB_ERROR_ACCESS_VIOLATION   => 'حق دسترسی ناکافی'
 );
-?>

@@ -1,41 +1,41 @@
 <?php
 
-	/**
+    /**
 	 * Login screen
 	 *
 	 * $Id: login.php,v 1.38 2007/09/04 19:39:48 ioguix Exp $
 	 */
-	global $conf, $plugin_manager;
-	
-	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
-	// Check to see if the configuration file exists, if not, explain
-	require_once('./libraries/lib.inc.php');
+    global $conf, $plugin_manager;
 
-	if (!isset($plugin_manager))
-		$plugin_manager = new PluginManager($_SESSION['webdbLanguage']);
+    // This needs to be an include once to prevent lib.inc.php infinite recursive includes.
+    // Check to see if the configuration file exists, if not, explain
+    require_once './libraries/lib.inc.php';
 
-	$misc->printHeader($lang['strlogin']);
-	$misc->printBody();
-	$misc->printTrail('root');
-	
-	$server_info = $misc->getServerInfo($_REQUEST['server']);
-	
-	$misc->printTitle(sprintf($lang['strlogintitle'], $server_info['desc']));
-	
-	if (isset($msg)) $misc->printMsg($msg);
+    if (!isset($plugin_manager))
+        $plugin_manager = new PluginManager($_SESSION['webdbLanguage']);
 
-	$md5_server = md5($_REQUEST['server']);
+    $misc->printHeader($lang['strlogin']);
+    $misc->printBody();
+    $misc->printTrail('root');
+
+    $server_info = $misc->getServerInfo($_REQUEST['server']);
+
+    $misc->printTitle(sprintf($lang['strlogintitle'], $server_info['desc']));
+
+    if (isset($msg)) $misc->printMsg($msg);
+
+    $md5_server = md5($_REQUEST['server']);
 ?>
 
 <form id="login_form" action="redirect.php" method="post" name="login_form">
 <?php
-	if (!empty($_POST)) $vars =& $_POST;
-	else $vars =& $_GET;
-	// Pass request vars through form (is this a security risk???)
-	foreach ($vars as $key => $val) {
-		if (substr($key,0,5) == 'login') continue;
-		echo "<input type=\"hidden\" name=\"", htmlspecialchars($key), "\" value=\"", htmlspecialchars($val), "\" />\n";
-	}
+    if (!empty($_POST)) $vars =& $_POST;
+    else $vars =& $_GET;
+    // Pass request vars through form (is this a security risk???)
+    foreach ($vars as $key => $val) {
+        if (substr($key,0,5) == 'login') continue;
+        echo "<input type=\"hidden\" name=\"", htmlspecialchars($key), "\" value=\"", htmlspecialchars($val), "\" />\n";
+    }
 ?>
 	<input type="hidden" name="loginServer" value="<?php echo htmlspecialchars($_REQUEST['server']); ?>" />
 	<table class="navbar" border="0" cellpadding="5" cellspacing="3">
@@ -65,6 +65,6 @@
 </script>
 
 <?php
-	// Output footer
-	$misc->printFooter();
+    // Output footer
+    $misc->printFooter();
 ?>
