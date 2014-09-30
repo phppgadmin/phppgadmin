@@ -276,6 +276,7 @@ class Postgres extends ADODB_base {
 			case 'text':
 			case 'text[]':
 			case 'xml':
+			case 'json':
 			case 'xml[]':
 				$n = substr_count($value, "\n");
 				$n = $n < 5 ? 5 : $n;
