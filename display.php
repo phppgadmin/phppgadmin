@@ -525,6 +525,11 @@
 		if ($save_history && is_object($rs) && ($type == 'QUERY')) //{
 			$misc->saveScriptHistory($_REQUEST['query']);
 
+		echo '<form method="POST" action="'.$_SERVER['REQUEST_URI'].'"><textarea width="90%" name="query" rows="6" cols="120" resizable="true">';
+		$query = isset($_REQUEST['query'])? $_REQUEST['query'] : "select * from {$_REQUEST['schema']}.{$_REQUEST['table']};";
+		echo $query;
+		echo '</textarea><br><input type="submit"/></form>';
+
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation
 			$misc->printPages($_REQUEST['page'], $max_pages, $_gets);
@@ -825,6 +830,12 @@
 		else if ($_REQUEST['subject'] == 'view') {
 			$misc->printHeader(
 				$lang['strviews'].': '.$_REQUEST[$_REQUEST['subject']],
+				$scripts
+			);
+		}
+		else if ($_REQUEST['subject'] == 'column') {
+			$misc->printHeader(
+				$lang['strcolumn'].': '.$_REQUEST[$_REQUEST['subject']],
 				$scripts
 			);
 		}
