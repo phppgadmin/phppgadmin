@@ -95,6 +95,7 @@ Views
 
 * Support temporary views per 8.1?
 * Support updateable views, see http://gerrybthunkings.blogspot.com/2010/01/how-should-postgresql-pgadmin-iii-deal.html
+* Support Materialized Views
 
 Sequences
 ---------
