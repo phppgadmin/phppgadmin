@@ -4126,7 +4126,7 @@ class Postgres extends ADODB_base {
 				(select array_agg( (select typname from pg_type pt
 					where pt.oid = p.oid) ) from unnest(proallargtypes) p)
 				AS proallarguments,
-				proargmodes
+				proargmodes, pg_get_functiondef($function_oid) AS prodef
 			FROM
 				pg_catalog.pg_proc pc, pg_catalog.pg_language pl,
 				pg_catalog.pg_namespace pn
