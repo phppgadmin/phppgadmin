@@ -7524,6 +7524,7 @@ class Postgres extends ADODB_base {
     					    $query_buf .= "\n";
     					/* append the line to the query buffer */
     					$query_buf .= $subline;
+            			}
     					$query_buf .= ';';
 
 						// Execute the query. PHP cannot execute
@@ -7544,7 +7545,6 @@ class Postgres extends ADODB_base {
             					}
             				}
             			}
-            		}
 
 					$query_buf = null;
 					$query_start = $i + $thislen;
