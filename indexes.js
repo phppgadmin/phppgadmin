@@ -1,7 +1,5 @@
     // Globals
-    //
-
-
+ 
     /*
      * Multiple Selection lists in HTML Document
      */
@@ -13,7 +11,6 @@
      */
 
     var indexColumns, tableColumns;
-
 
     function buttonPressed(object) {
 
