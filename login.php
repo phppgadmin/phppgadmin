@@ -11,9 +11,9 @@
 	// Check to see if the configuration file exists, if not, explain
 	require_once('./libraries/lib.inc.php');
 
-	if (!isset($plugin_manager))
+	if (!isset($plugin_manager)){
 		$plugin_manager = new PluginManager($_SESSION['webdbLanguage']);
-
+	}
 	$misc->printHeader($lang['strlogin']);
 	$misc->printBody();
 	$misc->printTrail('root');
@@ -22,15 +22,21 @@
 	
 	$misc->printTitle(sprintf($lang['strlogintitle'], $server_info['desc']));
 	
-	if (isset($msg)) $misc->printMsg($msg);
-
+	if (isset($msg)){
+		$misc->printMsg($msg);
+	}
+	
 	$md5_server = md5($_REQUEST['server']);
 ?>
 
 <form id="login_form" action="redirect.php" method="post" name="login_form">
 <?php
-	if (!empty($_POST)) $vars =& $_POST;
-	else $vars =& $_GET;
+	if (!empty($_POST)){
+		$vars =& $_POST;
+	}
+	else{
+		$vars =& $_GET;
+	}
 	// Pass request vars through form (is this a security risk???)
 	foreach ($vars as $key => $val) {
 		if (substr($key,0,5) == 'login') continue;
