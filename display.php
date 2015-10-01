@@ -320,7 +320,7 @@
 
 				$sortLink = http_build_query($args);
 
-				echo "<th class=\"data\"><a href=\"?{$sortLink}\">"
+				echo "<th class=\"data\"><a href=\"display.php?{$sortLink}\">"
 					, $misc->printVal($finfo->name);
 				if($_REQUEST['sortkey'] == ($j + 1)) {
 					if($_REQUEST['sortdir'] == 'asc')
