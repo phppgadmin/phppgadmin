@@ -1710,9 +1710,9 @@
 			if ($pages > 1) {
 				echo "<p style=\"text-align: center\">\n";
 				if ($page != 1) {
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page=1\">{$lang['strfirst']}</a>\n";
+					echo "<a class=\"pagenav\" href=\"display.php?{$url}&amp;page=1\">{$lang['strfirst']}</a>\n";
 					$temp = $page - 1;
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$temp}\">{$lang['strprev']}</a>\n";
+					echo "<a class=\"pagenav\" href=\"display.php?{$url}&amp;page={$temp}\">{$lang['strprev']}</a>\n";
 				}
 
 				if ($page <= $window) {
