@@ -873,7 +873,7 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 	var $_blobArr;
 	var $databaseType = "postgres64";
 	var $canSeek = true;
-	function ADORecordSet_postgres64($queryID,$mode=false) 
+	function __construct($queryID,$mode=false)
 	{
 		if ($mode === false) { 
 			global $ADODB_FETCH_MODE;
@@ -889,7 +889,7 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 		default: $this->fetchMode = PGSQL_BOTH; break;
 		}
 		$this->adodbFetchMode = $mode;
-		$this->ADORecordSet($queryID);
+		parent::__construct($queryID);
 	}
 	
 	function GetRowAssoc($upper=true)

@@ -24,7 +24,7 @@ class XHtmlSimpleElement {
 	* derived class
 	* 
 	*/
-	function XHtmlSimpleElement($element = null) {
+	function __construct($element = null) {
 
 		$this->_element = $this->is_element();
 		
@@ -93,7 +93,7 @@ class XHtmlElement extends XHtmlSimpleElement {
 	var $_htmlcode = "";
 	var $_siblings = array();
 
-	function XHtmlElement($text = null) {
+	function __construct($text = null) {
 		XHtmlSimpleElement::XHtmlSimpleElement();
 		
 		if ($text) $this->set_text($text);
@@ -159,7 +159,7 @@ class XHtmlElement extends XHtmlSimpleElement {
 }
 
 class XHTML_Button extends XHtmlElement {
-	function XHTML_Button ($name, $text = null) {
+	function __construct ($name, $text = null) {
 		parent::XHtmlElement();
 		
 		$this->set_attribute("name", $name);
@@ -170,7 +170,7 @@ class XHTML_Button extends XHtmlElement {
 
 
 class XHTML_Option extends XHtmlElement {
-	function XHTML_Option($text, $value = null) {
+	function __construct($text, $value = null) {
 		XHtmlElement::XHtmlElement(null);			
 		$this->set_text($text);
 	}
@@ -180,7 +180,7 @@ class XHTML_Option extends XHtmlElement {
 class XHTML_Select extends XHTMLElement {
 	var $_data;
 
-	function XHTML_Select ($name, $multiple = false, $size = null) {
+	function __construct ($name, $multiple = false, $size = null) {
 		XHtmlElement::XHtmlElement();					
 
 		$this->set_attribute("name", $name);

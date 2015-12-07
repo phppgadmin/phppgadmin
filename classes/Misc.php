@@ -12,7 +12,7 @@
 		var $form;
 
 		/* Constructor */
-		function Misc() {
+		function __construct() {
 		}
 
 		/**

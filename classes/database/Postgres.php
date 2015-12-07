@@ -169,8 +169,8 @@ class Postgres extends ADODB_base {
 	 * Constructor
 	 * @param $conn The database connection
 	 */
-	function Postgres($conn) {
-		$this->ADODB_base($conn);
+	function __construct($conn) {
+		parent::__construct($conn);
 	}
 
 	// Formatting functions

@@ -20,7 +20,7 @@ class ADODB_base {
 	 * Base constructor
 	 * @param &$conn The connection object
 	 */
-	function ADODB_base(&$conn) {
+	function __construct(&$conn) {
 		$this->conn = $conn;
 	}
 
