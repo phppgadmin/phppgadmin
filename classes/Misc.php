@@ -12,7 +12,8 @@
 		var $form;
 
 		/* Constructor */
-		function Misc() {
+		public function __construct() {
+
 		}
 
 		/**
