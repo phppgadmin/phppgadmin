@@ -170,7 +170,7 @@ class Postgres extends ADODB_base {
 	 * @param $conn The database connection
 	 */
 	function __construct($conn) {
-		$this->ADODB_base($conn);
+		parent::__construct($conn);
 	}
 
 	// Formatting functions
