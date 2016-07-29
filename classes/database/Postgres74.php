@@ -29,8 +29,8 @@ class Postgres74 extends Postgres80 {
 	 * Constructor
 	 * @param $conn The database connection
 	 */
-	function Postgres74($conn) {
-		$this->Postgres80($conn);
+	function __construct($conn) {
+		parent::__construct($conn);
 	}
 
 	// Help functions
@@ -378,7 +378,7 @@ class Postgres74 extends Postgres80 {
 			}
 		}
 
-		// The $name and $table parameters must be cleaned for the setComment function.  
+		// The $name and $table parameters must be cleaned for the setComment function.
                 // It's ok to do that here since this is the last time these variables are used.
 		$this->fieldClean($name);
 		$this->fieldClean($table);

@@ -12,7 +12,7 @@ include_once('./libraries/adodb/adodb.inc.php');
 class ADODB_base {
 
 	var $conn;
-	
+
 	// The backend platform.  Set to UNKNOWN by default.
 	var $platform = 'UNKNOWN';
 
@@ -20,7 +20,7 @@ class ADODB_base {
 	 * Base constructor
 	 * @param &$conn The connection object
 	 */
-	function ADODB_base(&$conn) {
+	function __construct(&$conn) {
 		$this->conn = $conn;
 	}
 
@@ -41,7 +41,7 @@ class ADODB_base {
 		$str = addslashes($str);
 		return $str;
 	}
-	
+
 	/**
 	 * Cleans (escapes) an object name (eg. table, field)
 	 * @param $str The string to clean, by reference
@@ -63,7 +63,7 @@ class ADODB_base {
 			$arr[$k] = addslashes($v);
 		return $arr;
 	}
-	
+
 	/**
 	 * Executes a query on the underlying connection
 	 * @param $sql The SQL query to execute
@@ -93,12 +93,12 @@ class ADODB_base {
 	function selectSet($sql) {
 		// Execute the statement
 		$rs = $this->conn->Execute($sql);
-		
+
 		if (!$rs) return $this->conn->ErrorNo();
- 
- 		return $rs;	
+
+ 		return $rs;
  	}
- 	
+
 	/**
 	 * Retrieves a single value from a query
 	 *
@@ -322,13 +322,13 @@ class ADODB_base {
 		// Pick out array entries by carefully parsing.  This is necessary in order
 		// to cope with double quotes and commas, etc.
 		$elements = array();
-		$i = $j = 0;		
+		$i = $j = 0;
 		$in_quotes = false;
 		while ($i < strlen($arr)) {
 			// If current char is a double quote and it's not escaped, then
 			// enter quoted bit
 			$char = substr($arr, $i, 1);
-			if ($char == '"' && ($i == 0 || substr($arr, $i - 1, 1) != '\\')) 
+			if ($char == '"' && ($i == 0 || substr($arr, $i - 1, 1) != '\\'))
 				$in_quotes = !$in_quotes;
 			elseif ($char == ',' && !$in_quotes) {
 				// Add text so far to the array

@@ -169,7 +169,7 @@ class Postgres extends ADODB_base {
 	 * Constructor
 	 * @param $conn The database connection
 	 */
-	function Postgres($conn) {
+	function __construct($conn) {
 		$this->ADODB_base($conn);
 	}
 
@@ -276,7 +276,7 @@ class Postgres extends ADODB_base {
 			case 'text':
 			case 'text[]':
 			case 'json':
-			case 'jsonb': 
+			case 'jsonb':
 			case 'xml':
 			case 'xml[]':
 				$n = substr_count($value, "\n");
@@ -439,7 +439,7 @@ class Postgres extends ADODB_base {
 	/**
 	 * Return all database available on the server
 	 * @param $currentdatabase database name that should be on top of the resultset
-	 * 
+	 *
 	 * @return A list of databases, sorted alphabetically
 	 */
 	function getDatabases($currentdatabase = NULL) {
@@ -457,7 +457,7 @@ class Postgres extends ADODB_base {
 		if ($currentdatabase != NULL) {
 			$this->clean($currentdatabase);
 			$orderby = "ORDER BY pdb.datname = '{$currentdatabase}' DESC, pdb.datname";
-		} 
+		}
 		else
 			$orderby = "ORDER BY pdb.datname";
 
@@ -470,9 +470,9 @@ class Postgres extends ADODB_base {
 			SELECT pdb.datname AS datname, pr.rolname AS datowner, pg_encoding_to_char(encoding) AS datencoding,
 				(SELECT description FROM pg_catalog.pg_shdescription pd WHERE pdb.oid=pd.objoid AND pd.classoid='pg_database'::regclass) AS datcomment,
 				(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pdb.dattablespace) AS tablespace,
-				CASE WHEN pg_catalog.has_database_privilege(current_user, pdb.oid, 'CONNECT') 
-					THEN pg_catalog.pg_database_size(pdb.oid) 
-					ELSE -1 -- set this magic value, which we will convert to no access later  
+				CASE WHEN pg_catalog.has_database_privilege(current_user, pdb.oid, 'CONNECT')
+					THEN pg_catalog.pg_database_size(pdb.oid)
+					ELSE -1 -- set this magic value, which we will convert to no access later
 				END as dbsize, pdb.datcollate, pdb.datctype
 			FROM pg_catalog.pg_database pdb
 				LEFT JOIN pg_catalog.pg_roles pr ON (pdb.datdba = pr.oid)
@@ -644,7 +644,7 @@ class Postgres extends ADODB_base {
 				return -2;
 			}
 		}
-		
+
 		$this->fieldClean($dbName);
 		$status = $this->setComment('DATABASE', $dbName, '', $comment);
 		if ($status != 0) {
@@ -1788,7 +1788,7 @@ class Postgres extends ADODB_base {
 		if (!empty($name) && ($name != $tblrs->fields['relname'])) {
 			$f_schema = $this->_schema;
 			$this->fieldClean($f_schema);
-			
+
 			$sql = "ALTER TABLE \"{$f_schema}\".\"{$tblrs->fields['relname']}\" RENAME TO \"{$name}\"";
 			$status =  $this->execute($sql);
 			if ($status == 0)
@@ -1833,7 +1833,7 @@ class Postgres extends ADODB_base {
 		if (!empty($tablespace) && ($tblrs->fields['tablespace'] != $tablespace)) {
 			$f_schema = $this->_schema;
 			$this->fieldClean($f_schema);
-			
+
 			// If tablespace has been changed, then do the alteration.  We
 			// don't want to do this unnecessarily.
 			$sql = "ALTER TABLE \"{$f_schema}\".\"{$tblrs->fields['relname']}\" SET TABLESPACE \"{$tablespace}\"";
@@ -2193,7 +2193,7 @@ class Postgres extends ADODB_base {
 			// Initialise an empty SQL string
 			$sql = "ALTER TABLE \"{$f_schema}\".\"{$table}\" "
 				. implode(',', $toAlter);
-	
+
 			$status = $this->execute($sql);
 			if ($status != 0) {
 				$this->rollbackTransaction();
@@ -2327,7 +2327,7 @@ class Postgres extends ADODB_base {
 			$this->rollbackTransaction();
 			return -1;
 		}
-		
+
 		// Set extra_float_digits to 2
 		$sql = "SET extra_float_digits TO 2";
 		$status = $this->execute($sql);
@@ -2335,7 +2335,7 @@ class Postgres extends ADODB_base {
 			$this->rollbackTransaction();
 			return -1;
 		}
-		
+
 		return 0;
 	}
 
@@ -2363,11 +2363,11 @@ class Postgres extends ADODB_base {
 
 		return $this->selectSet("SELECT {$oid_str}* FROM \"{$relation}\"");
 	}
-	
+
 	/**
 	 * Returns all available autovacuum per table information.
 	 * @param $table if given, return autovacuum info for the given table or return all informations for all table
-	 *   
+	 *
 	 * @return A recordset
 	 */
 	function getTableAutovacuum($table='') {
@@ -2412,11 +2412,11 @@ class Postgres extends ADODB_base {
 
 			foreach (explode(',', $_autovacs->fields['reloptions']) as $var) {
 				list($o, $v) = explode('=', $var);
-				$_[$o] = $v; 
+				$_[$o] = $v;
 			}
 
 			$autovacs[] = $_;
-			
+
 			$_autovacs->moveNext();
 		}
 
@@ -2611,7 +2611,7 @@ class Postgres extends ADODB_base {
 				$this->rollbackTransaction();
 				return -1;
 			}
-			
+
 			if ($schema === false) $schema = $this->_schema;
 
 			$status = $this->delete($table, $key, $schema);
@@ -3280,14 +3280,14 @@ class Postgres extends ADODB_base {
 		return $this->selectSet($sql);
 	}
 
-	/** 
+	/**
 	 * test if a table has been clustered on an index
 	 * @param $table The table to test
-	 * 
+	 *
 	 * @return true if the table has been already clustered
 	 */
 	function alreadyClustered($table) {
-		
+
 		$c_schema = $this->_schema;
 		$this->clean($c_schema);
 		$this->clean($table);
@@ -3299,15 +3299,15 @@ class Postgres extends ADODB_base {
 				AND c.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
 					WHERE nspname='{$c_schema}')
 				";
-		
+
 		$v = $this->selectSet($sql);
-		
+
 		if ($v->recordCount() == 0)
 			return false;
-			
+
 		return true;
 	}
-	
+
 	/**
 	 * Creates an index
 	 * @param $name The index name
@@ -3404,18 +3404,18 @@ class Postgres extends ADODB_base {
 	 * @return 0 success
 	 */
 	function clusterIndex($table='', $index='') {
-		
+
 		$sql = 'CLUSTER';
-		
+
 		// We don't bother with a transaction here, as there's no point rolling
 		// back an expensive cluster if a cheap analyze fails for whatever reason
-		
+
 		if (!empty($table)) {
 			$f_schema = $this->_schema;
 			$this->fieldClean($f_schema);
 			$this->fieldClean($table);
 			$sql .= " \"{$f_schema}\".\"{$table}\"";
-			
+
 			if (!empty($index)) {
 				$this->fieldClean($index);
 				$sql .= " USING \"{$index}\"";
@@ -3735,7 +3735,7 @@ class Postgres extends ADODB_base {
 	 */
 	function getLinkingKeys($tables) {
 		if (!is_array($tables)) return -1;
-		
+
 		$this->clean($tables[0]['tablename']);
 		$this->clean($tables[0]['schemaname']);
 		$tables_list = "'{$tables[0]['tablename']}'";
@@ -3887,7 +3887,7 @@ class Postgres extends ADODB_base {
 	function getDomains() {
 		$c_schema = $this->_schema;
 		$this->clean($c_schema);
-		
+
 		$sql = "
 			SELECT
 				t.typname AS domname,
@@ -4114,7 +4114,7 @@ class Postgres extends ADODB_base {
 
 		$sql = "
 			SELECT
-				pc.oid AS prooid, proname, 
+				pc.oid AS prooid, proname,
 				pg_catalog.pg_get_userbyid(proowner) AS proowner,
 				nspname as proschema, lanname as prolanguage, procost, prorows,
 				pg_catalog.format_type(prorettype, NULL) as proresult, prosrc,
@@ -4291,7 +4291,7 @@ class Postgres extends ADODB_base {
 		if ($this->hasFunctionAlterSchema()) {
 		    $this->fieldClean($newschema);
 		    /* $funcschema is escaped in createFunction */
-		    if ($funcschema != $newschema) { 
+		    if ($funcschema != $newschema) {
 				$sql = "ALTER FUNCTION \"{$f_schema}\".\"{$funcname}\"({$args}) SET SCHEMA \"{$newschema}\"";
 				$status = $this->execute($sql);
 				if ($status != 0) {
@@ -4322,14 +4322,14 @@ class Postgres extends ADODB_base {
 	 * @return -4 set comment failed
 	 */
 	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $comment, $replace = false) {
-		
+
 		// Begin a transaction
 		$status = $this->beginTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -1;
 		}
-		
+
 		$this->fieldClean($funcname);
 		$this->clean($args);
 		$this->fieldClean($language);
@@ -4889,7 +4889,7 @@ class Postgres extends ADODB_base {
 	/**
 	 * A helper function for getTriggers that translates
 	 * an array of attribute numbers to an array of field names.
-	 * Note: Only needed for pre-7.4 servers, this function is deprecated 
+	 * Note: Only needed for pre-7.4 servers, this function is deprecated
 	 * @param $trigger An array containing fields from the trigger table
 	 * @return The trigger definition string
 	 */
@@ -5215,7 +5215,7 @@ class Postgres extends ADODB_base {
  	 * @param string $withmap Should we copy whole map of existing FTS configuration to the new one
  	 * @param string $makeDefault Should this configuration be the default for locale given
  	 * @param string $comment If omitted, defaults to nothing
-	 * 
+	 *
  	 * @return 0 success
  	 */
  	function createFtsConfiguration($cfgname, $parser = '', $template = '', $comment = '') {
@@ -5266,7 +5266,7 @@ class Postgres extends ADODB_base {
  	/**
  	 * Returns available FTS configurations
 	 * @param $all if false, returns schema qualified FTS confs
-	 * 
+	 *
 	 * @return A recordset
  	 */
  	function getFtsConfigurations($all = true) {
@@ -5285,7 +5285,7 @@ class Postgres extends ADODB_base {
 
 		if (!$all)
 			$sql.= " AND  n.nspname='{$c_schema}'\n";
-		
+
 		$sql.= "ORDER BY name";
 
  		return $this->selectSet($sql);
@@ -5294,7 +5294,7 @@ class Postgres extends ADODB_base {
  	/**
  	 * Return all information related to a FTS configuration
  	 * @param $ftscfg The name of the FTS configuration
-	 * 
+	 *
  	 * @return FTS configuration information
  	 */
  	function getFtsConfigurationByName($ftscfg) {
@@ -5322,7 +5322,7 @@ class Postgres extends ADODB_base {
  	 * Returns the map of FTS configuration given
 	 * (list of mappings (tokens) and their processing dictionaries)
  	 * @param string $ftscfg Name of the FTS configuration
-	 * 
+	 *
 	 * @return RecordSet
  	 */
  	function getFtsConfigurationMap($ftscfg) {
@@ -5412,7 +5412,7 @@ class Postgres extends ADODB_base {
  	 * Returns all FTS dictionary templates available
  	 */
  	function getFtsDictionaryTemplates() {
-		
+
  		$sql = "
  			SELECT
 				n.nspname as schema,
@@ -5522,7 +5522,7 @@ class Postgres extends ADODB_base {
  	 * @param string $init The name of the function, which initializes dictionary
  	 * @param string $option Usually, it stores various options required for the dictionary
  	 * @param string $comment If omitted, defaults to nothing
-	 * 
+	 *
  	 * @return 0 success
  	 */
  	function createFtsDictionary($dictname, $isTemplate = false, $template = '', $lexize = '',
@@ -5545,11 +5545,11 @@ class Postgres extends ADODB_base {
  			$whatToComment = 'TEXT SEARCH TEMPLATE';
  		} else {
  			$sql .= " DICTIONARY \"{$f_schema}\".\"{$dictname}\" (";
- 			if ($template != '') {		
+ 			if ($template != '') {
 				$this->fieldClean($template['schema']);
 				$this->fieldClean($template['name']);
 				$template = "\"{$template['schema']}\".\"{$template['name']}\"";
-			
+
 				$sql .= " TEMPLATE = {$template}";
 			}
  			if ($option != '') $sql .= ", {$option}";
@@ -5585,7 +5585,7 @@ class Postgres extends ADODB_base {
 
  	/**
  	 * Alters FTS dictionary or dictionary template
-	 * @param $dictname The dico's name 
+	 * @param $dictname The dico's name
 	 * @param $comment The comment
 	 * @param $name The new dico's name
 	 *
@@ -5598,7 +5598,7 @@ class Postgres extends ADODB_base {
  			$this->rollbackTransaction();
  			return -1;
  		}
-		
+
 		$this->fieldClean($dictname);
  		$status = $this->setComment('TEXT SEARCH DICTIONARY', $dictname, '', $comment);
  		if ($status != 0) {
@@ -5626,15 +5626,15 @@ class Postgres extends ADODB_base {
  	/**
  	 * Return all information relating to a FTS dictionary
  	 * @param $ftsdict The name of the FTS dictionary
-	 * 
+	 *
  	 * @return RecordSet of FTS dictionary information
  	 */
  	function getFtsDictionaryByName($ftsdict) {
-	
+
  		$c_schema = $this->_schema;
 		$this->clean($c_schema);
 		$this->clean($ftsdict);
-		
+
  		$sql = "SELECT
 			   n.nspname as schema,
 			   d.dictname as name,
@@ -5660,7 +5660,7 @@ class Postgres extends ADODB_base {
  	 * @param array $mapping Array of tokens' names
  	 * @param string $action What to do with the mapping: add, alter or drop
  	 * @param string $dictname Dictionary that will process tokens given or null in case of drop action
-	 * 
+	 *
  	 * @return 0 success
  	 */
  	function changeFtsMapping($ftscfg, $mapping, $action, $dictname = null) {
@@ -5671,7 +5671,7 @@ class Postgres extends ADODB_base {
 			$this->fieldClean($ftscfg);
 			$this->fieldClean($dictname);
 			$this->arrayClean($mapping);
-		
+
  			switch ($action) {
  				case 'alter':
  					$whatToDo = "ALTER";
@@ -5701,7 +5701,7 @@ class Postgres extends ADODB_base {
  	 * Return all information related to a given FTS configuration's mapping
  	 * @param $ftscfg The name of the FTS configuration
  	 * @param $mapping The name of the mapping
-	 * 
+	 *
  	 * @return FTS configuration information
  	 */
  	function getFtsMappingByName($ftscfg, $mapping) {
@@ -5715,7 +5715,7 @@ class Postgres extends ADODB_base {
 				LEFT JOIN pg_catalog.pg_namespace AS n ON n.oid = c.cfgnamespace
 			WHERE c.cfgname = '{$ftscfg}'
 				AND n.nspname='{$c_schema}'");
-				
+
  		$oid = $oidSet->fields['oid'];
  		$cfgparser = $oidSet->fields['cfgparser'];
 
@@ -5743,9 +5743,9 @@ class Postgres extends ADODB_base {
 	 * @return 0 on success
  	 */
  	function getFtsMappings($ftscfg) {
-		
+
  		$cfg = $this->getFtsConfigurationByName($ftscfg);
-		
+
  		$sql = "SELECT alias AS name, description
 			FROM pg_catalog.ts_token_type({$cfg->fields['parser_id']})
 			ORDER BY name";
@@ -6102,7 +6102,7 @@ class Postgres extends ADODB_base {
 		$this->clean($username);
 
 		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires, useconfig
-			FROM pg_user 
+			FROM pg_user
 			WHERE usename='{$username}'";
 
 		return $this->selectSet($sql);
@@ -7116,8 +7116,8 @@ class Postgres extends ADODB_base {
 
 		$_defaults = $this->selectSet("SELECT name, setting
 			FROM pg_catalog.pg_settings
-			WHERE 
-				name = 'autovacuum' 
+			WHERE
+				name = 'autovacuum'
 				OR name = 'autovacuum_vacuum_threshold'
 				OR name = 'autovacuum_vacuum_scale_factor'
 				OR name = 'autovacuum_analyze_threshold'
@@ -7144,7 +7144,7 @@ class Postgres extends ADODB_base {
 	 */
 	function saveAutovacuum($table, $vacenabled, $vacthreshold, $vacscalefactor, $anathresold,
 		$anascalefactor, $vaccostdelay, $vaccostlimit)
-	{	
+	{
 		$f_schema = $this->_schema;
 		$this->fieldClean($f_schema);
 		$this->fieldClean($table);
@@ -7184,12 +7184,12 @@ class Postgres extends ADODB_base {
 
 		return $this->execute($sql);
 	}
-	
+
 	function dropAutovacuum($table) {
 		$f_schema = $this->_schema;
 		$this->fieldClean($f_schema);
 		$this->fieldClean($table);
-		
+
 		return $this->execute("
 			ALTER TABLE \"{$f_schema}\".\"{$table}\" RESET (autovacuum_enabled, autovacuum_vacuum_threshold,
 				autovacuum_vacuum_scale_factor, autovacuum_analyze_threshold, autovacuum_analyze_scale_factor,
@@ -7206,13 +7206,13 @@ class Postgres extends ADODB_base {
 	function getProcesses($database = null) {
 		if ($database === null)
 			$sql = "SELECT datname, usename, pid, waiting, state_change as query_start,
-                  case when state='idle in transaction' then '<IDLE> in transaction' when state = 'idle' then '<IDLE>' else query end as query 
+                  case when state='idle in transaction' then '<IDLE> in transaction' when state = 'idle' then '<IDLE>' else query end as query
 				FROM pg_catalog.pg_stat_activity
 				ORDER BY datname, usename, pid";
 		else {
 			$this->clean($database);
 			$sql = "SELECT datname, usename, pid, waiting, state_change as query_start,
-                  case when state='idle in transaction' then '<IDLE> in transaction' when state = 'idle' then '<IDLE>' else query end as query 
+                  case when state='idle in transaction' then '<IDLE> in transaction' when state = 'idle' then '<IDLE>' else query end as query
 				FROM pg_catalog.pg_stat_activity
 				WHERE datname='{$database}'
 				ORDER BY usename, pid";
@@ -7262,13 +7262,13 @@ class Postgres extends ADODB_base {
 		// Clean
 		$pid = (int)$pid;
 
-		if ($signal == 'CANCEL') 
+		if ($signal == 'CANCEL')
 			$sql = "SELECT pg_catalog.pg_cancel_backend({$pid}) AS val";
-		elseif ($signal == 'KILL')  
+		elseif ($signal == 'KILL')
 			$sql = "SELECT pg_catalog.pg_terminate_backend({$pid}) AS val";
-		else	
+		else
 			return -1;
-		
+
 
 		// Execute the query
 		$val = $this->selectField($sql, 'val');
@@ -7295,7 +7295,7 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($f_schema);
 		$this->clean($comment);  // Passing in an already cleaned comment will lead to double escaped data
                                          // So, while counter-intuitive, it is important to not clean comments before
-                                         // calling setComment. We will clean it here instead. 
+                                         // calling setComment. We will clean it here instead.
 /*
 		$this->fieldClean($table);
 		$this->fieldClean($obj_name);
@@ -7896,7 +7896,7 @@ class Postgres extends ADODB_base {
 		$this->clean($c_schema);
 		$this->clean($table);
 
-		$sql = "SELECT * FROM pg_stat_all_tables 
+		$sql = "SELECT * FROM pg_stat_all_tables
 			WHERE schemaname='{$c_schema}' AND relname='{$table}'";
 
 		return $this->selectSet($sql);
@@ -7912,7 +7912,7 @@ class Postgres extends ADODB_base {
 		$this->clean($c_schema);
 		$this->clean($table);
 
-		$sql = "SELECT * FROM pg_statio_all_tables 
+		$sql = "SELECT * FROM pg_statio_all_tables
 			WHERE schemaname='{$c_schema}' AND relname='{$table}'";
 
 		return $this->selectSet($sql);
@@ -7928,7 +7928,7 @@ class Postgres extends ADODB_base {
 		$this->clean($c_schema);
 		$this->clean($table);
 
-		$sql = "SELECT * FROM pg_stat_all_indexes 
+		$sql = "SELECT * FROM pg_stat_all_indexes
 			WHERE schemaname='{$c_schema}' AND relname='{$table}' ORDER BY indexrelname";
 
 		return $this->selectSet($sql);
@@ -7944,8 +7944,8 @@ class Postgres extends ADODB_base {
 		$this->clean($c_schema);
 		$this->clean($table);
 
-		$sql = "SELECT * FROM pg_statio_all_indexes 
-			WHERE schemaname='{$c_schema}' AND relname='{$table}' 
+		$sql = "SELECT * FROM pg_statio_all_indexes
+			WHERE schemaname='{$c_schema}' AND relname='{$table}'
 			ORDER BY indexrelname";
 
 		return $this->selectSet($sql);
@@ -7997,7 +7997,7 @@ class Postgres extends ADODB_base {
 	function hasQueryKill() { return true; }
 	function hasConcurrentIndexBuild() { return true; }
 	function hasForceReindex() { return false; }
-	function hasByteaHexDefault() { return true; } 
-	
+	function hasByteaHexDefault() { return true; }
+
 }
 ?>

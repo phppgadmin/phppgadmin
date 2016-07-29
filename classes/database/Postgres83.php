@@ -45,9 +45,9 @@ class Postgres83 extends Postgres84 {
 	 * Constructor
 	 * @param $conn The database connection
 	 */
-	function Postgres83($conn) {
-		$this->Postgres($conn);
-	}
+	function __construct($conn) {
+ 		parent::__construct($conn);
+ 	}
 
 	// Help functions
 
@@ -61,7 +61,7 @@ class Postgres83 extends Postgres84 {
 	/**
 	 * Return all database available on the server
 	 * @param $currentdatabase database name that should be on top of the resultset
-	 * 
+	 *
 	 * @return A list of databases, sorted alphabetically
 	 */
 	function getDatabases($currentdatabase = NULL) {
@@ -117,13 +117,13 @@ class Postgres83 extends Postgres84 {
 			$this->clean($c_schema);
 
 			$sql = "
-				SELECT vacrelid, nspname, relname, 
-					CASE enabled 
-						WHEN 't' THEN 'on' 
-						ELSE 'off' 
+				SELECT vacrelid, nspname, relname,
+					CASE enabled
+						WHEN 't' THEN 'on'
+						ELSE 'off'
 					END AS autovacuum_enabled, vac_base_thresh AS autovacuum_vacuum_threshold,
-					vac_scale_factor AS autovacuum_vacuum_scale_factor, anl_base_thresh AS autovacuum_analyze_threshold, 
-					anl_scale_factor AS autovacuum_analyze_scale_factor, vac_cost_delay AS autovacuum_vacuum_cost_delay, 
+					vac_scale_factor AS autovacuum_vacuum_scale_factor, anl_base_thresh AS autovacuum_analyze_threshold,
+					anl_scale_factor AS autovacuum_analyze_scale_factor, vac_cost_delay AS autovacuum_vacuum_cost_delay,
 					vac_cost_limit AS autovacuum_vacuum_cost_limit
 				FROM pg_autovacuum AS a
 					join pg_class AS c on (c.oid=a.vacrelid)
@@ -134,13 +134,13 @@ class Postgres83 extends Postgres84 {
 		}
 		else {
 			$sql = "
-				SELECT vacrelid, nspname, relname, 
-					CASE enabled 
-						WHEN 't' THEN 'on' 
-						ELSE 'off' 
+				SELECT vacrelid, nspname, relname,
+					CASE enabled
+						WHEN 't' THEN 'on'
+						ELSE 'off'
 					END AS autovacuum_enabled, vac_base_thresh AS autovacuum_vacuum_threshold,
-					vac_scale_factor AS autovacuum_vacuum_scale_factor, anl_base_thresh AS autovacuum_analyze_threshold, 
-					anl_scale_factor AS autovacuum_analyze_scale_factor, vac_cost_delay AS autovacuum_vacuum_cost_delay, 
+					vac_scale_factor AS autovacuum_vacuum_scale_factor, anl_base_thresh AS autovacuum_analyze_threshold,
+					anl_scale_factor AS autovacuum_analyze_scale_factor, vac_cost_delay AS autovacuum_vacuum_cost_delay,
 					vac_cost_limit AS autovacuum_vacuum_cost_limit
 				FROM pg_autovacuum AS a
 					join pg_class AS c on (c.oid=a.vacrelid)
@@ -151,62 +151,62 @@ class Postgres83 extends Postgres84 {
 
 		return $this->selectSet($sql);
 	}
-	
-	function saveAutovacuum($table, $vacenabled, $vacthreshold, $vacscalefactor, $anathresold, 
-		$anascalefactor, $vaccostdelay, $vaccostlimit) 
+
+	function saveAutovacuum($table, $vacenabled, $vacthreshold, $vacscalefactor, $anathresold,
+		$anascalefactor, $vaccostdelay, $vaccostlimit)
 	{
 		$defaults = $this->getAutovacuum();
 		$c_schema = $this->_schema;
 		$this->clean($c_schema);
 		$this->clean($table);
-		
+
 		$rs = $this->selectSet("
-			SELECT c.oid 
-			FROM pg_catalog.pg_class AS c 
+			SELECT c.oid
+			FROM pg_catalog.pg_class AS c
 				LEFT JOIN pg_catalog.pg_namespace AS n ON (n.oid=c.relnamespace)
-			WHERE 
+			WHERE
 				c.relname = '{$table}' AND n.nspname = '{$c_schema}'
 		");
-		
+
 		if ($rs->EOF)
 			return -1;
-			
+
 		$toid = $rs->fields('oid');
 		unset ($rs);
-			
+
 		if (empty($_POST['autovacuum_vacuum_threshold']))
 			$_POST['autovacuum_vacuum_threshold'] = $defaults['autovacuum_vacuum_threshold'];
-		
+
 		if (empty($_POST['autovacuum_vacuum_scale_factor']))
 			$_POST['autovacuum_vacuum_scale_factor'] = $defaults['autovacuum_vacuum_scale_factor'];
-		
+
 		if (empty($_POST['autovacuum_analyze_threshold']))
 			$_POST['autovacuum_analyze_threshold'] = $defaults['autovacuum_analyze_threshold'];
-		
+
 		if (empty($_POST['autovacuum_analyze_scale_factor']))
 			$_POST['autovacuum_analyze_scale_factor'] = $defaults['autovacuum_analyze_scale_factor'];
-		
+
 		if (empty($_POST['autovacuum_vacuum_cost_delay']))
 			$_POST['autovacuum_vacuum_cost_delay'] = $defaults['autovacuum_vacuum_cost_delay'];
-		
+
 		if (empty($_POST['autovacuum_vacuum_cost_limit']))
 			$_POST['autovacuum_vacuum_cost_limit'] = $defaults['autovacuum_vacuum_cost_limit'];
-		
+
 		if (empty($_POST['vacuum_freeze_min_age']))
 			$_POST['vacuum_freeze_min_age'] = $defaults['vacuum_freeze_min_age'];
-		
+
 		if (empty($_POST['autovacuum_freeze_max_age']))
 			$_POST['autovacuum_freeze_max_age'] = $defaults['autovacuum_freeze_max_age'];
-		
 
-		$rs = $this->selectSet("SELECT vacrelid 
-			FROM \"pg_catalog\".\"pg_autovacuum\" 
+
+		$rs = $this->selectSet("SELECT vacrelid
+			FROM \"pg_catalog\".\"pg_autovacuum\"
 			WHERE vacrelid = {$toid};");
-		
+
 		$status = -1; // ini
 		if ($rs->recordCount() and ($rs->fields['vacrelid'] == $toid)) {
 			// table exists in pg_autovacuum, UPDATE
-			$sql = sprintf("UPDATE \"pg_catalog\".\"pg_autovacuum\" SET 
+			$sql = sprintf("UPDATE \"pg_catalog\".\"pg_autovacuum\" SET
 						enabled = '%s',
 						vac_base_thresh = %s,
 						vac_scale_factor = %s,
@@ -232,7 +232,7 @@ class Postgres83 extends Postgres84 {
 		}
 		else {
 			// table doesn't exists in pg_autovacuum, INSERT
-			$sql = sprintf("INSERT INTO \"pg_catalog\".\"pg_autovacuum\" 
+			$sql = sprintf("INSERT INTO \"pg_catalog\".\"pg_autovacuum\"
 				VALUES (%s, '%s', %s, %s, %s, %s, %s, %s, %s, %s )",
 				$toid,
 				($_POST['autovacuum_enabled'] == 'on')? 't':'f',
@@ -247,7 +247,7 @@ class Postgres83 extends Postgres84 {
 			);
 			$status = $this->execute($sql);
 		}
-		
+
 		return $status;
 	}
 
@@ -255,20 +255,20 @@ class Postgres83 extends Postgres84 {
 		$c_schema = $this->_schema;
 		$this->clean($c_schema);
 		$this->clean($table);
-		
+
 		$rs = $this->selectSet("
-			SELECT c.oid 
-			FROM pg_catalog.pg_class AS c 
+			SELECT c.oid
+			FROM pg_catalog.pg_class AS c
 				LEFT JOIN pg_catalog.pg_namespace AS n ON (n.oid=c.relnamespace)
-			WHERE 
+			WHERE
 				c.relname = '{$table}' AND n.nspname = '{$c_schema}'
 		");
-		
+
 		return $this->deleteRow('pg_autovacuum', array('vacrelid' => $rs->fields['oid']), 'pg_catalog');
 	}
-	
+
 	// Sequence functions
-	
+
 	/**
 	 * Alter a sequence's properties
 	 * @param $seqrs The sequence RecordSet returned by getSequence()

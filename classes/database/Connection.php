@@ -11,15 +11,15 @@ include_once('./classes/database/ADODB_base.php');
 class Connection {
 
 	var $conn;
-	
+
 	// The backend platform.  Set to UNKNOWN by default.
 	var $platform = 'UNKNOWN';
-	
+
 	/**
 	 * Creates a new connection.  Will actually make a database connection.
 	 * @param $fetchMode Defaults to associative.  Override for different behaviour
 	 */
-	function Connection($host, $port, $sslmode, $user, $password, $database, $fetchMode = ADODB_FETCH_ASSOC) {
+	function __construct($host, $port, $sslmode, $user, $password, $database, $fetchMode = ADODB_FETCH_ASSOC) {
 		$this->conn = ADONewConnection('postgres7');
 		$this->conn->setFetchMode($fetchMode);
 
@@ -54,24 +54,24 @@ class Connection {
 
 		$v = pg_version($this->conn->_connectionID);
 		if (isset($v['server'])) $version = $v['server'];
-		
+
 		// If we didn't manage to get the version without a query, query...
 		if (!isset($version)) {
 			$adodb = new ADODB_base($this->conn);
-	
+
 			$sql = "SELECT VERSION() AS version";
 			$field = $adodb->selectField($sql, 'version');
-	
+
 			// Check the platform, if it's mingw, set it
 			if (preg_match('/ mingw /i', $field))
 				$this->platform = 'MINGW';
-	
+
 			$params = explode(' ', $field);
 			if (!isset($params[1])) return -3;
-	
+
 			$version = $params[1]; // eg. 8.4.4
 		}
-		
+
 		$description = "PostgreSQL {$version}";
 
 		// Detect version and choose appropriate database driver
@@ -101,11 +101,11 @@ class Connection {
 
 	}
 
-	/** 
+	/**
 	 * Get the last error in the connection
 	 * @return Error string
 	 */
-	function getLastError() {		
+	function getLastError() {
 		return pg_last_error($this->conn->_connectionID);
 	}
 }

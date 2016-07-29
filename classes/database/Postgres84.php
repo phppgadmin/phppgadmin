@@ -30,9 +30,9 @@ class Postgres84 extends Postgres90 {
 	 * Constructor
 	 * @param $conn The database connection
 	 */
-	function Postgres84($conn) {
-		$this->Postgres($conn);
-	}
+	function __construct($conn) {
+ 		parent::__construct($conn);
+ 	}
 
 	// Help functions
 
@@ -224,7 +224,7 @@ class Postgres84 extends Postgres90 {
 
 	// Capabilities
 
-	function hasByteaHexDefault() { return false; } 
+	function hasByteaHexDefault() { return false; }
 
 }
 

@@ -22,9 +22,9 @@ class Postgres82 extends Postgres83 {
 	 * Constructor
 	 * @param $conn The database connection
 	 */
-	function Postgres82($conn) {
-		$this->Postgres($conn);
-	}
+	function __construct($conn) {
+ 		parent::__construct($conn);
+ 	}
 
 	// Help functions
 
@@ -187,14 +187,14 @@ class Postgres82 extends Postgres83 {
 	 * @return -4 set comment failed
 	 */
 	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $comment, $replace = false) {
-		
+
 		// Begin a transaction
 		$status = $this->beginTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -1;
 		}
-		
+
 		$f_schema = $this->_schema;
 		$this->fieldClean($f_schema);
 		$this->fieldClean($funcname);
@@ -261,15 +261,15 @@ class Postgres82 extends Postgres83 {
 	function clusterIndex($table='', $index='') {
 
 		$sql = 'CLUSTER';
-		
+
 		// We don't bother with a transaction here, as there's no point rolling
 		// back an expensive cluster if a cheap analyze fails for whatever reason
-		
+
 		if (!empty($table)) {
 			$f_schema = $this->_schema;
 			$this->fieldClean($f_schema);
 			$this->fieldClean($table);
-			
+
 			if (!empty($index)) {
 				$this->fieldClean($index);
 				$sql .= " \"{$index}\" ON \"{$f_schema}\".\"{$table}\"";
