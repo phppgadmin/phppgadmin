@@ -158,7 +158,22 @@ td.opbutton2 {
 .crumb .icon {
 	vertical-align: middle;
 	margin: 0 2px;
+    user-select: none;
+	-moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 }
+.crumb .separator{
+   -o-user-select:none;
+   -moz-user-select: none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+
+    -ms-user-select: none;
+    user-select: none;
+}
+
 table.tabs {
 	width: 100%;
 	border-collapse: collapse;
@@ -218,6 +233,12 @@ a.help {
 	font-size: smaller;
 	vertical-align: super;
 	text-decoration: none;
+   -o-user-select:none;
+   -moz-user-select: none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+     -ms-user-select: none;
+    user-select: none;
 }
 pre {font-size: 110%}
 pre.data {
