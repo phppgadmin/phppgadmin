@@ -537,7 +537,7 @@
 			}
 		}
 		//$query = isset($_REQUEST['query'])? $_REQUEST['query'] : "select * from {$_REQUEST['schema']}.{$_REQUEST['table']};";
-		echo $query;
+		echo htmlspecialchars($query);
 		echo '</textarea><br><input type="submit"/></form>';
 
 		if (is_object($rs) && $rs->recordCount() > 0) {
