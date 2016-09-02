@@ -8,12 +8,13 @@ use \PHPPgAdmin\Decorators\Decorator;
  */
 class TableController extends BaseController {
 	use AdminTrait;
-	public $script = 'table.php';
-	public $_name  = 'TableController';
+	public $script      = 'table.php';
+	public $_name       = 'TableController';
+	public $table_place = 'tables-tables';
 
-/**
- * Displays a screen where they can enter a new table
- */
+	/**
+	 * Displays a screen where they can enter a new table
+	 */
 	public function doCreate($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -272,11 +273,11 @@ class TableController extends BaseController {
 		}
 	}
 
-/**
- * Dsiplay a screen where user can create a table from an existing one.
- * We don't have to check if pg supports schema cause create table like
- * is available under pg 7.4+ which has schema.
- */
+	/**
+	 * Dsiplay a screen where user can create a table from an existing one.
+	 * We don't have to check if pg supports schema cause create table like
+	 * is available under pg 7.4+ which has schema.
+	 */
 	public function doCreateLike($confirm, $msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -392,9 +393,9 @@ class TableController extends BaseController {
 		}
 	}
 
-/**
- * Ask for select parameters and perform select
- */
+	/**
+	 * Ask for select parameters and perform select
+	 */
 	public function doSelectRows($confirm, $msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -518,9 +519,9 @@ class TableController extends BaseController {
 		}
 	}
 
-/**
- * Ask for insert parameters and then actually insert row
- */
+	/**
+	 * Ask for insert parameters and then actually insert row
+	 */
 	public function doInsertRow($confirm, $msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -667,9 +668,9 @@ class TableController extends BaseController {
 
 	}
 
-/**
- * Show confirmation of empty and perform actual empty
- */
+	/**
+	 * Show confirmation of empty and perform actual empty
+	 */
 	public function doEmpty($confirm) {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -735,9 +736,9 @@ class TableController extends BaseController {
 		} // END do Empty
 	}
 
-/**
- * Show confirmation of drop and perform actual drop
- */
+	/**
+	 * Show confirmation of drop and perform actual drop
+	 */
 	public function doDrop($confirm) {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -818,9 +819,9 @@ class TableController extends BaseController {
 		} // END DROP
 	} // END Function
 
-/**
- * Show default list of tables in the database
- */
+	/**
+	 * Show default list of tables in the database
+	 */
 	public function doDefault($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -989,7 +990,7 @@ class TableController extends BaseController {
 			unset($columns['tablespace']);
 		}
 
-		echo $misc->printTable($tables, $columns, $actions, 'tables-tables', $lang['strnotables']);
+		echo $misc->printTable($tables, $columns, $actions, $this->table_place, $lang['strnotables']);
 
 		$navlinks = [
 			'create' => [
@@ -1025,6 +1026,95 @@ class TableController extends BaseController {
 			];
 		}
 		$misc->printNavLinks($navlinks, 'tables-tables', get_defined_vars());
+
+		echo $this->view->fetch('table_list_footer.twig', ['table_class' => $this->table_place]);
+
 	}
 
+	public function render() {
+
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$action = $this->action;
+		$data   = $misc->getDatabaseAccessor();
+
+		$misc->printHeader($lang['strtables'], null, true, 'datatables_header.twig');
+		$misc->printBody();
+
+		switch ($action) {
+			case 'create':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doCreate();
+				}
+
+				break;
+			case 'createlike':
+				$this->doCreateLike(false);
+				break;
+			case 'confcreatelike':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doCreateLike(true);
+				}
+
+				break;
+			case 'selectrows':
+				if (!isset($_POST['cancel'])) {
+					$this->doSelectRows(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confselectrows':
+				$this->doSelectRows(true);
+				break;
+			case 'insertrow':
+				if (!isset($_POST['cancel'])) {
+					$this->doInsertRow(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confinsertrow':
+				$this->doInsertRow(true);
+				break;
+			case 'empty':
+				if (isset($_POST['empty'])) {
+					$this->doEmpty(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_empty':
+				$this->doEmpty(true);
+				break;
+			case 'drop':
+				if (isset($_POST['drop'])) {
+					$this->doDrop(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_drop':
+				$this->doDrop(true);
+				break;
+			default:
+				if ($this->adminActions($action, 'table') === false) {
+					$this->doDefault();
+				}
+
+				break;
+		}
+
+		$misc->printFooter();
+
+	}
 }

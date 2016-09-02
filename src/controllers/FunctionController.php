@@ -7,8 +7,8 @@ use \PHPPgAdmin\Decorators\Decorator;
  * Base controller class
  */
 class FunctionController extends BaseController {
-	public $_name = 'FunctionController';
-
+	public $_name       = 'FunctionController';
+	public $table_place = 'functions-functions';
 /**
  * Function to save after editing a function
  */
@@ -54,9 +54,9 @@ class FunctionController extends BaseController {
 		}
 	}
 
-/**
- * Function to allow editing of a Function
- */
+	/**
+	 * Function to allow editing of a Function
+	 */
 	public function doEdit($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -290,9 +290,9 @@ class FunctionController extends BaseController {
 
 	}
 
-/**
- * Show read only properties of a function
- */
+	/**
+	 * Show read only properties of a function
+	 */
 	public function doProperties($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -468,9 +468,9 @@ class FunctionController extends BaseController {
 		$misc->printNavLinks($navlinks, 'functions-properties', get_defined_vars());
 	}
 
-/**
- * Show confirmation of drop and perform actual drop
- */
+	/**
+	 * Show confirmation of drop and perform actual drop
+	 */
 	public function doDrop($confirm) {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -546,9 +546,9 @@ class FunctionController extends BaseController {
 
 	}
 
-/**
- * Displays a screen where they can enter a new function
- */
+	/**
+	 * Displays a screen where they can enter a new function
+	 */
 	public function doCreate($msg = '', $szJS = "") {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -813,9 +813,9 @@ class FunctionController extends BaseController {
 		echo $szJS;
 	}
 
-/**
- * Actually creates the new function in the database
- */
+	/**
+	 * Actually creates the new function in the database
+	 */
 	public function doSaveCreate() {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -941,9 +941,9 @@ class FunctionController extends BaseController {
 		return $szTypes . $szModes;
 	}
 
-/**
- * Show default list of functions in the database
- */
+	/**
+	 * Show default list of functions in the database
+	 */
 	public function doDefault($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -1031,7 +1031,7 @@ class FunctionController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($funcs, $columns, $actions, 'functions-functions', $lang['strnofunctions']);
+		echo $misc->printTable($funcs, $columns, $actions, $this->table_place, $lang['strnofunctions']);
 
 		$navlinks = [
 			'createpl' => [
@@ -1081,5 +1081,63 @@ class FunctionController extends BaseController {
 		];
 
 		$misc->printNavLinks($navlinks, 'functions-functions', get_defined_vars());
+
+		echo $this->view->fetch('table_list_footer.twig', ['table_class' => $this->table_place]);
+	}
+
+	function render() {
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$data   = $misc->getDatabaseAccessor();
+		$action = $this->action;
+
+		$misc->printHeader($lang['strfunctions'], null, true, 'datatables_header.twig');
+		$misc->printBody();
+
+		switch ($action) {
+			case 'save_create':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doSaveCreate();
+				}
+
+				break;
+			case 'create':
+				$this->doCreate();
+				break;
+			case 'drop':
+				if (isset($_POST['drop'])) {
+					$this->doDrop(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_drop':
+				$this->doDrop(true);
+				break;
+			case 'save_edit':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doSaveEdit();
+				}
+
+				break;
+			case 'edit':
+				$this->doEdit();
+				break;
+			case 'properties':
+				$this->doProperties();
+				break;
+			default:
+				$this->doDefault();
+				break;
+		}
+
+		$misc->printFooter();
+
 	}
 }

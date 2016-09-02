@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xml:lang="{{applocale}}" lang="{{applocale}}" {{dir}}>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="/src/themes/{{theme}}/global.css" type="text/css" id="csstheme" />
+
+        <link rel="stylesheet" href="/js/datatables.min.css" type="text/css" />
+
+        <link rel="shortcut icon" href="/images/themes/{{theme}}/Favicon.ico" type="image/vnd.microsoft.icon" />
+        <link rel="icon" type="image/png" href="/images/themes/{{theme}}/Introduction.png" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+        <script src="/js/datatables.min.js"></script>
+
+        <title>{{appName}}</title>
+
+        <script type="text/javascript">
+        $(document).ready(function() {
+            if (window.parent.frames.length > 1) {
+                $('#csstheme', window.parent.frames[0].document).attr('href', '/src/themes/{{theme}}/global.css');
+            }
+        });
+        </script>

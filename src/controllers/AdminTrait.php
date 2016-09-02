@@ -1,5 +1,6 @@
 <?php
 namespace PHPPgAdmin\Controller;
+use \PHPPgAdmin\Decorators\Decorator;
 
 trait AdminTrait {
 

@@ -10,7 +10,9 @@ use \PHPPgAdmin\Decorators\Decorator;
  * Generate XML for the browser tree.
  */
 function doTree() {
-	global $misc, $data;
+
+	$misc = $container->get('misc');
+	$data = $misc->getDatabaseAccessor();
 
 	$types = $data->getTypes();
 
