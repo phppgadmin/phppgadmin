@@ -6,10 +6,10 @@ use \PHPPgAdmin\Decorators\Decorator;
 /**
  * Base controller class
  */
-class ViewController extends BaseController {
-	public $script      = 'views.php';
-	public $_name       = 'ViewController';
-	public $table_place = 'views-views';
+class MaterializedViewController extends BaseController {
+	public $script      = 'materialized_materialized_views.php';
+	public $_name       = 'MaterializedViewController';
+	public $table_place = 'matviews-matviews';
 	/**
 	 * Ask for select parameters and perform select
 	 */
@@ -157,7 +157,7 @@ class ViewController extends BaseController {
 			$misc->printTrail('view');
 			$misc->printTitle($lang['strdrop'], 'pg.view.drop');
 
-			echo "<form action=\"/src/views/views.php\" method=\"post\">\n";
+			echo "<form action=\"/src/views/materialized_views.php\" method=\"post\">\n";
 
 			//If multi drop
 			if (isset($_REQUEST['ma'])) {
@@ -278,7 +278,7 @@ class ViewController extends BaseController {
 			}
 			asort($arrFields);
 
-			echo "<form action=\"/src/views/views.php\" method=\"post\">\n";
+			echo "<form action=\"/src/views/materialized_views.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strviewname']}</th></tr>";
 			echo "<tr>\n<td class=\"data1\">\n";
@@ -383,7 +383,7 @@ class ViewController extends BaseController {
 		$misc->printTitle($lang['strcreateviewwiz'], 'pg.view.create');
 		$misc->printMsg($msg);
 
-		echo "<form action=\"/src/views/views.php\" method=\"post\">\n";
+		echo "<form action=\"/src/views/materialized_views.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strtables']}</th></tr>";
 		echo "<tr>\n<td class=\"data1\">\n";
@@ -436,7 +436,7 @@ class ViewController extends BaseController {
 		$misc->printTitle($lang['strcreateview'], 'pg.view.create');
 		$misc->printMsg($msg);
 
-		echo "<form action=\"/src/views/views.php\" method=\"post\">\n";
+		echo "<form action=\"/src/views/materialized_views.php\" method=\"post\">\n";
 		echo "<table style=\"width: 100%\">\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t<td class=\"data1\"><input name=\"formView\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
@@ -631,17 +631,18 @@ class ViewController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'views');
+		$misc->printTabs('schema', 'matviews');
 		$misc->printMsg($msg);
 
-		$views = $data->getViews();
+		//$matviews = $data->getViews();
+		$matviews = $data->getMaterializedViews();
 
 		$columns = [
-			'view' => [
-				'title' => $lang['strview'],
+			'matview' => [
+				'title' => 'M ' . $lang['strview'],
 				'field' => Decorator::field('relname'),
-				'url' => "/redirect/view?{$misc->href}&amp;",
-				'vars' => ['view' => 'relname'],
+				'url' => "/redirect/matview?{$misc->href}&amp;",
+				'vars' => ['matview' => 'relname'],
 			],
 			'owner' => [
 				'title' => $lang['strowner'],
@@ -658,8 +659,8 @@ class ViewController extends BaseController {
 
 		$actions = [
 			'multiactions' => [
-				'keycols' => ['view' => 'relname'],
-				'url' => 'views.php',
+				'keycols' => ['matview' => 'relname'],
+				'url' => 'materialized_materialized_views.php',
 			],
 			'browse' => [
 				'content' => $lang['strbrowse'],
@@ -668,9 +669,9 @@ class ViewController extends BaseController {
 						'url' => 'display.php',
 						'urlvars' => [
 							'action' => 'confselectrows',
-							'subject' => 'view',
+							'subject' => 'matview',
 							'return' => 'schema',
-							'view' => Decorator::field('relname'),
+							'matview' => Decorator::field('relname'),
 						],
 					],
 				],
@@ -679,10 +680,10 @@ class ViewController extends BaseController {
 				'content' => $lang['strselect'],
 				'attr' => [
 					'href' => [
-						'url' => 'views.php',
+						'url' => 'materialized_views.php',
 						'urlvars' => [
 							'action' => 'confselectrows',
-							'view' => Decorator::field('relname'),
+							'matview' => Decorator::field('relname'),
 						],
 					],
 				],
@@ -691,7 +692,7 @@ class ViewController extends BaseController {
 			// Insert is possible if the relevant rule for the view has been created.
 			//			'insert' => array(
 			//				'title'	=> $lang['strinsert'],
-			//				'url'	=> "views.php?action=confinsertrow&amp;{$misc->href}&amp;",
+			//				'url'	=> "materialized_views.php?action=confinsertrow&amp;{$misc->href}&amp;",
 			//				'vars'	=> array('view' => 'relname'),
 			//			),
 
@@ -702,7 +703,7 @@ class ViewController extends BaseController {
 						'url' => 'viewproperties.php',
 						'urlvars' => [
 							'action' => 'confirm_alter',
-							'view' => Decorator::field('relname'),
+							'matview' => Decorator::field('relname'),
 						],
 					],
 				],
@@ -712,23 +713,23 @@ class ViewController extends BaseController {
 				'content' => $lang['strdrop'],
 				'attr' => [
 					'href' => [
-						'url' => 'views.php',
+						'url' => 'materialized_views.php',
 						'urlvars' => [
 							'action' => 'confirm_drop',
-							'view' => Decorator::field('relname'),
+							'matview' => Decorator::field('relname'),
 						],
 					],
 				],
 			],
 		];
 
-		echo $misc->printTable($views, $columns, $actions, $this->table_place, $lang['strnoviews']);
+		echo $misc->printTable($matviews, $columns, $actions, $this->table_place, $lang['strnoviews']);
 
 		$navlinks = [
 			'create' => [
 				'attr' => [
 					'href' => [
-						'url' => 'views.php',
+						'url' => 'materialized_views.php',
 						'urlvars' => [
 							'action' => 'create',
 							'server' => $_REQUEST['server'],
@@ -742,7 +743,7 @@ class ViewController extends BaseController {
 			'createwiz' => [
 				'attr' => [
 					'href' => [
-						'url' => 'views.php',
+						'url' => 'materialized_views.php',
 						'urlvars' => [
 							'action' => 'wiz_create',
 							'server' => $_REQUEST['server'],
@@ -758,4 +759,75 @@ class ViewController extends BaseController {
 
 	}
 
+	public function render() {
+
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
+
+		$misc->printHeader('M ' . $lang['strviews']);
+		$misc->printBody();
+
+		switch ($action) {
+			case 'selectrows':
+				if (!isset($_REQUEST['cancel'])) {
+					$this->doSelectRows(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confselectrows':
+				$this->doSelectRows(true);
+				break;
+			case 'save_create_wiz':
+				if (isset($_REQUEST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doSaveCreateWiz();
+				}
+
+				break;
+			case 'wiz_create':
+				doWizardCreate();
+				break;
+			case 'set_params_create':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doSetParamsCreate();
+				}
+
+				break;
+			case 'save_create':
+				if (isset($_REQUEST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doSaveCreate();
+				}
+
+				break;
+			case 'create':
+				doCreate();
+				break;
+			case 'drop':
+				if (isset($_POST['drop'])) {
+					$this->doDrop(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_drop':
+				$this->doDrop(true);
+				break;
+			default:
+				$this->doDefault();
+				break;
+		}
+
+		$misc->printFooter();
+
+	}
 }

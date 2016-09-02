@@ -8,7 +8,7 @@ use \PHPPgAdmin\Decorators\Decorator;
  */
 class TableController extends BaseController {
 	use AdminTrait;
-	public $script      = 'table.php';
+	public $script      = 'tables.php';
 	public $_name       = 'TableController';
 	public $table_place = 'tables-tables';
 
@@ -57,7 +57,8 @@ class TableController extends BaseController {
 				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
 				$misc->printMsg($msg);
 
-				echo "<form action=\"/src/views/tables.php\" method=\"post\">\n";
+				echo '<form action="/src/views/' . $this->script . '" method="post">';
+				echo "\n";
 				echo "<table>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 				echo "\t\t<td class=\"data\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",

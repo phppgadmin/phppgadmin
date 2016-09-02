@@ -1157,6 +1157,13 @@ class Misc {
 						'help' => 'pg.view',
 						'icon' => 'Views',
 					],
+					'matviews' => [
+						'title' => 'M ' . $lang['strviews'],
+						'url' => 'materialized_views.php',
+						'urlvars' => ['subject' => 'schema'],
+						'help' => 'pg.matview',
+						'icon' => 'Views',
+					],
 					'sequences' => [
 						'title' => $lang['strsequences'],
 						'url' => 'sequences.php',
@@ -1404,6 +1411,65 @@ class Misc {
 						'title' => $lang['strexport'],
 						'url' => 'viewproperties.php',
 						'urlvars' => ['subject' => 'view', 'view' => Decorator::field('view'), 'action' => 'export'],
+						'icon' => 'Export',
+						'hide' => false,
+					],
+				];
+				break;
+
+			case 'matview':
+				$tabs = [
+					'columns' => [
+						'title' => $lang['strcolumns'],
+						'url' => 'viewproperties.php',
+						'urlvars' => ['subject' => 'matview', 'matview' => Decorator::field('matview')],
+						'icon' => 'Columns',
+						'branch' => true,
+					],
+					'browse' => [
+						'title' => $lang['strbrowse'],
+						'icon' => 'Columns',
+						'url' => 'display.php',
+						'urlvars' => [
+							'action' => 'confselectrows',
+							'return' => 'schema',
+							'subject' => 'matview',
+							'matview' => Decorator::field('matview'),
+						],
+						'branch' => true,
+					],
+					'select' => [
+						'title' => $lang['strselect'],
+						'icon' => 'Search',
+						'url' => 'views.php',
+						'urlvars' => ['action' => 'confselectrows', 'matview' => Decorator::field('matview')],
+						'help' => 'pg.sql.select',
+					],
+					'definition' => [
+						'title' => $lang['strdefinition'],
+						'url' => 'viewproperties.php',
+						'urlvars' => ['subject' => 'matview', 'matview' => Decorator::field('matview'), 'action' => 'definition'],
+						'icon' => 'Definition',
+					],
+					'rules' => [
+						'title' => $lang['strrules'],
+						'url' => 'rules.php',
+						'urlvars' => ['subject' => 'matview', 'matview' => Decorator::field('matview')],
+						'help' => 'pg.rule',
+						'icon' => 'Rules',
+						'branch' => true,
+					],
+					'privileges' => [
+						'title' => $lang['strprivileges'],
+						'url' => 'privileges.php',
+						'urlvars' => ['subject' => 'matview', 'matview' => Decorator::field('matview')],
+						'help' => 'pg.privilege',
+						'icon' => 'Privileges',
+					],
+					'export' => [
+						'title' => $lang['strexport'],
+						'url' => 'viewproperties.php',
+						'urlvars' => ['subject' => 'matview', 'matview' => Decorator::field('matview'), 'action' => 'export'],
 						'icon' => 'Export',
 						'hide' => false,
 					],

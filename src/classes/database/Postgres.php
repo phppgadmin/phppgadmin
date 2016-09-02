@@ -3269,6 +3269,23 @@ class Postgres extends ADODB_base {
 	}
 
 	/**
+	 * Returns a list of all views in the database
+	 * @return All views
+	 */
+	function getMaterializedViews() {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
+		$sql = "
+			SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner,
+				pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment
+			FROM pg_catalog.pg_class c
+				LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = c.relnamespace)
+			WHERE (n.nspname='{$c_schema}') AND (c.relkind = 'm'::\"char\")
+			ORDER BY relname";
+
+		return $this->selectSet($sql);
+	}
+	/**
 	 * Updates a view.
 	 * @param $viewname The name fo the view to update
 	 * @param $definition The new definition for the view
