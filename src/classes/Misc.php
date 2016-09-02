@@ -1162,7 +1162,7 @@ class Misc {
 						'url' => 'materialized_views.php',
 						'urlvars' => ['subject' => 'schema'],
 						'help' => 'pg.matview',
-						'icon' => 'Views',
+						'icon' => 'MViews',
 					],
 					'sequences' => [
 						'title' => $lang['strsequences'],
