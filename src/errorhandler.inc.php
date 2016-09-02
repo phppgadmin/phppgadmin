@@ -25,33 +25,33 @@ function Error_Handler($dbms, $fn, $errno, $errmsg, $p1 = false, $p2 = false) {
 	global $misc, $appName, $appVersion, $appLangFiles;
 
 	switch ($fn) {
-	case 'EXECUTE':
-		$sql = $p1;
-		$inputparams = $p2;
+		case 'EXECUTE':
+			$sql         = $p1;
+			$inputparams = $p2;
 
-		$s = "<p><b>{$lang['strsqlerror']}</b><br />" . $misc->printVal($errmsg, 'errormsg') . "</p>
+			$s = "<p><b>{$lang['strsqlerror']}</b><br />" . $misc->printVal($errmsg, 'errormsg') . "</p>
 		      <p><b>{$lang['strinstatement']}</b><br />" . $misc->printVal($sql) . "</p>
 		";
-		echo "<table class=\"error\" cellpadding=\"5\"><tr><td>{$s}</td></tr></table><br />\n";
+			echo "<table class=\"error\" cellpadding=\"5\"><tr><td>{$s}</td></tr></table><br />\n";
 
-		break;
+			break;
 
-	case 'PCONNECT':
-	case 'CONNECT':
-		$_failed = true;
-		global $_reload_browser;
-		$_reload_browser = true;
-		unset($_SESSION['sharedUsername']);
-		unset($_SESSION['sharedPassword']);
-		unset($_SESSION['webdbLogin'][$_REQUEST['server']]);
-		$msg = $lang['strloginfailed'];
-		include './login.php';
-		exit;
-		break;
-	default:
-		$s = "$dbms error: [$errno: $errmsg] in $fn($p1, $p2)\n";
-		echo "<table class=\"error\" cellpadding=\"5\"><tr><td>{$s}</td></tr></table><br />\n";
-		break;
+		case 'PCONNECT':
+		case 'CONNECT':
+			$_failed = true;
+			global $_reload_browser;
+			$_reload_browser = true;
+			unset($_SESSION['sharedUsername']);
+			unset($_SESSION['sharedPassword']);
+			unset($_SESSION['webdbLogin'][$_REQUEST['server']]);
+			$msg              = $lang['strloginfailed'];
+			$login_controller = new \PHPPgAdmin\Controller\LoginController($container);
+			return $login_controller->render();
+			break;
+		default:
+			$s = "$dbms error: [$errno: $errmsg] in $fn($p1, $p2)\n";
+			echo "<table class=\"error\" cellpadding=\"5\"><tr><td>{$s}</td></tr></table><br />\n";
+			break;
 	}
 	/*
 		* Log connection error somewhere

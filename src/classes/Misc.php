@@ -2,6 +2,7 @@
 
 namespace PHPPgAdmin;
 
+use \PHPPgAdmin\Controller\LoginController;
 use \PHPPgAdmin\Decorators\Decorator;
 
 /**
@@ -55,6 +56,8 @@ class Misc {
 	}
 
 	function getConnection($database = '', $server_id = null) {
+		$lang = $this->lang;
+
 		if ($this->_connection === null) {
 			if ($server_id !== null) {
 				$this->server_id = $server_id;
@@ -72,9 +75,9 @@ class Misc {
 
 				if ($server_info['password'] == '' || in_array($username, $bad_usernames)) {
 					unset($_SESSION['webdbLogin'][$this->server_id]);
-					$msg = $lang['strlogindisallowed'];
-					include '../views/login.php';
-					exit;
+					$msg              = $lang['strlogindisallowed'];
+					$login_controller = new LoginController($this->app->getContainer());
+					return $login_controller->render();
 				}
 			}
 

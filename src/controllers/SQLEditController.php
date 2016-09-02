@@ -38,9 +38,9 @@ class SQLEditController extends BaseController {
 		return $misc->printConnection($onchange, false);
 	}
 
-/**
- * Searches for a named database object
- */
+	/**
+	 * Searches for a named database object
+	 */
 	function doFind() {
 
 		$conf = $this->conf;
@@ -55,7 +55,7 @@ class SQLEditController extends BaseController {
 		if (!isset($_REQUEST['filter'])) {
 			$_REQUEST['filter'] = '';
 		}
-		echo $this->view->fetch('sqledit_header.twig', ['title' => $this->lang['strfind']]);
+
 		$default_html = $misc->printTabs($misc->getNavTabs('popup'), 'find', false);
 
 		$default_html .= "<form action=\"database.php\" method=\"post\" target=\"detail\">\n";
@@ -92,12 +92,12 @@ class SQLEditController extends BaseController {
 
 		// Default focus
 		//$misc->setFocus('forms[0].term');
-		echo $default_html;
+		return $default_html;
 	}
 
-/**
- * Allow execution of arbitrary SQL statements on a database
- */
+	/**
+	 * Allow execution of arbitrary SQL statements on a database
+	 */
 	function doDefault() {
 
 		$conf = $this->conf;
@@ -108,7 +108,7 @@ class SQLEditController extends BaseController {
 		if (!isset($_SESSION['sqlquery'])) {
 			$_SESSION['sqlquery'] = '';
 		}
-		echo $this->view->fetch('sqledit_header.twig', ['title' => $this->lang['strsql']]);
+
 		$default_html = $misc->printTabs($misc->getNavTabs('popup'), 'sql', false);
 
 		$default_html .= '<form action="/src/views/sql.php" method="post" enctype="multipart/form-data" class="sqlform" id="sqlform" target="detail">';
@@ -127,12 +127,14 @@ class SQLEditController extends BaseController {
 		$default_html .= "<label>";
 		$default_html .= $misc->printHelp($lang['strsearchpath'], 'pg.schema.search_path', false);
 
-		$default_html .= ": <input type=\"text\" name=\"search_path\" size=\"50\" value=\"" . $search_path . "\" />";
+		$default_html .= ': <input type="text" name="search_path" size="50" value="' . $search_path . '" />';
 		$default_html .= "</label>\n";
 		$default_html .= "</div>\n";
 
 		$default_html .= '<div id="queryedition" style="padding:1%;width:98%;float:left;">';
-		$default_html .= "\n<textarea style=\"width:98%;\" rows=\"10\" cols=\"50\" name=\"query\" id=\"query\">" . $sqlquery . "</textarea>\n";
+		$default_html .= "\n";
+		$default_html .= '<textarea style="width:98%;" rows="10" cols="50" name="query" id="query" resizable="true">' . $sqlquery . "</textarea>";
+		$default_html .= "\n";
 		$default_html .= "</div>\n";
 
 		// Check that file uploads are enabled
@@ -140,20 +142,28 @@ class SQLEditController extends BaseController {
 			// Don't show upload option if max size of uploads is zero
 			$max_size = $misc->inisizeToBytes(ini_get('upload_max_filesize'));
 			if (is_double($max_size) && $max_size > 0) {
-				$default_html .= "<p><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";
-				$default_html .= "<label for=\"script\">{$lang['struploadscript']}</label> <input id=\"script\" name=\"script\" type=\"file\" /></p>\n";
+				$default_html .= "<p>";
+				$default_html .= '<input type="hidden" name="MAX_FILE_SIZE" value="' . $max_size . '" />';
+				$default_html .= "\n";
+				$default_html .= '<label for="script">' . $lang['struploadscript'] . '</label>';
+				$default_html .= ' <input id="script" name="script" type="file" /></p>';
+				$default_html .= "</p>\n";
 			}
 		}
 		$checked = (isset($_REQUEST['paginate']) ? ' checked="checked"' : '');
-		$default_html .= "<p><label for=\"paginate\"><input type=\"checkbox\" id=\"paginate\" name=\"paginate\"" . $checked . " />&nbsp;{$lang['strpaginate']}</label></p>\n";
-
-		$default_html .= "<p><input type=\"submit\" name=\"execute\" accesskey=\"r\" value=\"{$lang['strexecute']}\" />\n";
-		$default_html .= "<input type=\"reset\" accesskey=\"q\" value=\"{$lang['strreset']}\" /></p>\n";
-		$default_html .= "</form>\n";
+		$default_html .= '<p>';
+		$default_html .= '<label for="paginate"><input type="checkbox" id="paginate" name="paginate"' . $checked . ' />&nbsp;' . $lang['strpaginate'] . '</label>';
+		$default_html .= "</p>\n";
+		$default_html .= '<p><input type="submit" name="execute" accesskey="r" value="' . $lang['strexecute'] . '" />';
+		$default_html .= "\n";
+		$default_html .= '<input type="reset" accesskey="q" value="' . $lang['strreset'] . '" /></p>';
+		$default_html .= "\n";
+		$default_html .= "</form>";
+		$default_html .= "\n";
 
 		// Default focus
 		//$misc->setFocus('forms[0].query');
-		echo $default_html;
+		return $default_html;
 
 	}
 
@@ -166,16 +176,21 @@ class SQLEditController extends BaseController {
 
 		switch ($action) {
 			case 'find':
-				$this->doFind();
+				$view_param = ['title' => $this->lang['strfind']];
+				$body_text  = $this->doFind();
 				break;
 			case 'sql':
 			default:
-				$this->doDefault();
+				$view_param = ['title' => $this->lang['strsql']];
+				$body_text  = $this->doDefault();
 
 				break;
 		}
 
+		echo $this->view->fetch('sqledit_header.twig', $view_param);
+		echo $body_text;
 		echo $this->view->fetch('sqledit.twig');
+
 		$misc->setWindowName('sqledit');
 
 	}

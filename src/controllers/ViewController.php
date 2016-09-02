@@ -96,6 +96,7 @@ class ViewController extends BaseController {
 			echo "<input type=\"submit\" name=\"select\" accesskey=\"r\" value=\"{$lang['strselect']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
+			return;
 		} else {
 			if (!isset($_POST['show'])) {
 				$_POST['show'] = [];
@@ -118,16 +119,19 @@ class ViewController extends BaseController {
 			}
 
 			if (sizeof($_POST['show']) == 0) {
-				$this->doSelectRows(true, $lang['strselectneedscol']);
+				return $this->doSelectRows(true, $lang['strselectneedscol']);
 			} else {
 				// Generate query SQL
-				$query = $data->getSelectSQL($_REQUEST['view'], array_keys($_POST['show']),
-					$_POST['values'], $_POST['ops']);
+				$query = $data->getSelectSQL($_REQUEST['view'], array_keys($_POST['show']), $_POST['values'], $_POST['ops']);
+
 				$_REQUEST['query']  = $query;
 				$_REQUEST['return'] = "schema";
+
 				$misc->setNoOutput(true);
-				include './display.php';
-				exit;
+
+				$display_controller = new DisplayController($this->getContainer());
+
+				return $display_controller->render();
 			}
 		}
 

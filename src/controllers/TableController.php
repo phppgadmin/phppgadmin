@@ -476,6 +476,8 @@ class TableController extends BaseController {
 			echo "<input type=\"submit\" name=\"select\" accesskey=\"r\" value=\"{$lang['strselect']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
+
+			return;
 		} else {
 			if (!isset($_POST['show'])) {
 				$_POST['show'] = [];
@@ -507,8 +509,11 @@ class TableController extends BaseController {
 				$_REQUEST['return'] = 'selectrows';
 
 				$misc->setNoOutput(true);
-				include './display.php';
-				exit;
+
+				$display_controller = new DisplayController($this->getContainer());
+
+				return $display_controller->render();
+
 			}
 		}
 	}
