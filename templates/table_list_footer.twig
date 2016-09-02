@@ -1,5 +1,7 @@
 <script>
 $(document).ready(function() {
-    $('.{{table_class}}').DataTable();
+    $('.{{table_class}}').DataTable({
+        "pageLength": 500
+    });
 });
 </script>
