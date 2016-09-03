@@ -306,6 +306,7 @@ class FunctionController extends BaseController {
 		$funcdata = $data->getFunction($_REQUEST['function_oid']);
 
 		if ($funcdata->recordCount() > 0) {
+
 			// Deal with named parameters
 			if ($data->hasNamedParams()) {
 				if (isset($funcdata->fields['proallarguments'])) {
@@ -378,11 +379,13 @@ class FunctionController extends BaseController {
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strlinksymbol']}</th></tr>\n";
 				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->fields['prosrc']), "</td></tr>\n";
 			} else {
-				include_once BASE_PATH . '/src/highlight.php';
+				$highlight = new \PHPPgAdmin\Highlight();
+
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
 				// Check to see if we have syntax highlighting for this language
-				if (isset($data->langmap[$funcdata->fields['prolanguage']])) {
-					$temp = syntax_highlight(htmlspecialchars($funcdata->fields['prosrc']), $data->langmap[$funcdata->fields['prolanguage']]);
+				if (array_key_exists($fnlang, $data->langmap)) {
+
+					$temp = $highlight->syntax_highlight(htmlspecialchars($funcdata->fields['prosrc']), $data->langmap[$fnlang]);
 					$tag  = 'prenoescape';
 				} else {
 					$temp = $funcdata->fields['prosrc'];

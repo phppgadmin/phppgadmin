@@ -42,7 +42,7 @@ $app->post('/redirect[/{subject}]', function ($request, $response, $args) use ($
 		$misc->printHeader($this->lang['strdatabases']);
 		$misc->printBody();
 
-		return $all_db_controller->doDefault();
+		$all_db_controller->doDefault();
 
 		$misc->setReloadBrowser(true);
 		$misc->printFooter();
@@ -54,9 +54,8 @@ $app->post('/redirect[/{subject}]', function ($request, $response, $args) use ($
 
 		if (!isset($_server_info['username'])) {
 
-			include BASE_PATH . '/src/views/login.php';
-
-			$body->write(doLoginForm($this, $msg));
+			$login_controller = new \PHPPgAdmin\Controller\LoginController($this);
+			$body->write($login_controller->doLoginForm($msg));
 
 		}
 	}
@@ -76,8 +75,10 @@ $app->get('/redirect[/{subject}]', function ($request, $response, $args) use ($m
 
 	$body = $response->getBody();
 	if (!isset($_server_info['username'])) {
-		include BASE_PATH . '/src/views/login.php';
-		$body->write(doLoginForm($this, $msg));
+
+		$login_controller = new \PHPPgAdmin\Controller\LoginController($this);
+		$body->write($login_controller->doLoginForm($msg));
+
 		return $response;
 	} else {
 

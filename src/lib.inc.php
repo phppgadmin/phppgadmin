@@ -5,12 +5,22 @@
  *
  * $Id: lib.inc.php,v 1.123 2008/04/06 01:10:35 xzilla Exp $
  */
-DEFINE('BASE_PATH', dirname(__DIR__));
+if (!defined('BASE_PATH')) {
+	DEFINE('BASE_PATH', dirname(__DIR__));
+}
+require_once BASE_PATH . '/src/errorhandler.inc.php';
+
+if (!defined('ADODB_ERROR_HANDLER_TYPE')) {
+	define('ADODB_ERROR_HANDLER_TYPE', E_USER_ERROR);
+}
+if (!defined('ADODB_ERROR_HANDLER')) {
+	define('ADODB_ERROR_HANDLER', 'Error_Handler');
+}
 
 ini_set('error_log', BASE_PATH . '/temp/logs/phppga.php_error.log');
 
 require_once BASE_PATH . '/vendor/autoload.php';
-include_once BASE_PATH . '/src/errorhandler.inc.php';
+
 include_once BASE_PATH . '/src/decorator.inc.php';
 
 Kint::enabled(true);
@@ -157,10 +167,9 @@ if (!function_exists('pg_connect')) {
 	exit;
 }
 
-//PC::debug($_server_info, 'server_info');
-
 // Create data accessor object, if necessary
 if (!isset($_no_db_connection)) {
+
 	if ($misc->getServerId() === null) {
 		echo $lang['strnoserversupplied'];
 		exit;
@@ -173,7 +182,10 @@ if (!isset($_no_db_connection)) {
 
 	// Redirect to the login form if not logged in
 	if (!isset($_server_info['username'])) {
-		include BASE_PATH . '/src/views/login.php';
+
+		$login_controller = new \PHPPgAdmin\Controller\LoginController($container);
+		echo $login_controller->doLoginForm($msg);
+
 		exit;
 	}
 

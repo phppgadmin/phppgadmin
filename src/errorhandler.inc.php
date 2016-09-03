@@ -6,10 +6,6 @@
  * $Id: errorhandler.inc.php,v 1.20 2005/11/13 08:39:49 chriskl Exp $
  */
 
-if (!defined('ADODB_ERROR_HANDLER')) {
-	define('ADODB_ERROR_HANDLER', 'Error_Handler');
-}
-
 /**
  * Default Error Handler. This will be called with the following params
  *

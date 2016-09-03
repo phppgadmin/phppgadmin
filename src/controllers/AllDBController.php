@@ -7,10 +7,11 @@ use \PHPPgAdmin\Decorators\Decorator;
  * Base controller class
  */
 class AllDBController extends BaseController {
-	public $_name = 'AllDBController';
-/**
- * Display a form for alter and perform actual alter
- */
+	public $_name       = 'AllDBController';
+	public $table_place = 'all_db-databases';
+	/**
+	 * Display a form for alter and perform actual alter
+	 */
 	public function doAlter($confirm) {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -80,9 +81,9 @@ class AllDBController extends BaseController {
 		}
 	}
 
-/**
- * Show confirmation of drop and perform actual drop
- */
+	/**
+	 * Show confirmation of drop and perform actual drop
+	 */
 	public function doDrop($confirm) {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -148,9 +149,9 @@ class AllDBController extends BaseController {
 		} //END DROP
 	} // END FUNCTION
 
-/**
- * Displays a screen where they can enter a new database
- */
+	/**
+	 * Displays a screen where they can enter a new database
+	 */
 	public function doCreate($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -282,9 +283,9 @@ class AllDBController extends BaseController {
 		echo "</form>\n";
 	}
 
-/**
- * Actually creates the new view in the database
- */
+	/**
+	 * Actually creates the new view in the database
+	 */
 	public function doSaveCreate() {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -327,9 +328,9 @@ class AllDBController extends BaseController {
 		}
 	}
 
-/**
- * Displays options for cluster download
- */
+	/**
+	 * Displays options for cluster download
+	 */
 	public function doExport($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -498,7 +499,7 @@ class AllDBController extends BaseController {
 			unset($actions['privileges']);
 		}
 
-		echo $misc->printTable($databases, $columns, $actions, 'all_db-databases', $lang['strnodatabases']);
+		echo $misc->printTable($databases, $columns, $actions, $this->table_place, $lang['strnodatabases']);
 
 		$navlinks = [
 			'create' => [
@@ -514,7 +515,7 @@ class AllDBController extends BaseController {
 				'content' => $lang['strcreatedatabase'],
 			],
 		];
-		$misc->printNavLinks($navlinks, 'all_db-databases', get_defined_vars());
+		$misc->printNavLinks($navlinks, $this->table_place, get_defined_vars());
 
 	}
 

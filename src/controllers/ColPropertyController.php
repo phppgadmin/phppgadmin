@@ -162,7 +162,7 @@ class ColPropertyController extends BaseController {
 				if ($status == 0) {
 					if ($_REQUEST['column'] != $_REQUEST['field']) {
 						$_REQUEST['column'] = $_REQUEST['field'];
-						$_reload_browser    = true;
+						$misc->setReloadBrowser(true);
 					}
 					$this->doDefault($lang['strcolumnaltered']);
 				} else {

@@ -9,9 +9,9 @@ use \PHPPgAdmin\Decorators\Decorator;
 class InfoController extends BaseController {
 	public $_name = 'InfoController';
 
-/**
- * List all the information on the table
- */
+	/**
+	 * List all the information on the table
+	 */
 	public function doDefault($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -343,4 +343,5 @@ class InfoController extends BaseController {
 			}
 		}
 	}
+
 }

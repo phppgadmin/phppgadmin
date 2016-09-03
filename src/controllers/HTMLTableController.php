@@ -28,8 +28,7 @@ class HTMLTableController extends BaseController {
 	 *				'multiactions' => array(
 	 *					'keycols' => Associative array of (URL variable => field name), // fields included in the form
 	 *					'url' => URL submission,
-	 *					'default' => Default selected action in the form.
-	 *									if null, an empty action is added & selected
+	 *					'default' => Default selected action in the form. If null, an empty action is added & selected
 	 *				),
 	 *				* actions *
 	 *				action_id => array(
@@ -41,19 +40,16 @@ class HTMLTableController extends BaseController {
 	 *										Add this action to the multi action form
 	 *				), ...
 	 *			);
-	 * @param $place     Place where the $actions are displayed. Like 'display-browse', where 'display' is the file (display.php)
-	 *                   and 'browse' is the place inside that code (doBrowse).
+	 * @param $place     Place where the $actions are displayed. Like 'display-browse',  where 'display'
+	 * is the entrypoint (/src/views/display.php) and 'browse' is the action used inside its controller (in this case, doBrowse).
 	 * @param $nodata    (optional) Message to display if data set is empty.
-	 * @param $pre_fn    (optional) Name of a function to call for each row,
-	 *					 it will be passed two params: $rowdata and $actions,
-	 *					 it may be used to derive new fields or modify actions.
-	 *					 It can return an array of actions specific to the row,
-	 *					 or if nothing is returned then the standard actions are used.
-	 *					 (see tblproperties.php and constraints.php for examples)
-	 *					 The function must not must not store urls because
-	 *					 they are relative and won't work out of context.
+	 * @param $pre_fn    (optional) callback closure for each row. It will be passed two params: $rowdata and $actions,
+	 *  it may be used to derive new fields or modify actions.
+	 *  It can return an array of actions specific to the row,  or if nothing is returned then the standard actions are used.
+	 *  (see TablePropertyController and ConstraintController for examples)
+	 *  The function must not must not store urls because	 they are relative and won't work out of context.
 	 */
-	function printTable(&$tabledata, &$columns, &$actions, $place, $nodata = null, $pre_fn = null) {
+	public function printTable(&$tabledata, &$columns, &$actions, $place, $nodata = null, $pre_fn = null) {
 
 		$data           = $this->data;
 		$misc           = $this->misc;
@@ -155,7 +151,7 @@ class HTMLTableController extends BaseController {
 		return $tablehtml;
 	}
 
-	function getTbody($columns, $actions, $tabledata) {
+	private function getTbody($columns, $actions, $tabledata) {
 		// Display table rows
 		$i          = 0;
 		$tbody_html = '<tbody>';
@@ -242,7 +238,7 @@ class HTMLTableController extends BaseController {
 		return $tbody_html;
 	}
 
-	function getThead($columns, $actions) {
+	private function getThead($columns, $actions) {
 		$thead_html = "<thead><tr>\n";
 
 		// Handle cases where no class has been passed
@@ -282,7 +278,7 @@ class HTMLTableController extends BaseController {
 		return $thead_html;
 	}
 
-	function getTfooter($columns, $actions) {
+	private function getTfooter($columns, $actions) {
 		$tfoot_html = "<tfoot><tr>\n";
 
 		// Handle cases where no class has been passed
@@ -315,14 +311,14 @@ class HTMLTableController extends BaseController {
 		return $tfoot_html;
 	}
 
-	function getForm() {
+	private function getForm() {
 		if (!$this->form) {
 			$this->form = $this->misc->setForm();
 		}
 		return $this->form;
 	}
 
-	function printUrlVars(&$vars, &$fields, $do_print = true) {
+	private function printUrlVars(&$vars, &$fields, $do_print = true) {
 		$url_vars_html = '';
 		foreach ($vars as $var => $varfield) {
 			$url_vars_html .= "{$var}=" . urlencode($fields[$varfield]) . "&amp;";

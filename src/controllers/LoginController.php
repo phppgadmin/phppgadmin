@@ -3,9 +3,10 @@
 namespace PHPPgAdmin\Controller;
 
 /**
- * Base controller class
+ * Login controller class
  */
-class LoginController {
+class LoginController extends BaseController {
+
 	private $container         = null;
 	private $_connection       = null;
 	private $_no_db_connection = false;
@@ -23,16 +24,17 @@ class LoginController {
 	public $lang               = [];
 	public $action             = '';
 	public $_name              = 'LoginController';
-	public $_title             = 'base';
+	public $_title             = 'strlogin';
 
 	function doLoginForm($msg) {
 
 		$conf = $this->conf;
 		$misc = $this->misc;
 		$lang = $this->lang;
+		\PC::debug($misc, 'LoginController::doLoginForm');
 		//$msg  = $container->msg;
 
-		$login_html = $misc->printHeader($lang['strlogin'], null, false);
+		$login_html = $misc->printHeader($lang[$this->_title], null, false);
 		$login_html .= $misc->printBody(false);
 		$login_html .= $misc->printTrail('root', false);
 
@@ -119,7 +121,7 @@ class LoginController {
 
 		switch ($action) {
 			default:
-				$this->doLoginForm();
+				echo $this->doLoginForm();
 				break;
 		}
 

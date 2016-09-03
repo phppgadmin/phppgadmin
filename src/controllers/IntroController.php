@@ -83,4 +83,24 @@ class IntroController extends BaseController {
 		echo $intro_html;
 
 	}
+
+	public function render() {
+
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+
+		$misc->printHeader($lang['strintro']);
+		$misc->printBody();
+
+		switch ($action) {
+
+			default:
+				$this->doDefault();
+				break;
+		}
+
+		$misc->printFooter();
+
+	}
 }
