@@ -547,7 +547,7 @@ class RolesController extends BaseController {
 			],
 		];
 
-		$misc->printNavLinks($navlinks, 'roles-properties', get_defined_vars());
+		$this->printNavLinks($navlinks, 'roles-properties', get_defined_vars());
 	}
 
 	/**
@@ -599,7 +599,7 @@ class RolesController extends BaseController {
 			echo "<p>{$lang['strnodata']}</p>\n";
 		}
 
-		$misc->printNavLinks(['changepassword' => [
+		$this->printNavLinks(['changepassword' => [
 			'attr' => [
 				'href' => [
 					'url' => 'roles.php',
@@ -789,7 +789,7 @@ class RolesController extends BaseController {
 				'content' => $lang['strcreaterole'],
 			],
 		];
-		$misc->printNavLinks($navlinks, 'roles-roles', get_defined_vars());
+		$this->printNavLinks($navlinks, 'roles-roles', get_defined_vars());
 	}
 
 	function render() {

@@ -187,7 +187,7 @@ class RuleController extends BaseController {
 
 		echo $this->printTable($rules, $columns, $actions, 'rules-rules', $lang['strnorules']);
 
-		$misc->printNavLinks(['create' => [
+		$this->printNavLinks(['create' => [
 			'attr' => [
 				'href' => [
 					'url' => 'rules.php',

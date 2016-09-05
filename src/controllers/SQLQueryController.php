@@ -317,7 +317,7 @@ class SQLQueryController extends BaseController {
 			];
 		}
 
-		$misc->printNavLinks($navlinks, 'sql-form', get_defined_vars());
+		$this->printNavLinks($navlinks, 'sql-form', get_defined_vars());
 
 		return $misc->printFooter();
 	}

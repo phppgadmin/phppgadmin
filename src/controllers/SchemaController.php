@@ -9,9 +9,9 @@ use \PHPPgAdmin\Decorators\Decorator;
 class SchemaController extends BaseController {
 	public $_name = 'SchemaController';
 
-/**
- * Show default list of schemas in the database
- */
+	/**
+	 * Show default list of schemas in the database
+	 */
 	public function doDefault($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -95,7 +95,7 @@ class SchemaController extends BaseController {
 
 		echo $this->printTable($schemas, $columns, $actions, 'schemas-schemas', $lang['strnoschemas']);
 
-		$misc->printNavLinks(['create' => [
+		$this->printNavLinks(['create' => [
 			'attr' => [
 				'href' => [
 					'url' => 'schemas.php',
@@ -110,12 +110,13 @@ class SchemaController extends BaseController {
 		]], 'schemas-schemas', get_defined_vars());
 	}
 
-/**
- * Displays a screen where they can enter a new schema
- */
+	/**
+	 * Displays a screen where they can enter a new schema
+	 */
 	public function doCreate($msg = '') {
-		global $data, $misc;
-		global $lang;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		$server_info = $misc->getServerInfo();
 
@@ -172,11 +173,13 @@ class SchemaController extends BaseController {
 		echo "</form>\n";
 	}
 
-/**
- * Actually creates the new schema in the database
- */
+	/**
+	 * Actually creates the new schema in the database
+	 */
 	public function doSaveCreate() {
-		global $data, $lang, $_reload_browser;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		// Check that they've given a name
 		if ($_POST['formName'] == '') {
@@ -193,12 +196,15 @@ class SchemaController extends BaseController {
 		}
 	}
 
-/**
- * Display a form to permit editing schema properies.
- * TODO: permit changing owner
- */
+	/**
+	 * Display a form to permit editing schema properies.
+	 * TODO: permit changing owner
+	 */
 	public function doAlter($msg = '') {
-		global $data, $misc, $lang;
+
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		$this->printTrail('schema');
 		$misc->printTitle($lang['stralter'], 'pg.schema.alter');
@@ -268,7 +274,9 @@ class SchemaController extends BaseController {
  * Save the form submission containing changes to a schema
  */
 	public function doSaveAlter($msg = '') {
-		global $data, $misc, $lang, $_reload_browser;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		$status = $data->updateSchema($_POST['schema'], $_POST['comment'], $_POST['name'], $_POST['owner']);
 		if ($status == 0) {
@@ -284,8 +292,9 @@ class SchemaController extends BaseController {
  * Show confirmation of drop and perform actual drop
  */
 	public function doDrop($confirm) {
-		global $data, $misc;
-		global $lang, $_reload_browser;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		if (empty($_REQUEST['nsp']) && empty($_REQUEST['ma'])) {
 			$this->doDefault($lang['strspecifyschematodrop']);
@@ -357,8 +366,9 @@ class SchemaController extends BaseController {
  * Displays options for database download
  */
 	public function doExport($msg = '') {
-		global $data, $misc;
-		global $lang;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		$this->printTrail('schema');
 		$this->printTabs('schema', 'export');

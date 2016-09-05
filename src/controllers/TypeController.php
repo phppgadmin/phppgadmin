@@ -84,7 +84,7 @@ class TypeController extends BaseController {
 					echo "</table>\n";
 			}
 
-			$misc->printNavLinks(['showall' => [
+			$this->printNavLinks(['showall' => [
 				'attr' => [
 					'href' => [
 						'url' => 'types.php',
@@ -703,7 +703,7 @@ class TypeController extends BaseController {
 			unset($navlinks['enum']);
 		}
 
-		$misc->printNavLinks($navlinks, 'types-types', get_defined_vars());
+		$this->printNavLinks($navlinks, 'types-types', get_defined_vars());
 	}
 
 }

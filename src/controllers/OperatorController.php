@@ -62,7 +62,7 @@ class OperatorController extends BaseController {
 			}
 			echo "</table>\n";
 
-			$misc->printNavLinks([
+			$this->printNavLinks([
 				'showall' => [
 					'attr' => [
 						'href' => [

@@ -92,7 +92,7 @@ class SequenceController extends BaseController {
 
 		echo $this->printTable($sequences, $columns, $actions, 'sequences-sequences', $lang['strnosequences']);
 
-		$misc->printNavLinks(['create' => [
+		$this->printNavLinks(['create' => [
 			'attr' => [
 				'href' => [
 					'url' => 'sequences.php',
@@ -256,7 +256,7 @@ class SequenceController extends BaseController {
 				unset($navlinks['restart']);
 			}
 
-			$misc->printNavLinks($navlinks, 'sequences-properties', get_defined_vars());
+			$this->printNavLinks($navlinks, 'sequences-properties', get_defined_vars());
 		} else {
 			echo "<p>{$lang['strnodata']}</p>\n";
 		}

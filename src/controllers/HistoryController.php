@@ -131,7 +131,7 @@ class HistoryController extends BaseController {
 			];
 		}
 
-		$misc->printNavLinks($navlinks, 'history-history', get_defined_vars());
+		$this->printNavLinks($navlinks, 'history-history', get_defined_vars());
 	}
 
 	public function doDelHistory($qid, $confirm) {

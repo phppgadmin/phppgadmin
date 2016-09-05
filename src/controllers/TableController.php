@@ -1026,7 +1026,7 @@ class TableController extends BaseController {
 				'content' => $lang['strcreatetablelike'],
 			];
 		}
-		$misc->printNavLinks($navlinks, 'tables-tables', get_defined_vars());
+		$this->printNavLinks($navlinks, 'tables-tables', get_defined_vars());
 
 		echo $this->view->fetch('table_list_footer.twig', ['table_class' => $this->table_place]);
 

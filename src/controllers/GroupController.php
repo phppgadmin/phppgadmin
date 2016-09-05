@@ -127,7 +127,7 @@ class GroupController extends BaseController {
 		echo "<input type=\"hidden\" name=\"action\" value=\"add_member\" />\n";
 		echo "</form>\n";
 
-		$misc->printNavLinks(['showall' => [
+		$this->printNavLinks(['showall' => [
 			'attr' => [
 				'href' => [
 					'url' => 'groups.php',
@@ -293,7 +293,7 @@ class GroupController extends BaseController {
 
 		echo $this->printTable($groups, $columns, $actions, 'groups-properties', $lang['strnogroups']);
 
-		$misc->printNavLinks(['create' => [
+		$this->printNavLinks(['create' => [
 			'attr' => [
 				'href' => [
 					'url' => 'groups.php',

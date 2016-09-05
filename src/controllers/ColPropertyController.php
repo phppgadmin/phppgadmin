@@ -331,7 +331,7 @@ class ColPropertyController extends BaseController {
 				];
 			}
 
-			$misc->printNavLinks($navlinks, 'colproperties-colproperties', get_defined_vars());
+			$this->printNavLinks($navlinks, 'colproperties-colproperties', get_defined_vars());
 		}
 	}
 

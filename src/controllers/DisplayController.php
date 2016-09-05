@@ -926,7 +926,7 @@ class DisplayController extends BaseController {
 			'content' => $lang['strrefresh'],
 		];
 
-		$misc->printNavLinks($navlinks, 'display-browse', get_defined_vars());
+		$this->printNavLinks($navlinks, 'display-browse', get_defined_vars());
 	}
 
 	public function render() {

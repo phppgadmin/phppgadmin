@@ -163,7 +163,7 @@ class ViewPropertyController extends BaseController {
 			echo "<p>{$lang['strnodata']}</p>\n";
 		}
 
-		$misc->printNavLinks(['alter' => [
+		$this->printNavLinks(['alter' => [
 			'attr' => [
 				'href' => [
 					'url' => 'viewproperties.php',
@@ -518,7 +518,7 @@ class ViewPropertyController extends BaseController {
 			],
 		];
 
-		$misc->printNavLinks($navlinks, 'viewproperties-viewproperties', get_defined_vars());
+		$this->printNavLinks($navlinks, 'viewproperties-viewproperties', get_defined_vars());
 	}
 
 }

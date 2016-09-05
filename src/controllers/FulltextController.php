@@ -88,7 +88,7 @@ class FulltextController extends BaseController {
 			],
 		];
 
-		$misc->printNavLinks($navlinks, 'fulltext-fulltext', get_defined_vars());
+		$this->printNavLinks($navlinks, 'fulltext-fulltext', get_defined_vars());
 	}
 
 	public function doDropConfig($confirm) {
@@ -512,7 +512,7 @@ class FulltextController extends BaseController {
 			],
 		];
 
-		$misc->printNavLinks($navlinks, 'fulltext-viewdicts', get_defined_vars());
+		$this->printNavLinks($navlinks, 'fulltext-viewdicts', get_defined_vars());
 	}
 
 /**
@@ -608,7 +608,7 @@ class FulltextController extends BaseController {
 			],
 		];
 
-		$misc->printNavLinks($navlinks, 'fulltext-viewconfig', get_defined_vars());
+		$this->printNavLinks($navlinks, 'fulltext-viewconfig', get_defined_vars());
 	}
 
 /**

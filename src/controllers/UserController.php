@@ -47,7 +47,7 @@ class UserController extends BaseController {
 			echo "<p>{$lang['strnodata']}</p>\n";
 		}
 
-		$misc->printNavLinks(['changepassword' => [
+		$this->printNavLinks(['changepassword' => [
 			'attr' => [
 				'href' => [
 					'url' => 'users.php',
@@ -409,7 +409,7 @@ class UserController extends BaseController {
 
 		echo $this->printTable($users, $columns, $actions, 'users-users', $lang['strnousers']);
 
-		$misc->printNavLinks(['create' => [
+		$this->printNavLinks(['create' => [
 			'attr' => [
 				'href' => [
 					'url' => 'users.php',

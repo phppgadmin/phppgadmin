@@ -756,7 +756,7 @@ class TablePropertyController extends BaseController {
 				'content' => $lang['stralter'],
 			],
 		];
-		$misc->printNavLinks($navlinks, 'tblproperties-tblproperties', get_defined_vars());
+		$this->printNavLinks($navlinks, 'tblproperties-tblproperties', get_defined_vars());
 
 	}
 

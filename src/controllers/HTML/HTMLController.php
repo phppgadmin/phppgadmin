@@ -5,7 +5,7 @@ namespace PHPPgAdmin\Controller\HTML;
 /**
  * Base controller class
  */
-class HTMLController extends PHPPgAdmin\Controller\BaseController {
+class HTMLController extends \PHPPgAdmin\Controller\BaseController {
 	private $container         = null;
 	private $_connection       = null;
 	private $_no_db_connection = false;

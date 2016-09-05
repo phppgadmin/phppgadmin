@@ -473,7 +473,7 @@ class FunctionController extends BaseController {
 			],
 		];
 
-		$misc->printNavLinks($navlinks, 'functions-properties', get_defined_vars());
+		$this->printNavLinks($navlinks, 'functions-properties', get_defined_vars());
 	}
 
 	/**
@@ -1088,7 +1088,7 @@ class FunctionController extends BaseController {
 			],
 		];
 
-		$misc->printNavLinks($navlinks, 'functions-functions', get_defined_vars());
+		$this->printNavLinks($navlinks, 'functions-functions', get_defined_vars());
 
 		echo $this->view->fetch('table_list_footer.twig', ['table_class' => $this->table_place]);
 	}

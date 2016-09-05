@@ -372,7 +372,7 @@ class IndexController extends BaseController {
 
 		echo $this->printTable($indexes, $columns, $actions, 'indexes-indexes', $lang['strnoindexes'], $indPre);
 
-		$misc->printNavLinks([
+		$this->printNavLinks([
 			'create' => [
 				'attr' => [
 					'href' => [

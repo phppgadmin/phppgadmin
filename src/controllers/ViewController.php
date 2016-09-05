@@ -754,7 +754,7 @@ class ViewController extends BaseController {
 				'content' => $lang['strcreateviewwiz'],
 			],
 		];
-		$misc->printNavLinks($navlinks, $this->table_place, get_defined_vars());
+		$this->printNavLinks($navlinks, $this->table_place, get_defined_vars());
 
 	}
 

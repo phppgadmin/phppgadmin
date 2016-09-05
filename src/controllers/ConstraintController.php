@@ -611,6 +611,6 @@ class ConstraintController extends BaseController {
 				'content' => $lang['straddfk'],
 			],
 		];
-		$misc->printNavLinks($navlinks, 'constraints-constraints', get_defined_vars());
+		$this->printNavLinks($navlinks, 'constraints-constraints', get_defined_vars());
 	}
 }

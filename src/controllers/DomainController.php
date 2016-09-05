@@ -314,7 +314,7 @@ class DomainController extends BaseController {
 			];
 		}
 
-		$misc->printNavLinks($navlinks, 'domains-properties', get_defined_vars());
+		$this->printNavLinks($navlinks, 'domains-properties', get_defined_vars());
 	}
 
 /**
@@ -561,6 +561,6 @@ class DomainController extends BaseController {
 				'content' => $lang['strcreatedomain'],
 			],
 		];
-		$misc->printNavLinks($navlinks, 'domains-domains', get_defined_vars());
+		$this->printNavLinks($navlinks, 'domains-domains', get_defined_vars());
 	}
 }
