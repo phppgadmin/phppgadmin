@@ -12,6 +12,92 @@ class TableController extends BaseController {
 	public $_name       = 'TableController';
 	public $table_place = 'tables-tables';
 
+	public function render() {
+
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$action = $this->action;
+		$data   = $misc->getDatabaseAccessor();
+
+		$misc->printHeader($lang['strtables'], null, true, 'datatables_header.twig');
+		$misc->printBody();
+
+		switch ($action) {
+			case 'create':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doCreate();
+				}
+
+				break;
+			case 'createlike':
+				$this->doCreateLike(false);
+				break;
+			case 'confcreatelike':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doCreateLike(true);
+				}
+
+				break;
+			case 'selectrows':
+				if (!isset($_POST['cancel'])) {
+					$this->doSelectRows(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confselectrows':
+				$this->doSelectRows(true);
+				break;
+			case 'insertrow':
+				if (!isset($_POST['cancel'])) {
+					$this->doInsertRow(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confinsertrow':
+				$this->doInsertRow(true);
+				break;
+			case 'empty':
+				if (isset($_POST['empty'])) {
+					$this->doEmpty(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_empty':
+				$this->doEmpty(true);
+				break;
+			case 'drop':
+				if (isset($_POST['drop'])) {
+					$this->doDrop(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_drop':
+				$this->doDrop(true);
+				break;
+			default:
+				if ($this->adminActions($action, 'table') === false) {
+					$this->doDefault();
+				}
+
+				break;
+		}
+
+		$misc->printFooter();
+
+	}
 	/**
 	 * Displays a screen where they can enter a new table
 	 */
@@ -1032,90 +1118,4 @@ class TableController extends BaseController {
 
 	}
 
-	public function render() {
-
-		$conf   = $this->conf;
-		$misc   = $this->misc;
-		$lang   = $this->lang;
-		$action = $this->action;
-		$data   = $misc->getDatabaseAccessor();
-
-		$misc->printHeader($lang['strtables'], null, true, 'datatables_header.twig');
-		$misc->printBody();
-
-		switch ($action) {
-			case 'create':
-				if (isset($_POST['cancel'])) {
-					$this->doDefault();
-				} else {
-					$this->doCreate();
-				}
-
-				break;
-			case 'createlike':
-				$this->doCreateLike(false);
-				break;
-			case 'confcreatelike':
-				if (isset($_POST['cancel'])) {
-					$this->doDefault();
-				} else {
-					$this->doCreateLike(true);
-				}
-
-				break;
-			case 'selectrows':
-				if (!isset($_POST['cancel'])) {
-					$this->doSelectRows(false);
-				} else {
-					$this->doDefault();
-				}
-
-				break;
-			case 'confselectrows':
-				$this->doSelectRows(true);
-				break;
-			case 'insertrow':
-				if (!isset($_POST['cancel'])) {
-					$this->doInsertRow(false);
-				} else {
-					$this->doDefault();
-				}
-
-				break;
-			case 'confinsertrow':
-				$this->doInsertRow(true);
-				break;
-			case 'empty':
-				if (isset($_POST['empty'])) {
-					$this->doEmpty(false);
-				} else {
-					$this->doDefault();
-				}
-
-				break;
-			case 'confirm_empty':
-				$this->doEmpty(true);
-				break;
-			case 'drop':
-				if (isset($_POST['drop'])) {
-					$this->doDrop(false);
-				} else {
-					$this->doDefault();
-				}
-
-				break;
-			case 'confirm_drop':
-				$this->doDrop(true);
-				break;
-			default:
-				if ($this->adminActions($action, 'table') === false) {
-					$this->doDefault();
-				}
-
-				break;
-		}
-
-		$misc->printFooter();
-
-	}
 }

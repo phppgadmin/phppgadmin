@@ -9,6 +9,55 @@ use \PHPPgAdmin\Decorators\Decorator;
 class SchemaController extends BaseController {
 	public $_name = 'SchemaController';
 
+	public function render() {
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$action = $this->action;
+
+		$misc->printHeader($lang['strschemas']);
+		$misc->printBody();
+
+		if (isset($_POST['cancel'])) {
+			$action = '';
+		}
+
+		switch ($action) {
+			case 'create':
+				if (isset($_POST['create'])) {
+					$this->doSaveCreate();
+				} else {
+					$this->doCreate();
+				}
+
+				break;
+			case 'alter':
+				if (isset($_POST['alter'])) {
+					$this->doSaveAlter();
+				} else {
+					$this->doAlter();
+				}
+
+				break;
+			case 'drop':
+				if (isset($_POST['drop'])) {
+					$this->doDrop(false);
+				} else {
+					$this->doDrop(true);
+				}
+
+				break;
+			case 'export':
+				$this->doExport();
+				break;
+			default:
+				$this->doDefault();
+				break;
+		}
+
+		$misc->printFooter();
+
+	}
 	/**
 	 * Show default list of schemas in the database
 	 */
@@ -270,9 +319,9 @@ class SchemaController extends BaseController {
 		}
 	}
 
-/**
- * Save the form submission containing changes to a schema
- */
+	/**
+	 * Save the form submission containing changes to a schema
+	 */
 	public function doSaveAlter($msg = '') {
 		$misc = $this->misc;
 		$lang = $this->lang;
@@ -288,9 +337,9 @@ class SchemaController extends BaseController {
 
 	}
 
-/**
- * Show confirmation of drop and perform actual drop
- */
+	/**
+	 * Show confirmation of drop and perform actual drop
+	 */
 	public function doDrop($confirm) {
 		$misc = $this->misc;
 		$lang = $this->lang;
@@ -362,9 +411,9 @@ class SchemaController extends BaseController {
 		}
 	}
 
-/**
- * Displays options for database download
- */
+	/**
+	 * Displays options for database download
+	 */
 	public function doExport($msg = '') {
 		$misc = $this->misc;
 		$lang = $this->lang;

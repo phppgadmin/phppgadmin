@@ -9,6 +9,62 @@ use \PHPPgAdmin\Decorators\Decorator;
 class AllDBController extends BaseController {
 	public $_name       = 'AllDBController';
 	public $table_place = 'all_db-databases';
+
+	public function render() {
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$action = $this->action;
+
+		$misc->printHeader($lang['strdatabases']);
+		$misc->printBody();
+
+		switch ($action) {
+			case 'export':
+				$this->doExport();
+				break;
+			case 'save_create':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doSaveCreate();
+				}
+
+				break;
+			case 'create':
+				$this->doCreate();
+				break;
+			case 'drop':
+				if (isset($_REQUEST['drop'])) {
+					$this->doDrop(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_drop':
+				doDrop(true);
+				break;
+			case 'alter':
+				if (isset($_POST['oldname']) && isset($_POST['newname']) && !isset($_POST['cancel'])) {
+					$this->doAlter(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_alter':
+				$this->doAlter(true);
+				break;
+			default:
+				$this->doDefault();
+
+				break;
+		}
+
+		$misc->printFooter();
+
+	}
 	/**
 	 * Display a form for alter and perform actual alter
 	 */

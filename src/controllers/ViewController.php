@@ -10,6 +10,79 @@ class ViewController extends BaseController {
 	public $script      = 'views.php';
 	public $_name       = 'ViewController';
 	public $table_place = 'views-views';
+
+	public function render() {
+
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
+
+		$misc->printHeader($lang['strviews']);
+		$misc->printBody();
+
+		switch ($action) {
+			case 'selectrows':
+				if (!isset($_REQUEST['cancel'])) {
+					$this->doSelectRows(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confselectrows':
+				$this->doSelectRows(true);
+				break;
+			case 'save_create_wiz':
+				if (isset($_REQUEST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doSaveCreateWiz();
+				}
+
+				break;
+			case 'wiz_create':
+				doWizardCreate();
+				break;
+			case 'set_params_create':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doSetParamsCreate();
+				}
+
+				break;
+			case 'save_create':
+				if (isset($_REQUEST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doSaveCreate();
+				}
+
+				break;
+			case 'create':
+				doCreate();
+				break;
+			case 'drop':
+				if (isset($_POST['drop'])) {
+					$this->doDrop(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_drop':
+				$this->doDrop(true);
+				break;
+			default:
+				$this->doDefault();
+				break;
+		}
+
+		$misc->printFooter();
+
+	}
+
 	/**
 	 * Ask for select parameters and perform select
 	 */

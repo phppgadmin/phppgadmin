@@ -8,6 +8,37 @@ namespace PHPPgAdmin\Controller;
 class PrivilegeController extends BaseController {
 	public $_name       = 'PrivilegeController';
 	public $table_place = 'privileges-privileges';
+
+	function render() {
+
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$action = $this->action;
+		$data   = $misc->getDatabaseAccessor();
+
+		$misc->printHeader($lang['strprivileges']);
+		$misc->printBody();
+
+		switch ($action) {
+			case 'save':
+				if (isset($_REQUEST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doAlter(false, $_REQUEST['mode']);
+				}
+
+				break;
+			case 'alter':
+				$this->doAlter(true, $_REQUEST['mode']);
+				break;
+			default:
+				$this->doDefault();
+				break;
+		}
+
+		$misc->printFooter();
+	}
 	/**
 	 * Grant permissions on an object to a user
 	 * @param $confirm To show entry screen
@@ -371,34 +402,4 @@ class PrivilegeController extends BaseController {
 		$misc->printNavLinks($navlinks, $this->table_place, get_defined_vars());
 	}
 
-	function render() {
-
-		$conf   = $this->conf;
-		$misc   = $this->misc;
-		$lang   = $this->lang;
-		$action = $this->action;
-		$data   = $misc->getDatabaseAccessor();
-
-		$misc->printHeader($lang['strprivileges']);
-		$misc->printBody();
-
-		switch ($action) {
-			case 'save':
-				if (isset($_REQUEST['cancel'])) {
-					$this->doDefault();
-				} else {
-					$this->doAlter(false, $_REQUEST['mode']);
-				}
-
-				break;
-			case 'alter':
-				$this->doAlter(true, $_REQUEST['mode']);
-				break;
-			default:
-				$this->doDefault();
-				break;
-		}
-
-		$misc->printFooter();
-	}
 }
