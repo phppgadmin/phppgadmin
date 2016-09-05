@@ -39,7 +39,7 @@ class RuleController extends BaseController {
 		}
 
 		if ($confirm) {
-			$misc->printTrail($_REQUEST['subject']);
+			$this->printTrail($_REQUEST['subject']);
 			$misc->printTitle($lang['strcreaterule'], 'pg.rule.create');
 			$misc->printMsg($msg);
 
@@ -106,7 +106,7 @@ class RuleController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail($_REQUEST['subject']);
+			$this->printTrail($_REQUEST['subject']);
 			$misc->printTitle($lang['strdrop'], 'pg.rule.drop');
 
 			echo "<p>", sprintf($lang['strconfdroprule'], $misc->printVal($_REQUEST['rule']),
@@ -144,8 +144,8 @@ class RuleController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail($_REQUEST['subject']);
-		$misc->printTabs($_REQUEST['subject'], 'rules');
+		$this->printTrail($_REQUEST['subject']);
+		$this->printTabs($_REQUEST['subject'], 'rules');
 		$misc->printMsg($msg);
 
 		$rules = $data->getRules($_REQUEST[$_REQUEST['subject']]);
@@ -185,7 +185,7 @@ class RuleController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($rules, $columns, $actions, 'rules-rules', $lang['strnorules']);
+		echo $this->printTable($rules, $columns, $actions, 'rules-rules', $lang['strnorules']);
 
 		$misc->printNavLinks(['create' => [
 			'attr' => [

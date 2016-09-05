@@ -5,20 +5,18 @@
         {% include 'home_header.twig' %}
     </head>
 
-    <frameset cols="{{cols}}">
-        {% if rtl == true %}
-        <frame src="/src/views/intro.php" name="detail" id="detail" frameborder="0" />
-        <frame src="/tree/browser" name="browser" id="browser" frameborder="0" /> {% else %}
-        <frame src="/tree/browser" name="browser" id="browser" frameborder="0" />
-        <frame src="/src/views/intro.php" name="detail" id="detail" frameborder="0" /> {% endif %}
+    <body class="flexbox_body">
+        <div class="flexbox_wrapper">
 
-        <noframes>
+            <iframe src="/tree/browser" name="browser" id="browser" class="browser_container" frameborder="0" />
+            <p>Your browser does not support iframes.</p>
+            </iframe>
 
-            <body>{{strnoframes}}
-                <br />
-                <a href="/src/views/intro.php">{{strnoframeslink}}</a>
-            </body>
-        </noframes>
-    </frameset>
+            <iframe src="/src/views/intro.php" name="detail" id="detail" class="detail_container" frameborder="0" />
+            <p>Your browser does not support iframes.</p>
+            </iframe>
+
+        </div>
+    </body>
 
 </html>

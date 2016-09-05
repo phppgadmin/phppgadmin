@@ -53,7 +53,7 @@ class TableController extends BaseController {
 					$tablespaces = $data->getTablespaces();
 				}
 
-				$misc->printTrail('schema');
+				$this->printTrail('schema');
 				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
 				$misc->printMsg($msg);
 
@@ -115,7 +115,7 @@ class TableController extends BaseController {
 				$types        = $data->getTypes(true, false, true);
 				$types_for_js = [];
 
-				$misc->printTrail('schema');
+				$this->printTrail('schema');
 				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
 				$misc->printMsg($msg);
 
@@ -301,7 +301,7 @@ class TableController extends BaseController {
 				$_REQUEST['tablespace'] = '';
 			}
 
-			$misc->printTrail('schema');
+			$this->printTrail('schema');
 			$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
 			$misc->printMsg($msg);
 
@@ -404,8 +404,8 @@ class TableController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('table');
-			$misc->printTabs('table', 'select');
+			$this->printTrail('table');
+			$this->printTabs('table', 'select');
 			$misc->printMsg($msg);
 
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
@@ -530,8 +530,8 @@ class TableController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('table');
-			$misc->printTabs('table', 'insert');
+			$this->printTrail('table');
+			$this->printTabs('table', 'insert');
 
 			$misc->printMsg($msg);
 
@@ -685,7 +685,7 @@ class TableController extends BaseController {
 
 		if ($confirm) {
 			if (isset($_REQUEST['ma'])) {
-				$misc->printTrail('schema');
+				$this->printTrail('schema');
 				$misc->printTitle($lang['strempty'], 'pg.table.empty');
 
 				echo "<form action=\"/src/views/tables.php\" method=\"post\">\n";
@@ -696,7 +696,7 @@ class TableController extends BaseController {
 				}
 			} // END mutli empty
 			else {
-				$misc->printTrail('table');
+				$this->printTrail('table');
 				$misc->printTitle($lang['strempty'], 'pg.table.empty');
 
 				echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
@@ -755,7 +755,7 @@ class TableController extends BaseController {
 			//If multi drop
 			if (isset($_REQUEST['ma'])) {
 
-				$misc->printTrail('schema');
+				$this->printTrail('schema');
 				$misc->printTitle($lang['strdrop'], 'pg.table.drop');
 
 				echo "<form action=\"/src/views/tables.php\" method=\"post\">\n";
@@ -766,7 +766,7 @@ class TableController extends BaseController {
 				}
 			} else {
 
-				$misc->printTrail('table');
+				$this->printTrail('table');
 				$misc->printTitle($lang['strdrop'], 'pg.table.drop');
 
 				echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
@@ -829,8 +829,8 @@ class TableController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'tables');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'tables');
 		$misc->printMsg($msg);
 
 		$tables = $data->getTables();
@@ -991,7 +991,7 @@ class TableController extends BaseController {
 			unset($columns['tablespace']);
 		}
 
-		echo $misc->printTable($tables, $columns, $actions, $this->table_place, $lang['strnotables']);
+		echo $this->printTable($tables, $columns, $actions, $this->table_place, $lang['strnotables']);
 
 		$navlinks = [
 			'create' => [

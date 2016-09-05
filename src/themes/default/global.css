@@ -10,9 +10,9 @@
 
 body {
     background-color: #FFFFFF;
-    margin: 4px;
+    margin: 0;
     font-family: roboto;
-    padding: 0px;
+    padding: 0;
     font-size: smaller;
     /*0.8em;*/
 }
@@ -113,6 +113,10 @@ td.topbar {
     font-size: smaller;
     /*0.8em;*/
     text-align: left;
+}
+
+.topbar .toplink {
+    margin-right: 20px;
 }
 
 ul.toplink,

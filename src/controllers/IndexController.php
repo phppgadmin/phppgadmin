@@ -22,7 +22,7 @@ class IndexController extends BaseController {
 			// Default analyze to on
 			$_REQUEST['analyze'] = true;
 
-			$misc->printTrail('index');
+			$this->printTrail('index');
 			$misc->printTitle($lang['strclusterindex'], 'pg.index.cluster');
 
 			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['index'])), "</p>\n";
@@ -107,7 +107,7 @@ class IndexController extends BaseController {
 			$tablespaces = $data->getTablespaces();
 		}
 
-		$misc->printTrail('table');
+		$this->printTrail('table');
 		$misc->printTitle($lang['strcreateindex'], 'pg.index.create');
 		$misc->printMsg($msg);
 
@@ -247,7 +247,7 @@ class IndexController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('index');
+			$this->printTrail('index');
 			$misc->printTitle($lang['strdrop'], 'pg.index.drop');
 
 			echo "<p>", sprintf($lang['strconfdropindex'], $misc->printVal($_REQUEST['index'])), "</p>\n";
@@ -293,8 +293,8 @@ class IndexController extends BaseController {
 			return $actions;
 		};
 
-		$misc->printTrail('table');
-		$misc->printTabs('table', 'indexes');
+		$this->printTrail('table');
+		$this->printTabs('table', 'indexes');
 		$misc->printMsg($msg);
 
 		$indexes = $data->getIndexes($_REQUEST['table']);
@@ -370,7 +370,7 @@ class IndexController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($indexes, $columns, $actions, 'indexes-indexes', $lang['strnoindexes'], $indPre);
+		echo $this->printTable($indexes, $columns, $actions, 'indexes-indexes', $lang['strnoindexes'], $indPre);
 
 		$misc->printNavLinks([
 			'create' => [

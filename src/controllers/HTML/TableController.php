@@ -1,13 +1,13 @@
 <?php
 
-namespace PHPPgAdmin\Controller;
+namespace PHPPgAdmin\Controller\HTML;
 
 /**
  * Class to render tables. Formerly part of Misc.php
  *
  */
-class HTMLTableController extends BaseController {
-	public $_name = 'HTMLTableController';
+class TableController extends HTMLController {
+	public $_name = 'TableController';
 
 	/**
 	 * Display a table of data.
@@ -193,7 +193,7 @@ class HTMLTableController extends BaseController {
 							} else {
 								$tbody_html .= "<td class=\"opbutton{$id} {$class}\">";
 								$action['fields'] = $tabledata->fields;
-								$tbody_html .= $this->misc->printLink($action, false);
+								$tbody_html .= $this->printLink($action, false);
 								$tbody_html .= "</td>\n";
 							}
 						}

@@ -36,7 +36,7 @@ class TriggerController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('trigger');
+		$this->printTrail('trigger');
 		$misc->printTitle($lang['stralter'], 'pg.trigger.alter');
 		$misc->printMsg($msg);
 
@@ -78,7 +78,7 @@ class TriggerController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('trigger');
+			$this->printTrail('trigger');
 			$misc->printTitle($lang['strdrop'], 'pg.trigger.drop');
 
 			echo "<p>", sprintf($lang['strconfdroptrigger'], $misc->printVal($_REQUEST['trigger']),
@@ -115,7 +115,7 @@ class TriggerController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('trigger');
+			$this->printTrail('trigger');
 			$misc->printTitle($lang['strenable'], 'pg.table.alter');
 
 			echo "<p>", sprintf($lang['strconfenabletrigger'], $misc->printVal($_REQUEST['trigger']),
@@ -151,7 +151,7 @@ class TriggerController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('trigger');
+			$this->printTrail('trigger');
 			$misc->printTitle($lang['strdisable'], 'pg.table.alter');
 
 			echo "<p>", sprintf($lang['strconfdisabletrigger'], $misc->printVal($_REQUEST['trigger']),
@@ -186,7 +186,7 @@ class TriggerController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('table');
+		$this->printTrail('table');
 		$misc->printTitle($lang['strcreatetrigger'], 'pg.trigger.create');
 		$misc->printMsg($msg);
 
@@ -296,8 +296,8 @@ class TriggerController extends BaseController {
 			return $actions;
 		};
 
-		$misc->printTrail('table');
-		$misc->printTabs('table', 'triggers');
+		$this->printTrail('table');
+		$this->printTabs('table', 'triggers');
 		$misc->printMsg($msg);
 
 		$triggers = $data->getTriggers($_REQUEST['table']);
@@ -383,7 +383,7 @@ class TriggerController extends BaseController {
 			];
 		}
 
-		echo $misc->printTable($triggers, $columns, $actions, 'triggers-triggers', $lang['strnotriggers'], $tgPre);
+		echo $this->printTable($triggers, $columns, $actions, 'triggers-triggers', $lang['strnotriggers'], $tgPre);
 
 		$misc->printNavLinks(['create' => [
 			'attr' => [

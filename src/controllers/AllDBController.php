@@ -19,7 +19,7 @@ class AllDBController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('database');
+			$this->printTrail('database');
 			$misc->printTitle($lang['stralter'], 'pg.database.alter');
 
 			echo "<form action=\"/src/views/all_db.php\" method=\"post\">\n";
@@ -97,7 +97,7 @@ class AllDBController extends BaseController {
 
 		if ($confirm) {
 
-			$misc->printTrail('database');
+			$this->printTrail('database');
 			$misc->printTitle($lang['strdrop'], 'pg.database.drop');
 
 			echo "<form action=\"/src/views/all_db.php\" method=\"post\">\n";
@@ -158,7 +158,7 @@ class AllDBController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('server');
+		$this->printTrail('server');
 		$misc->printTitle($lang['strcreatedatabase'], 'pg.database.create');
 		$misc->printMsg($msg);
 
@@ -337,8 +337,8 @@ class AllDBController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('server');
-		$misc->printTabs('server', 'export');
+		$this->printTrail('server');
+		$this->printTabs('server', 'export');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"/src/views/dbexport.php\" method=\"post\">\n";
@@ -387,8 +387,8 @@ class AllDBController extends BaseController {
 		$misc = $this->misc;
 		$lang = $this->lang;
 
-		$misc->printTrail('server');
-		$misc->printTabs('server', 'databases');
+		$this->printTrail('server');
+		$this->printTabs('server', 'databases');
 		$misc->printMsg($msg);
 		$data      = $misc->getDatabaseAccessor();
 		$databases = $data->getDatabases();
@@ -499,7 +499,7 @@ class AllDBController extends BaseController {
 			unset($actions['privileges']);
 		}
 
-		echo $misc->printTable($databases, $columns, $actions, $this->table_place, $lang['strnodatabases']);
+		echo $this->printTable($databases, $columns, $actions, $this->table_place, $lang['strnodatabases']);
 
 		$navlinks = [
 			'create' => [

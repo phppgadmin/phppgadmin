@@ -20,8 +20,8 @@ class MaterializedViewController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('view');
-			$misc->printTabs('view', 'select');
+			$this->printTrail('view');
+			$this->printTabs('view', 'select');
 			$misc->printMsg($msg);
 
 			$attrs = $data->getTableAttributes($_REQUEST['view']);
@@ -154,7 +154,7 @@ class MaterializedViewController extends BaseController {
 		}
 
 		if ($confirm) {
-			$misc->printTrail('view');
+			$this->printTrail('view');
 			$misc->printTitle($lang['strdrop'], 'pg.view.drop');
 
 			echo "<form action=\"/src/views/materialized_views.php\" method=\"post\">\n";
@@ -238,7 +238,7 @@ class MaterializedViewController extends BaseController {
 				$_REQUEST['formComment'] = '';
 			}
 
-			$misc->printTrail('schema');
+			$this->printTrail('schema');
 			$misc->printTitle($lang['strcreateviewwiz'], 'pg.view.create');
 			$misc->printMsg($msg);
 
@@ -379,7 +379,7 @@ class MaterializedViewController extends BaseController {
 
 		$tables = $data->getTables(true);
 
-		$misc->printTrail('schema');
+		$this->printTrail('schema');
 		$misc->printTitle($lang['strcreateviewwiz'], 'pg.view.create');
 		$misc->printMsg($msg);
 
@@ -432,7 +432,7 @@ class MaterializedViewController extends BaseController {
 			$_REQUEST['formComment'] = '';
 		}
 
-		$misc->printTrail('schema');
+		$this->printTrail('schema');
 		$misc->printTitle($lang['strcreateview'], 'pg.view.create');
 		$misc->printMsg($msg);
 
@@ -630,8 +630,8 @@ class MaterializedViewController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'matviews');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'matviews');
 		$misc->printMsg($msg);
 
 		//$matviews = $data->getViews();
@@ -723,7 +723,7 @@ class MaterializedViewController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($matviews, $columns, $actions, $this->table_place, $lang['strnoviews']);
+		echo $this->printTable($matviews, $columns, $actions, $this->table_place, $lang['strnoviews']);
 
 		$navlinks = [
 			'create' => [

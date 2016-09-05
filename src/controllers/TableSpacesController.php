@@ -18,7 +18,7 @@ class TableSpacesController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('tablespace');
+		$this->printTrail('tablespace');
 		$misc->printTitle($lang['stralter'], 'pg.tablespace.alter');
 		$misc->printMsg($msg);
 
@@ -113,7 +113,7 @@ class TableSpacesController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('tablespace');
+			$this->printTrail('tablespace');
 			$misc->printTitle($lang['strdrop'], 'pg.tablespace.drop');
 
 			echo "<p>", sprintf($lang['strconfdroptablespace'], $misc->printVal($_REQUEST['tablespace'])), "</p>\n";
@@ -167,7 +167,7 @@ class TableSpacesController extends BaseController {
 		// Fetch all users
 		$users = $data->getUsers();
 
-		$misc->printTrail('server');
+		$this->printTrail('server');
 		$misc->printTitle($lang['strcreatetablespace'], 'pg.tablespace.create');
 		$misc->printMsg($msg);
 
@@ -239,8 +239,8 @@ class TableSpacesController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('server');
-		$misc->printTabs('server', 'tablespaces');
+		$this->printTrail('server');
+		$this->printTabs('server', 'tablespaces');
 		$misc->printMsg($msg);
 
 		$tablespaces = $data->getTablespaces();
@@ -309,7 +309,7 @@ class TableSpacesController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($tablespaces, $columns, $actions, 'tablespaces-tablespaces', $lang['strnotablespaces']);
+		echo $this->printTable($tablespaces, $columns, $actions, 'tablespaces-tablespaces', $lang['strnotablespaces']);
 
 		$misc->printNavLinks(['create' => [
 			'attr' => [

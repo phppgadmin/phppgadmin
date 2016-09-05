@@ -52,7 +52,7 @@ class RolesController extends BaseController {
 			$_POST['adminmembers'] = [];
 		}
 
-		$misc->printTrail('role');
+		$this->printTrail('role');
 		$misc->printTitle($lang['strcreaterole'], 'pg.role.create');
 		$misc->printMsg($msg);
 
@@ -182,7 +182,7 @@ class RolesController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('role');
+		$this->printTrail('role');
 		$misc->printTitle($lang['stralter'], 'pg.role.alter');
 		$misc->printMsg($msg);
 
@@ -407,7 +407,7 @@ class RolesController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('role');
+			$this->printTrail('role');
 			$misc->printTitle($lang['strdroprole'], 'pg.role.drop');
 
 			echo "<p>", sprintf($lang['strconfdroprole'], $misc->printVal($_REQUEST['rolename'])), "</p>\n";
@@ -439,7 +439,7 @@ class RolesController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('role');
+		$this->printTrail('role');
 		$misc->printTitle($lang['strproperties'], 'pg.role');
 		$misc->printMsg($msg);
 
@@ -567,8 +567,8 @@ class RolesController extends BaseController {
 		$roledata             = $data->getRole($server_info['username']);
 		$_REQUEST['rolename'] = $server_info['username'];
 
-		$misc->printTrail('role');
-		$misc->printTabs('server', 'account');
+		$this->printTrail('role');
+		$this->printTabs('server', 'account');
 		$misc->printMsg($msg);
 
 		if ($roledata->recordCount() > 0) {
@@ -626,7 +626,7 @@ class RolesController extends BaseController {
 
 		if ($confirm) {
 			$_REQUEST['rolename'] = $server_info['username'];
-			$misc->printTrail('role');
+			$this->printTrail('role');
 			$misc->printTitle($lang['strchangepassword'], 'pg.role.alter');
 			$misc->printMsg($msg);
 
@@ -691,8 +691,8 @@ class RolesController extends BaseController {
 			return $val == 'infinity' ? $lang['strnever'] : htmlspecialchars($val);
 		}
 
-		$misc->printTrail('server');
-		$misc->printTabs('server', 'roles');
+		$this->printTrail('server');
+		$this->printTabs('server', 'roles');
 		$misc->printMsg($msg);
 
 		$roles = $data->getRoles();
@@ -773,7 +773,7 @@ class RolesController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($roles, $columns, $actions, 'roles-roles', $lang['strnoroles']);
+		echo $this->printTable($roles, $columns, $actions, 'roles-roles', $lang['strnoroles']);
 
 		$navlinks = [
 			'create' => [

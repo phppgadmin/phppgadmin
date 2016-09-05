@@ -37,7 +37,7 @@ class DomainController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('domain');
+		$this->printTrail('domain');
 		$misc->printTitle($lang['stralter'], 'pg.domain.alter');
 		$misc->printMsg($msg);
 
@@ -110,7 +110,7 @@ class DomainController extends BaseController {
 		}
 
 		if ($confirm) {
-			$misc->printTrail('domain');
+			$this->printTrail('domain');
 			$misc->printTitle($lang['straddcheck'], 'pg.constraint.check');
 			$misc->printMsg($msg);
 
@@ -159,7 +159,7 @@ class DomainController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('domain');
+			$this->printTrail('domain');
 			$misc->printTitle($lang['strdrop'], 'pg.constraint.drop');
 			$misc->printMsg($msg);
 
@@ -195,7 +195,7 @@ class DomainController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('domain');
+		$this->printTrail('domain');
 		$misc->printTitle($lang['strproperties'], 'pg.domain');
 		$misc->printMsg($msg);
 
@@ -258,7 +258,7 @@ class DomainController extends BaseController {
 					],
 				];
 
-				echo $misc->printTable($domaincons, $columns, $actions, 'domains-properties', $lang['strnodata']);
+				echo $this->printTable($domaincons, $columns, $actions, 'domains-properties', $lang['strnodata']);
 			}
 		} else {
 			echo "<p>{$lang['strnodata']}</p>\n";
@@ -327,7 +327,7 @@ class DomainController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('domain');
+			$this->printTrail('domain');
 			$misc->printTitle($lang['strdrop'], 'pg.domain.drop');
 
 			echo "<p>", sprintf($lang['strconfdropdomain'], $misc->printVal($_REQUEST['domain'])), "</p>\n";
@@ -386,7 +386,7 @@ class DomainController extends BaseController {
 
 		$types = $data->getTypes(true);
 
-		$misc->printTrail('schema');
+		$this->printTrail('schema');
 		$misc->printTitle($lang['strcreatedomain'], 'pg.domain.create');
 		$misc->printMsg($msg);
 
@@ -472,8 +472,8 @@ class DomainController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'domains');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'domains');
 		$misc->printMsg($msg);
 
 		$domains = $data->getDomains();
@@ -543,7 +543,7 @@ class DomainController extends BaseController {
 			unset($actions['alter']);
 		}
 
-		echo $misc->printTable($domains, $columns, $actions, 'domains-domains', $lang['strnodomains']);
+		echo $this->printTable($domains, $columns, $actions, 'domains-domains', $lang['strnodomains']);
 
 		$navlinks = [
 			'create' => [

@@ -36,7 +36,7 @@ class ViewPropertyController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('view');
+		$this->printTrail('view');
 		$misc->printTitle($lang['stredit'], 'pg.view.alter');
 		$misc->printMsg($msg);
 
@@ -83,8 +83,8 @@ class ViewPropertyController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('view');
-		$misc->printTabs('view', 'export');
+		$this->printTrail('view');
+		$this->printTabs('view', 'export');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"/src/views/dataexport.php\" method=\"post\">\n";
@@ -145,8 +145,8 @@ class ViewPropertyController extends BaseController {
 		// Get view
 		$vdata = $data->getView($_REQUEST['view']);
 
-		$misc->printTrail('view');
-		$misc->printTabs('view', 'definition');
+		$this->printTrail('view');
+		$this->printTabs('view', 'definition');
 		$misc->printMsg($msg);
 
 		if ($vdata->recordCount() > 0) {
@@ -197,7 +197,7 @@ class ViewPropertyController extends BaseController {
 			case 1:
 				global $lang;
 
-				$misc->printTrail('column');
+				$this->printTrail('column');
 				$misc->printTitle($lang['stralter'], 'pg.column.alter');
 				$misc->printMsg($msg);
 
@@ -272,7 +272,7 @@ class ViewPropertyController extends BaseController {
 
 		if ($confirm) {
 
-			$misc->printTrail('view');
+			$this->printTrail('view');
 			$misc->printTitle($lang['stralter'], 'pg.view.alter');
 			$misc->printMsg($msg);
 
@@ -396,8 +396,8 @@ class ViewPropertyController extends BaseController {
 			$rowdata->fields['+type'] = $data->formatType($rowdata->fields['type'], $rowdata->fields['atttypmod']);
 		};
 
-		$misc->printTrail('view');
-		$misc->printTabs('view', 'columns');
+		$this->printTrail('view');
+		$this->printTabs('view', 'columns');
 		$misc->printMsg($msg);
 
 		// Get view
@@ -450,7 +450,7 @@ class ViewPropertyController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($attrs, $columns, $actions, 'viewproperties-viewproperties', null, $attPre);
+		echo $this->printTable($attrs, $columns, $actions, 'viewproperties-viewproperties', null, $attPre);
 
 		echo "<br />\n";
 

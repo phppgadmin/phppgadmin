@@ -34,7 +34,7 @@ class DisplayController extends BaseController {
 		}
 
 		if ($confirm) {
-			$misc->printTrail($_REQUEST['subject']);
+			$this->printTrail($_REQUEST['subject']);
 			$misc->printTitle($lang['streditrow']);
 			$misc->printMsg($msg);
 
@@ -212,7 +212,7 @@ class DisplayController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail($_REQUEST['subject']);
+			$this->printTrail($_REQUEST['subject']);
 			$misc->printTitle($lang['strdeleterow']);
 
 			$rs = $data->browseRow($_REQUEST['table'], $_REQUEST['key']);
@@ -509,8 +509,8 @@ class DisplayController extends BaseController {
 			$subject = '';
 		}
 
-		$misc->printTrail(isset($subject) ? $subject : 'database');
-		$misc->printTabs($subject, 'browse');
+		$this->printTrail(isset($subject) ? $subject : 'database');
+		$this->printTabs($subject, 'browse');
 
 		/* This code is used when browsing FK in pure-xHTML (without js) */
 		if (isset($_REQUEST['fkey'])) {

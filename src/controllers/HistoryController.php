@@ -80,7 +80,7 @@ class HistoryController extends BaseController {
 				],
 			];
 
-			echo $misc->printTable($history, $columns, $actions, 'history-history', $lang['strnohistory']);
+			echo $this->printTable($history, $columns, $actions, 'history-history', $lang['strnohistory']);
 		} else {
 			echo "<p>{$lang['strnohistory']}</p>\n";
 		}

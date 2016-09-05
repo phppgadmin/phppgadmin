@@ -13,6 +13,7 @@
         "psr-4": {
             "PHPPgAdmin\\": "src/classes",
             "PHPPgAdmin\\Controller\\": "src/controllers",
+            "PHPPgAdmin\\Controller\\HTML\\": "src/controllers/HTML",
             "PHPPgAdmin\\Database\\": "src/classes/database",
             "PHPPgAdmin\\XHtml\\": "src/classes/xhtml",
             "PHPPgAdmin\\Decorators\\": "src/classes/decorators"

@@ -60,7 +60,7 @@ class ConstraintController extends BaseController {
 
 					$_REQUEST['target'] = unserialize($_REQUEST['target']);
 
-					$misc->printTrail('table');
+					$this->printTrail('table');
 					$misc->printTitle($lang['straddfk'], 'pg.constraint.foreign_key');
 					$misc->printMsg($msg);
 
@@ -182,7 +182,7 @@ class ConstraintController extends BaseController {
 				}
 				break;
 			default:
-				$misc->printTrail('table');
+				$this->printTrail('table');
 				$misc->printTitle($lang['straddfk'], 'pg.constraint.foreign_key');
 				$misc->printMsg($msg);
 
@@ -270,7 +270,7 @@ class ConstraintController extends BaseController {
 				$_POST['tablespace'] = '';
 			}
 
-			$misc->printTrail('table');
+			$this->printTrail('table');
 
 			switch ($type) {
 				case 'primary':
@@ -410,7 +410,7 @@ class ConstraintController extends BaseController {
 		}
 
 		if ($confirm) {
-			$misc->printTrail('table');
+			$this->printTrail('table');
 			$misc->printTitle($lang['straddcheck'], 'pg.constraint.check');
 			$misc->printMsg($msg);
 
@@ -459,7 +459,7 @@ class ConstraintController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('constraint');
+			$this->printTrail('constraint');
 			$misc->printTitle($lang['strdrop'], 'pg.constraint.drop');
 
 			echo "<p>", sprintf($lang['strconfdropconstraint'], $misc->printVal($_REQUEST['constraint']),
@@ -505,8 +505,8 @@ class ConstraintController extends BaseController {
 			}
 		};
 
-		$misc->printTrail('table');
-		$misc->printTabs('table', 'constraints');
+		$this->printTrail('table');
+		$this->printTabs('table', 'constraints');
 		$misc->printMsg($msg);
 
 		$constraints = $data->getConstraints($_REQUEST['table']);
@@ -547,7 +547,7 @@ class ConstraintController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($constraints, $columns, $actions, 'constraints-constraints', $lang['strnoconstraints'], $cnPre);
+		echo $this->printTable($constraints, $columns, $actions, 'constraints-constraints', $lang['strnoconstraints'], $cnPre);
 
 		$navlinks = [
 			'addcheck' => [

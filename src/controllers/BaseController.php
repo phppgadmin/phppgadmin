@@ -24,6 +24,8 @@ class BaseController {
 	public $action             = '';
 	public $_name              = 'BaseController';
 	public $_title             = 'base';
+	private $table_controller  = null;
+	private $trail_controller  = null;
 
 	/* Constructor */
 	function __construct(\Slim\Container $container) {
@@ -44,6 +46,53 @@ class BaseController {
 
 	public function getContainer() {
 		return $this->container;
+	}
+
+	private function getTableController() {
+		if ($this->table_controller === null) {
+			$this->table_controller = new HTML\TableController($this->getContainer());
+		}
+		return $this->table_controller;
+	}
+
+	private function getNavbarController() {
+		if ($this->trail_controller === null) {
+			$this->trail_controller = new HTML\NavbarController($this->getContainer());
+		}
+		return $this->trail_controller;
+	}
+	/**
+	 * Instances an HTMLTable and returns its html content
+	 * @param  [type] &$tabledata [description]
+	 * @param  [type] &$columns   [description]
+	 * @param  [type] &$actions   [description]
+	 * @param  [type] $place      [description]
+	 * @param  [type] $nodata     [description]
+	 * @param  [type] $pre_fn     [description]
+	 * @return [type]             [description]
+	 */
+	function printTable(&$tabledata, &$columns, &$actions, $place, $nodata = null, $pre_fn = null) {
+		$html_table = $this->getTableController();
+		return $html_table->printTable($tabledata, $columns, $actions, $place, $nodata, $pre_fn);
+	}
+
+	function printTrail($trail = [], $do_print = true) {
+		$html_trail = $this->getNavbarController();
+		return $html_trail->printTrail($trail, $do_print);
+	}
+
+	function printNavLinks($navlinks, $place, $env = [], $do_print = true) {
+		$html_trail = $this->getNavbarController();
+		return $html_trail->printNavLinks($navlinks, $place, $env, $do_print);
+	}
+
+	function printTabs($tabs, $activetab, $do_print = true) {
+		$html_trail = $this->getNavbarController();
+		return $html_trail->printTabs($tabs, $activetab, $do_print);
+	}
+	function getLastTabURL($section) {
+		$html_trail = $this->getNavbarController();
+		return $html_trail->getLastTabURL($section);
 	}
 
 	public function render() {

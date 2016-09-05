@@ -18,8 +18,8 @@ class ConversionController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'conversions');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'conversions');
 		$misc->printMsg($msg);
 
 		$conversions = $data->getconversions();
@@ -50,6 +50,6 @@ class ConversionController extends BaseController {
 
 		$actions = [];
 
-		echo $misc->printTable($conversions, $columns, $actions, 'conversions-conversions', $lang['strnoconversions']);
+		echo $this->printTable($conversions, $columns, $actions, 'conversions-conversions', $lang['strnoconversions']);
 	}
 }

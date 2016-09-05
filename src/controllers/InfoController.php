@@ -18,8 +18,8 @@ class InfoController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('table');
-		$misc->printTabs('table', 'info');
+		$this->printTrail('table');
+		$this->printTabs('table', 'info');
 		$misc->printMsg($msg);
 
 		// common params for printVal
@@ -82,7 +82,7 @@ class InfoController extends BaseController {
 					],
 				];
 
-				echo $misc->printTable($referrers, $columns, $actions, 'info-referrers', $lang['strnodata']);
+				echo $this->printTable($referrers, $columns, $actions, 'info-referrers', $lang['strnodata']);
 			}
 
 			// Parent tables
@@ -118,7 +118,7 @@ class InfoController extends BaseController {
 					],
 				];
 
-				echo $misc->printTable($parents, $columns, $actions, 'info-parents', $lang['strnodata']);
+				echo $this->printTable($parents, $columns, $actions, 'info-parents', $lang['strnodata']);
 			}
 
 			// Child tables
@@ -154,7 +154,7 @@ class InfoController extends BaseController {
 					],
 				];
 
-				echo $misc->printTable($children, $columns, $actions, 'info-children', $lang['strnodata']);
+				echo $this->printTable($children, $columns, $actions, 'info-children', $lang['strnodata']);
 
 			}
 

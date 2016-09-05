@@ -18,8 +18,8 @@ class OpClassesController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'opclasses');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'opclasses');
 		$misc->printMsg($msg);
 
 		$opclasses = $data->getOpClasses();
@@ -50,7 +50,7 @@ class OpClassesController extends BaseController {
 
 		$actions = [];
 
-		echo $misc->printTable($opclasses, $columns, $actions, 'opclasses-opclasses', $lang['strnoopclasses']);
+		echo $this->printTable($opclasses, $columns, $actions, 'opclasses-opclasses', $lang['strnoopclasses']);
 	}
 
 }

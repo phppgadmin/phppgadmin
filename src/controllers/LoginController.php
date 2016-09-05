@@ -36,7 +36,7 @@ class LoginController extends BaseController {
 
 		$login_html = $misc->printHeader($lang[$this->_title], null, false);
 		$login_html .= $misc->printBody(false);
-		$login_html .= $misc->printTrail('root', false);
+		$login_html .= $this->printTrail('root', false);
 
 		if (!empty($_POST)) {
 			$vars = &$_POST;

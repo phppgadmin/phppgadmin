@@ -70,7 +70,7 @@ class SQLQueryController extends BaseController {
 
 		$misc->printHeader($lang['strqueryresults']);
 		$misc->printBody();
-		$misc->printTrail('database');
+		$this->printTrail('database');
 		$misc->printTitle($lang['strqueryresults']);
 
 		// Set the schema search path

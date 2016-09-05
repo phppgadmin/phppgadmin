@@ -18,8 +18,8 @@ class SchemaController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('database');
-		$misc->printTabs('database', 'schemas');
+		$this->printTrail('database');
+		$this->printTabs('database', 'schemas');
 		$misc->printMsg($msg);
 
 		// Check that the DB actually supports schemas
@@ -93,7 +93,7 @@ class SchemaController extends BaseController {
 			unset($actions['alter']);
 		}
 
-		echo $misc->printTable($schemas, $columns, $actions, 'schemas-schemas', $lang['strnoschemas']);
+		echo $this->printTable($schemas, $columns, $actions, 'schemas-schemas', $lang['strnoschemas']);
 
 		$misc->printNavLinks(['create' => [
 			'attr' => [
@@ -138,7 +138,7 @@ class SchemaController extends BaseController {
 		// Fetch all users from the database
 		$users = $data->getUsers();
 
-		$misc->printTrail('database');
+		$this->printTrail('database');
 		$misc->printTitle($lang['strcreateschema'], 'pg.schema.create');
 		$misc->printMsg($msg);
 
@@ -200,7 +200,7 @@ class SchemaController extends BaseController {
 	public function doAlter($msg = '') {
 		global $data, $misc, $lang;
 
-		$misc->printTrail('schema');
+		$this->printTrail('schema');
 		$misc->printTitle($lang['stralter'], 'pg.schema.alter');
 		$misc->printMsg($msg);
 
@@ -293,7 +293,7 @@ class SchemaController extends BaseController {
 		}
 
 		if ($confirm) {
-			$misc->printTrail('schema');
+			$this->printTrail('schema');
 			$misc->printTitle($lang['strdrop'], 'pg.schema.drop');
 
 			echo '<form action="/src/views/schemas.php" method="post">' . "\n";
@@ -360,8 +360,8 @@ class SchemaController extends BaseController {
 		global $data, $misc;
 		global $lang;
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'export');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'export');
 		$misc->printMsg($msg);
 
 		echo '<form action="/src/views/dbexport.php" method="post">' . "\n";

@@ -26,8 +26,8 @@ class UserController extends BaseController {
 		$userdata         = $data->getUser($server_info['username']);
 		$_REQUEST['user'] = $server_info['username'];
 
-		$misc->printTrail('user');
-		$misc->printTabs('server', 'account');
+		$this->printTrail('user');
+		$this->printTabs('server', 'account');
 		$misc->printMsg($msg);
 
 		if ($userdata->recordCount() > 0) {
@@ -74,7 +74,7 @@ class UserController extends BaseController {
 
 		if ($confirm) {
 			$_REQUEST['user'] = $server_info['username'];
-			$misc->printTrail('user');
+			$this->printTrail('user');
 			$misc->printTitle($lang['strchangepassword'], 'pg.user.alter');
 			$misc->printMsg($msg);
 
@@ -130,7 +130,7 @@ class UserController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('user');
+		$this->printTrail('user');
 		$misc->printTitle($lang['stralter'], 'pg.user.alter');
 		$misc->printMsg($msg);
 
@@ -228,7 +228,7 @@ class UserController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('user');
+			$this->printTrail('user');
 			$misc->printTitle($lang['strdrop'], 'pg.user.drop');
 
 			echo "<p>", sprintf($lang['strconfdropuser'], $misc->printVal($_REQUEST['username'])), "</p>\n";
@@ -276,7 +276,7 @@ class UserController extends BaseController {
 			$_POST['formExpires'] = '';
 		}
 
-		$misc->printTrail('server');
+		$this->printTrail('server');
 		$misc->printTitle($lang['strcreateuser'], 'pg.user.create');
 		$misc->printMsg($msg);
 
@@ -344,8 +344,8 @@ class UserController extends BaseController {
 			return $val == 'infinity' ? $lang['strnever'] : htmlspecialchars($val);
 		}
 
-		$misc->printTrail('server');
-		$misc->printTabs('server', 'users');
+		$this->printTrail('server');
+		$this->printTabs('server', 'users');
 		$misc->printMsg($msg);
 
 		$users = $data->getUsers();
@@ -407,7 +407,7 @@ class UserController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($users, $columns, $actions, 'users-users', $lang['strnousers']);
+		echo $this->printTable($users, $columns, $actions, 'users-users', $lang['strnousers']);
 
 		$misc->printNavLinks(['create' => [
 			'attr' => [

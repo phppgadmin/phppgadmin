@@ -8,8 +8,9 @@ use \PHPPgAdmin\Decorators\Decorator;
  */
 class DatabaseController extends BaseController {
 	use AdminTrait;
-	public $script = 'database.php';
-	public $_name  = 'DatabaseController';
+	public $script      = 'database.php';
+	public $_name       = 'DatabaseController';
+	public $table_place = 'database-variables';
 
 	function _highlight($string, $term) {
 		return str_replace($term, "<b>{$term}</b>", $string);
@@ -50,8 +51,8 @@ class DatabaseController extends BaseController {
 			$_REQUEST['filter'] = '';
 		}
 
-		$misc->printTrail('database');
-		$misc->printTabs('database', 'find');
+		$this->printTrail('database');
+		$this->printTabs('database', 'find');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"/src/views/database.php\" method=\"post\">\n";
@@ -319,8 +320,8 @@ class DatabaseController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('database');
-		$misc->printTabs('database', 'export');
+		$this->printTrail('database');
+		$this->printTabs('database', 'export');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"/src/views/dbexport.php\" method=\"post\">\n";
@@ -376,8 +377,8 @@ class DatabaseController extends BaseController {
 
 		// Fetch the variables from the database
 		$variables = $data->getVariables();
-		$misc->printTrail('database');
-		$misc->printTabs('database', 'variables');
+		$this->printTrail('database');
+		$this->printTabs('database', 'variables');
 
 		$columns = [
 			'variable' => [
@@ -392,7 +393,7 @@ class DatabaseController extends BaseController {
 
 		$actions = [];
 
-		echo $misc->printTable($variables, $columns, $actions, 'database-variables', $lang['strnodata']);
+		echo $this->printTable($variables, $columns, $actions, $this->table_place, $lang['strnodata']);
 	}
 
 /**
@@ -405,8 +406,8 @@ class DatabaseController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('database');
-		$misc->printTabs('database', 'processes');
+		$this->printTrail('database');
+		$this->printTabs('database', 'processes');
 		$misc->printMsg($msg);
 
 		if (strlen($msg) === 0) {
@@ -450,7 +451,7 @@ class DatabaseController extends BaseController {
 
 			$actions = [];
 
-			echo $misc->printTable($prep_xacts, $columns, $actions, 'database-processes-preparedxacts', $lang['strnodata']);
+			echo $this->printTable($prep_xacts, $columns, $actions, 'database-processes-preparedxacts', $lang['strnodata']);
 		}
 
 		// Fetch the processes from the database
@@ -529,7 +530,7 @@ class DatabaseController extends BaseController {
 			unset($columns['actions']);
 		}
 
-		echo $misc->printTable($processes, $columns, $actions, 'database-processes', $lang['strnodata']);
+		echo $this->printTable($processes, $columns, $actions, 'database-processes', $lang['strnodata']);
 
 		if ($isAjax) {
 			exit;
@@ -583,7 +584,7 @@ class DatabaseController extends BaseController {
 		}
 
 		$actions = [];
-		echo $misc->printTable($variables, $columns, $actions, 'database-locks', $lang['strnodata']);
+		echo $this->printTable($variables, $columns, $actions, 'database-locks', $lang['strnodata']);
 
 		if ($isAjax) {
 			exit;
@@ -600,8 +601,8 @@ class DatabaseController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('database');
-		$misc->printTabs('database', 'locks');
+		$this->printTrail('database');
+		$this->printTabs('database', 'locks');
 
 		echo "<br /><a id=\"control\" href=\"\"><img src=\"" . $misc->icon('Refresh') . "\" alt=\"{$lang['strrefresh']}\" title=\"{$lang['strrefresh']}\"/>&nbsp;{$lang['strrefresh']}</a>";
 
@@ -624,8 +625,8 @@ class DatabaseController extends BaseController {
 			$_REQUEST['paginate'] = 'on';
 		}
 
-		$misc->printTrail('database');
-		$misc->printTabs('database', 'sql');
+		$this->printTrail('database');
+		$this->printTabs('database', 'sql');
 		echo "<p>{$lang['strentersql']}</p>\n";
 		echo "<form action=\"/src/views/sql.php\" method=\"post\" enctype=\"multipart/form-data\">\n";
 		echo "<p>{$lang['strsql']}<br />\n";
@@ -650,5 +651,82 @@ class DatabaseController extends BaseController {
 
 		// Default focus
 		$misc->setFocus('forms[0].query');
+	}
+
+	public function render() {
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$action = $this->action;
+		$data   = $misc->getDatabaseAccessor();
+
+		if ($action == 'refresh_locks') {
+			$this->currentLocks(true);
+		}
+
+		if ($action == 'refresh_processes') {
+			$this->currentProcesses(true);
+		}
+		$scripts = '';
+		/* normal flow */
+		if ($action == 'locks' || $action == 'processes') {
+			$scripts .= "<script src=\"/js/database.js\" type=\"text/javascript\"></script>";
+
+			$refreshTime = $conf['ajax_refresh'] * 1000;
+
+			$scripts .= "<script type=\"text/javascript\">\n";
+			$scripts .= "var Database = {\n";
+			$scripts .= "ajax_time_refresh: {$refreshTime},\n";
+			$scripts .= "str_start: {text:'{$lang['strstart']}',icon: '" . $misc->icon('Execute') . "'},\n";
+			$scripts .= "str_stop: {text:'{$lang['strstop']}',icon: '" . $misc->icon('Stop') . "'},\n";
+			$scripts .= "load_icon: '" . $misc->icon('Loading') . "',\n";
+			$scripts .= "server:'{$_REQUEST['server']}',\n";
+			$scripts .= "dbname:'{$_REQUEST['database']}',\n";
+			$scripts .= "action:'refresh_{$action}',\n";
+			$scripts .= "errmsg: '" . str_replace("'", "\'", $lang['strconnectionfail']) . "'\n";
+			$scripts .= "};\n";
+			$scripts .= "</script>\n";
+		}
+
+		$misc->printHeader($lang['strdatabase'], $scripts);
+		$misc->printBody();
+
+		switch ($action) {
+			case 'find':
+				if (isset($_REQUEST['term'])) {
+					$this->doFind(false);
+				} else {
+					$this->doFind(true);
+				}
+
+				break;
+			case 'sql':
+				$this->doSQL();
+				break;
+			case 'variables':
+				$this->doVariables();
+				break;
+			case 'processes':
+				$this->doProcesses();
+				break;
+			case 'locks':
+				$this->doLocks();
+				break;
+			case 'export':
+				$this->doExport();
+				break;
+			case 'signal':
+				$this->doSignal();
+				break;
+			default:
+				if ($this->adminActions($action, 'database') === false) {
+					$this->doSQL();
+				}
+
+				break;
+		}
+
+		$misc->printFooter();
+
 	}
 }

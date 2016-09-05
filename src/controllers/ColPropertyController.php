@@ -24,7 +24,7 @@ class ColPropertyController extends BaseController {
 
 		switch ($_REQUEST['stage']) {
 			case 1:
-				$misc->printTrail('column');
+				$this->printTrail('column');
 				$misc->printTitle($lang['stralter'], 'pg.column.alter');
 				$misc->printMsg($msg);
 
@@ -196,9 +196,9 @@ class ColPropertyController extends BaseController {
 			$msg .= "<br/>{$lang['strnoobjects']}";
 		}
 
-		$misc->printTrail('column');
+		$this->printTrail('column');
 		//$misc->printTitle($lang['strcolprop']);
-		$misc->printTabs('column', 'properties');
+		$this->printTabs('column', 'properties');
 		$misc->printMsg($msg);
 
 		if (!empty($_REQUEST['column'])) {
@@ -237,7 +237,7 @@ class ColPropertyController extends BaseController {
 			}
 
 			$actions = [];
-			echo $misc->printTable($attrs, $column, $actions, 'colproperties-colproperties', null, $attPre);
+			echo $this->printTable($attrs, $column, $actions, 'colproperties-colproperties', null, $attPre);
 
 			echo "<br />\n";
 

@@ -20,8 +20,8 @@ class ViewController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('view');
-			$misc->printTabs('view', 'select');
+			$this->printTrail('view');
+			$this->printTabs('view', 'select');
 			$misc->printMsg($msg);
 
 			$attrs = $data->getTableAttributes($_REQUEST['view']);
@@ -154,7 +154,7 @@ class ViewController extends BaseController {
 		}
 
 		if ($confirm) {
-			$misc->printTrail('view');
+			$this->printTrail('view');
 			$misc->printTitle($lang['strdrop'], 'pg.view.drop');
 
 			echo "<form action=\"/src/views/views.php\" method=\"post\">\n";
@@ -238,7 +238,7 @@ class ViewController extends BaseController {
 				$_REQUEST['formComment'] = '';
 			}
 
-			$misc->printTrail('schema');
+			$this->printTrail('schema');
 			$misc->printTitle($lang['strcreateviewwiz'], 'pg.view.create');
 			$misc->printMsg($msg);
 
@@ -379,7 +379,7 @@ class ViewController extends BaseController {
 
 		$tables = $data->getTables(true);
 
-		$misc->printTrail('schema');
+		$this->printTrail('schema');
 		$misc->printTitle($lang['strcreateviewwiz'], 'pg.view.create');
 		$misc->printMsg($msg);
 
@@ -432,7 +432,7 @@ class ViewController extends BaseController {
 			$_REQUEST['formComment'] = '';
 		}
 
-		$misc->printTrail('schema');
+		$this->printTrail('schema');
 		$misc->printTitle($lang['strcreateview'], 'pg.view.create');
 		$misc->printMsg($msg);
 
@@ -630,8 +630,8 @@ class ViewController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'views');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'views');
 		$misc->printMsg($msg);
 
 		$views = $data->getViews();
@@ -722,7 +722,7 @@ class ViewController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($views, $columns, $actions, $this->table_place, $lang['strnoviews']);
+		echo $this->printTable($views, $columns, $actions, $this->table_place, $lang['strnoviews']);
 
 		$navlinks = [
 			'create' => [

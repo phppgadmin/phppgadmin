@@ -27,9 +27,9 @@ class IntroController extends BaseController {
 
 		$misc->setNoDBConnection(true);
 
-		$intro_html = $misc->printTrail('root', false);
+		$intro_html = $this->printTrail('root', false);
 
-		$intro_html .= $misc->printTabs('root', 'intro', false);
+		$intro_html .= $this->printTabs('root', 'intro', false);
 
 		$intro_html .= "<h1> $appName $appVersion (PHP " . phpversion() . ')</h1>';
 

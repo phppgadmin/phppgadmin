@@ -20,7 +20,7 @@ class TypeController extends BaseController {
 		// Get type (using base name)
 		$typedata = $data->getType($_REQUEST['type']);
 
-		$misc->printTrail('type');
+		$this->printTrail('type');
 		$misc->printTitle($lang['strproperties'], 'pg.type');
 		$misc->printMsg($msg);
 
@@ -51,7 +51,7 @@ class TypeController extends BaseController {
 
 					$actions = [];
 
-					echo $misc->printTable($attrs, $columns, $actions, 'types-properties', null, $attPre);
+					echo $this->printTable($attrs, $columns, $actions, 'types-properties', null, $attPre);
 
 					break;
 				case 'e':
@@ -111,7 +111,7 @@ class TypeController extends BaseController {
 		global $lang;
 
 		if ($confirm) {
-			$misc->printTrail('type');
+			$this->printTrail('type');
 			$misc->printTitle($lang['strdrop'], 'pg.type.drop');
 
 			echo "<p>", sprintf($lang['strconfdroptype'], $misc->printVal($_REQUEST['type'])), "</p>\n";
@@ -161,7 +161,7 @@ class TypeController extends BaseController {
 
 		switch ($_REQUEST['stage']) {
 			case 1:
-				$misc->printTrail('type');
+				$this->printTrail('type');
 				$misc->printTitle($lang['strcreatecomptype'], 'pg.type.create');
 				$misc->printMsg($msg);
 
@@ -203,7 +203,7 @@ class TypeController extends BaseController {
 
 				$types = $data->getTypes(true, false, true);
 
-				$misc->printTrail('schema');
+				$this->printTrail('schema');
 				$misc->printTitle($lang['strcreatecomptype'], 'pg.type.create');
 				$misc->printMsg($msg);
 
@@ -325,7 +325,7 @@ class TypeController extends BaseController {
 
 		switch ($_REQUEST['stage']) {
 			case 1:
-				$misc->printTrail('type');
+				$this->printTrail('type');
 				$misc->printTitle($lang['strcreateenumtype'], 'pg.type.create');
 				$misc->printMsg($msg);
 
@@ -365,7 +365,7 @@ class TypeController extends BaseController {
 					return;
 				}
 
-				$misc->printTrail('schema');
+				$this->printTrail('schema');
 				$misc->printTitle($lang['strcreateenumtype'], 'pg.type.create');
 				$misc->printMsg($msg);
 
@@ -477,7 +477,7 @@ class TypeController extends BaseController {
 		$funcs = $data->getFunctions(true);
 		$types = $data->getTypes(true);
 
-		$misc->printTrail('schema');
+		$this->printTrail('schema');
 		$misc->printTitle($lang['strcreatetype'], 'pg.type.create');
 		$misc->printMsg($msg);
 
@@ -592,8 +592,8 @@ class TypeController extends BaseController {
 		global $data, $conf, $misc;
 		global $lang;
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'types');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'types');
 		$misc->printMsg($msg);
 
 		$types = $data->getTypes();
@@ -652,7 +652,7 @@ class TypeController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($types, $columns, $actions, 'types-types', $lang['strnotypes']);
+		echo $this->printTable($types, $columns, $actions, 'types-types', $lang['strnotypes']);
 
 		$navlinks = [
 			'create' => [

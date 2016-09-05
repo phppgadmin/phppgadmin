@@ -23,7 +23,7 @@ trait AdminTrait {
 
 		if ($confirm) {
 			if (isset($_REQUEST['ma'])) {
-				$misc->printTrail('schema');
+				$this->printTrail('schema');
 				$misc->printTitle($lang['strclusterindex'], 'pg.index.cluster');
 
 				echo "<form action=\"/src/views/{$script}\" method=\"post\">\n";
@@ -34,7 +34,7 @@ trait AdminTrait {
 				}
 			} // END if multi cluster
 			else {
-				$misc->printTrail($type);
+				$this->printTrail($type);
 				$misc->printTitle($lang['strclusterindex'], 'pg.index.cluster');
 
 				echo "<form action=\"/src/views/{$script}\" method=\"post\">\n";
@@ -112,7 +112,7 @@ trait AdminTrait {
 
 		if ($confirm) {
 			if (isset($_REQUEST['ma'])) {
-				$misc->printTrail('schema');
+				$this->printTrail('schema');
 				$misc->printTitle($lang['strreindex'], 'pg.reindex');
 
 				echo "<form action=\"/src/views/{$script}\" method=\"post\">\n";
@@ -123,7 +123,7 @@ trait AdminTrait {
 				}
 			} // END if multi reindex
 			else {
-				$misc->printTrail($type);
+				$this->printTrail($type);
 				$misc->printTitle($lang['strreindex'], 'pg.reindex');
 
 				echo "<form action=\"/src/views/{$script}\" method=\"post\">\n";
@@ -194,7 +194,7 @@ trait AdminTrait {
 
 		if ($confirm) {
 			if (isset($_REQUEST['ma'])) {
-				$misc->printTrail('schema');
+				$this->printTrail('schema');
 				$misc->printTitle($lang['stranalyze'], 'pg.analyze');
 
 				echo "<form action=\"/src/views/{$script}\" method=\"post\">\n";
@@ -205,7 +205,7 @@ trait AdminTrait {
 				}
 			} // END if multi analyze
 			else {
-				$misc->printTrail($type);
+				$this->printTrail($type);
 				$misc->printTitle($lang['stranalyze'], 'pg.analyze');
 
 				echo "<form action=\"/src/views/{$script}\" method=\"post\">\n";
@@ -273,7 +273,7 @@ trait AdminTrait {
 
 		if ($confirm) {
 			if (isset($_REQUEST['ma'])) {
-				$misc->printTrail('schema');
+				$this->printTrail('schema');
 				$misc->printTitle($lang['strvacuum'], 'pg.vacuum');
 
 				echo "<form action=\"/src/views/{$script}\" method=\"post\">\n";
@@ -284,7 +284,7 @@ trait AdminTrait {
 				}
 			} else {
 				// END if multi vacuum
-				$misc->printTrail($type);
+				$this->printTrail($type);
 				$misc->printTitle($lang['strvacuum'], 'pg.vacuum');
 
 				echo "<form action=\"/src/views/{$script}\" method=\"post\">\n";
@@ -355,7 +355,7 @@ trait AdminTrait {
 		$script = ($type == 'database') ? 'database.php' : 'tables.php';
 
 		if ($confirm) {
-			$misc->printTrail($type);
+			$this->printTrail($type);
 			$misc->printTitle(sprintf($lang['streditvacuumtable'], $misc->printVal($_REQUEST['table'])));
 			$misc->printMsg(sprintf($msg, $misc->printVal($_REQUEST['table'])));
 
@@ -469,8 +469,8 @@ trait AdminTrait {
 		}
 
 		if ($confirm) {
-			$misc->printTrail($type);
-			$misc->printTabs($type, 'admin');
+			$this->printTrail($type);
+			$this->printTabs($type, 'admin');
 
 			$script = ($type == 'database') ? 'database.php' : 'tables.php';
 
@@ -520,8 +520,8 @@ trait AdminTrait {
 
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail($type);
-		$misc->printTabs($type, 'admin');
+		$this->printTrail($type);
+		$this->printTabs($type, 'admin');
 		$misc->printMsg($msg);
 
 		if ($type == 'database') {
@@ -726,7 +726,7 @@ trait AdminTrait {
 				);
 			}
 
-			echo $misc->printTable($autovac, $columns, $actions, 'admin-admin', $lang['strnovacuumconf']);
+			echo $this->printTable($autovac, $columns, $actions, 'admin-admin', $lang['strnovacuumconf']);
 
 			if (($type == 'table') and ($autovac->recordCount() == 0)) {
 				echo "<br />";

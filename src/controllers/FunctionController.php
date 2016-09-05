@@ -63,7 +63,7 @@ class FunctionController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('function');
+		$this->printTrail('function');
 		$misc->printTitle($lang['stralter'], 'pg.function.alter');
 		$misc->printMsg($msg);
 
@@ -299,7 +299,7 @@ class FunctionController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('function');
+		$this->printTrail('function');
 		$misc->printTitle($lang['strproperties'], 'pg.function');
 		$misc->printMsg($msg);
 
@@ -325,15 +325,20 @@ class FunctionController extends BaseController {
 
 					if (isset($modes_arr[$i])) {
 						switch ($modes_arr[$i]) {
-							case 'i':$args .= " IN ";
+							case 'i':
+								$args .= " IN ";
 								break;
-							case 'o':$args .= " OUT ";
+							case 'o':
+								$args .= " OUT ";
 								break;
-							case 'b':$args .= " INOUT ";
+							case 'b':
+								$args .= " INOUT ";
 								break;
-							case 'v':$args .= " VARIADIC ";
+							case 'v':
+								$args .= " VARIADIC ";
 								break;
-							case 't':$args .= " TABLE ";
+							case 't':
+								$args .= " TABLE ";
 								break;
 						}
 					}
@@ -486,7 +491,7 @@ class FunctionController extends BaseController {
 		}
 
 		if ($confirm) {
-			$misc->printTrail('schema');
+			$this->printTrail('schema');
 			$misc->printTitle($lang['strdrop'], 'pg.function.drop');
 
 			echo "<form action=\"/src/views/functions.php\" method=\"post\">\n";
@@ -558,7 +563,7 @@ class FunctionController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('schema');
+		$this->printTrail('schema');
 		if (!isset($_POST['formFunction'])) {
 			$_POST['formFunction'] = '';
 		}
@@ -953,8 +958,8 @@ class FunctionController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'functions');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'functions');
 		$misc->printMsg($msg);
 
 		$funcs = $data->getFunctions();
@@ -1034,7 +1039,7 @@ class FunctionController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($funcs, $columns, $actions, $this->table_place, $lang['strnofunctions']);
+		echo $this->printTable($funcs, $columns, $actions, $this->table_place, $lang['strnofunctions']);
 
 		$navlinks = [
 			'createpl' => [

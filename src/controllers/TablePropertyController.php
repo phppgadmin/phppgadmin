@@ -61,7 +61,7 @@ class TablePropertyController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('table');
+		$this->printTrail('table');
 		$misc->printTitle($lang['stralter'], 'pg.table.alter');
 		$misc->printMsg($msg);
 
@@ -171,8 +171,8 @@ class TablePropertyController extends BaseController {
 		// Determine whether or not the table has an object ID
 		$hasID = $data->hasObjectID($_REQUEST['table']);
 
-		$misc->printTrail('table');
-		$misc->printTabs('table', 'export');
+		$this->printTrail('table');
+		$this->printTabs('table', 'export');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"/src/views/dataexport.php\" method=\"post\">\n";
@@ -228,8 +228,8 @@ class TablePropertyController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('table');
-		$misc->printTabs('table', 'import');
+		$this->printTrail('table');
+		$this->printTabs('table', 'import');
 		$misc->printMsg($msg);
 
 		// Check that file uploads are enabled
@@ -312,7 +312,7 @@ class TablePropertyController extends BaseController {
 				$types        = $data->getTypes(true, false, true);
 				$types_for_js = [];
 
-				$misc->printTrail('table');
+				$this->printTrail('table');
 				$misc->printTitle($lang['straddcolumn'], 'pg.column.add');
 				$misc->printMsg($msg);
 
@@ -423,7 +423,7 @@ class TablePropertyController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('column');
+			$this->printTrail('column');
 			$misc->printTitle($lang['strdrop'], 'pg.column.drop');
 
 			echo "<p>", sprintf($lang['strconfdropcolumn'], $misc->printVal($_REQUEST['column']),
@@ -509,8 +509,8 @@ class TablePropertyController extends BaseController {
 			return $str;
 		};
 
-		$misc->printTrail('table');
-		$misc->printTabs('table', 'columns');
+		$this->printTrail('table');
+		$this->printTabs('table', 'columns');
 		$misc->printMsg($msg);
 
 		// Get table
@@ -646,7 +646,7 @@ class TablePropertyController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($attrs, $columns, $actions, 'tblproperties-tblproperties', null, $attPre);
+		echo $this->printTable($attrs, $columns, $actions, 'tblproperties-tblproperties', null, $attPre);
 
 		$navlinks = [
 			'browse' => [

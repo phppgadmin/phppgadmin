@@ -84,7 +84,7 @@ class AggregateController extends BaseController {
 			$_REQUEST['aggrcomment'] = '';
 		}
 
-		$misc->printTrail('schema');
+		$this->printTrail('schema');
 		$misc->printTitle($lang['strcreateaggregate'], 'pg.aggregate.create');
 		$misc->printMsg($msg);
 
@@ -158,7 +158,7 @@ class AggregateController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('aggregate');
+		$this->printTrail('aggregate');
 		$misc->printTitle($lang['stralter'], 'pg.aggregate.alter');
 		$misc->printMsg($msg);
 
@@ -205,7 +205,7 @@ class AggregateController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('aggregate');
+			$this->printTrail('aggregate');
 			$misc->printTitle($lang['strdrop'], 'pg.aggregate.drop');
 
 			echo "<p>", sprintf($lang['strconfdropaggregate'], htmlspecialchars($_REQUEST['aggrname'])), "</p>\n";
@@ -240,7 +240,7 @@ class AggregateController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('aggregate');
+		$this->printTrail('aggregate');
 		$misc->printTitle($lang['strproperties'], 'pg.aggregate');
 		$misc->printMsg($msg);
 
@@ -337,8 +337,8 @@ class AggregateController extends BaseController {
 		$misc = $this->misc;
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'aggregates');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'aggregates');
 		$misc->printMsg($msg);
 
 		$aggregates = $data->getAggregates();
@@ -404,7 +404,7 @@ class AggregateController extends BaseController {
 			unset($actions['alter']);
 		}
 
-		echo $misc->printTable($aggregates, $columns, $actions, 'aggregates-aggregates', $lang['strnoaggregates']);
+		echo $this->printTable($aggregates, $columns, $actions, 'aggregates-aggregates', $lang['strnoaggregates']);
 
 		$navlinks = [
 			'create' => [

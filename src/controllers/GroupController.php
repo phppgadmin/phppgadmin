@@ -37,7 +37,7 @@ class GroupController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('group');
+			$this->printTrail('group');
 			$misc->printTitle($lang['strdropmember'], 'pg.group.alter');
 
 			echo "<p>", sprintf($lang['strconfdropmember'], $misc->printVal($_REQUEST['user']), $misc->printVal($_REQUEST['group'])), "</p>\n";
@@ -74,7 +74,7 @@ class GroupController extends BaseController {
 			$_POST['user'] = '';
 		}
 
-		$misc->printTrail('group');
+		$this->printTrail('group');
 		$misc->printTitle($lang['strproperties'], 'pg.group');
 		$misc->printMsg($msg);
 
@@ -108,7 +108,7 @@ class GroupController extends BaseController {
 				],
 			];
 
-			echo $misc->printTable($groupdata, $columns, $actions, 'groups-members', $lang['strnousers']);
+			echo $this->printTable($groupdata, $columns, $actions, 'groups-members', $lang['strnousers']);
 		}
 
 		// Display form for adding a user to the group
@@ -150,7 +150,7 @@ class GroupController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('group');
+			$this->printTrail('group');
 			$misc->printTitle($lang['strdrop'], 'pg.group.drop');
 
 			echo "<p>", sprintf($lang['strconfdropgroup'], $misc->printVal($_REQUEST['group'])), "</p>\n";
@@ -192,7 +192,7 @@ class GroupController extends BaseController {
 		// Fetch a list of all users in the cluster
 		$users = $data->getUsers();
 
-		$misc->printTrail('server');
+		$this->printTrail('server');
 		$misc->printTitle($lang['strcreategroup'], 'pg.group.create');
 		$misc->printMsg($msg);
 
@@ -258,8 +258,8 @@ class GroupController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('server');
-		$misc->printTabs('server', 'groups');
+		$this->printTrail('server');
+		$this->printTabs('server', 'groups');
 		$misc->printMsg($msg);
 
 		$groups = $data->getGroups();
@@ -291,7 +291,7 @@ class GroupController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($groups, $columns, $actions, 'groups-properties', $lang['strnogroups']);
+		echo $this->printTable($groups, $columns, $actions, 'groups-properties', $lang['strnogroups']);
 
 		$misc->printNavLinks(['create' => [
 			'attr' => [

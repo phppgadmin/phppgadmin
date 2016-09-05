@@ -27,8 +27,8 @@ class CastController extends BaseController {
 			}
 		}
 
-		$misc->printTrail('database');
-		$misc->printTabs('database', 'casts');
+		$this->printTrail('database');
+		$this->printTabs('database', 'casts');
 		$misc->printMsg($msg);
 
 		$casts = $data->getCasts();
@@ -61,6 +61,6 @@ class CastController extends BaseController {
 
 		$actions = [];
 
-		echo $misc->printTable($casts, $columns, $actions, 'casts-casts', $lang['strnocasts']);
+		echo $this->printTable($casts, $columns, $actions, 'casts-casts', $lang['strnocasts']);
 	}
 }

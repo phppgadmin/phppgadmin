@@ -18,7 +18,7 @@ class OperatorController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('operator');
+		$this->printTrail('operator');
 		$misc->printTitle($lang['strproperties'], 'pg.operator');
 		$misc->printMsg($msg);
 
@@ -93,7 +93,7 @@ class OperatorController extends BaseController {
 		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
-			$misc->printTrail('operator');
+			$this->printTrail('operator');
 			$misc->printTitle($lang['strdrop'], 'pg.operator.drop');
 
 			echo "<p>", sprintf($lang['strconfdropoperator'], $misc->printVal($_REQUEST['operator'])), "</p>\n";
@@ -128,8 +128,8 @@ class OperatorController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'operators');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'operators');
 		$misc->printMsg($msg);
 
 		$operators = $data->getOperators();
@@ -181,7 +181,7 @@ class OperatorController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($operators, $columns, $actions, 'operators-operators', $lang['strnooperators']);
+		echo $this->printTable($operators, $columns, $actions, 'operators-operators', $lang['strnooperators']);
 
 //		TODO operators.php action=create $lang['strcreateoperator']
 	}

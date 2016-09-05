@@ -169,15 +169,19 @@ $app->get('/tree/{node}[/{action}]', function ($request, $response, $args) use (
 
 $app->get('/', function ($request, $response, $args) use ($msg) {
 
-	$rtl  = (strcasecmp($this->lang['applangdir'], 'rtl') == 0);
-	$cols = $rtl ? '*,' . $this->conf['left_width'] : $this->conf['left_width'] . ',*';
-
 	$viewVars            = $this->lang;
 	$viewVars['appName'] = $this->get('settings')['appName'];
-	$viewVars['cols']    = $cols;
-	$viewVars['rtl']     = $rtl;
+	$viewVars['rtl']     = (strcasecmp($this->lang['applangdir'], 'rtl') == 0);
 
-	return $this->view->render($response, 'home.twig', $viewVars);
+	if ($viewVars['rtl']) {
+		$viewVars['cols'] = '*,' . $this->conf['left_width'];
+		$template         = 'home_rtl.twig';
+	} else {
+		$viewVars['cols'] = $this->conf['left_width'] . ',*';
+		$template         = 'home.twig';
+	}
+
+	return $this->view->render($response, $template, $viewVars);
 
 });
 

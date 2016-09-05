@@ -18,8 +18,8 @@ class LangController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('database');
-		$misc->printTabs('database', 'languages');
+		$this->printTrail('database');
+		$this->printTabs('database', 'languages');
 		$misc->printMsg($msg);
 
 		$languages = $data->getLanguages();
@@ -42,6 +42,6 @@ class LangController extends BaseController {
 
 		$actions = [];
 
-		echo $misc->printTable($languages, $columns, $actions, 'languages-languages', $lang['strnolanguages']);
+		echo $this->printTable($languages, $columns, $actions, 'languages-languages', $lang['strnolanguages']);
 	}
 }

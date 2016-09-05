@@ -42,7 +42,7 @@ class ServerController extends BaseController {
 		$misc = $this->misc;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTabs('root', 'servers');
+		$this->printTabs('root', 'servers');
 		$misc->printMsg($msg);
 		$group = isset($_GET['group']) ? $_GET['group'] : false;
 
@@ -59,7 +59,7 @@ class ServerController extends BaseController {
 		if (($group !== false) and (isset($conf['srv_groups'][$group])) and ($groups->recordCount() > 0)) {
 			$misc->printTitle(sprintf($lang['strgroupgroups'], htmlentities($conf['srv_groups'][$group]['desc'], ENT_QUOTES, 'UTF-8')));
 		}
-		$misc->printTable($groups, $columns, $actions, $this->table_place);
+		$this->printTable($groups, $columns, $actions, $this->table_place);
 		$servers = $misc->getServers(true, $group);
 
 		$svPre = function (&$rowdata) use ($actions) {
@@ -110,7 +110,7 @@ class ServerController extends BaseController {
 			$misc->printTitle(sprintf($lang['strgroupservers'], htmlentities($conf['srv_groups'][$group]['desc'], ENT_QUOTES, 'UTF-8')), null);
 			$actions['logout']['attr']['href']['urlvars']['group'] = $group;
 		}
-		echo $misc->printTable($servers, $columns, $actions, $this->table_place, $lang['strnoobjects'], $svPre);
+		echo $this->printTable($servers, $columns, $actions, $this->table_place, $lang['strnoobjects'], $svPre);
 
 	}
 
@@ -123,7 +123,7 @@ class ServerController extends BaseController {
 
 		$misc->printHeader($this->lang['strservers'], null);
 		$misc->printBody();
-		$misc->printTrail('root');
+		$this->printTrail('root');
 
 		switch ($action) {
 			case 'logout':

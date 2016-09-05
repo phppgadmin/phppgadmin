@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "95f57a2ebe79ac38abaf9ddf5aa10968",
-    "content-hash": "4c894ea7295f7f51cce76ca342f6b6b2",
+    "hash": "145cb00bb023abc043e9b12d7177dce1",
+    "content-hash": "85ed1d774859e7a90e8379d23a3d19ec",
     "packages": [
         {
             "name": "adodb/adodb-php",
-            "version": "v5.20.5",
+            "version": "v5.20.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ADOdb/ADOdb.git",
-                "reference": "7ce997d4c5957a1a96e7ab483ad088b15f02b191"
+                "reference": "66b60ff95a969d7d79d385a25779e7d375a8040d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ADOdb/ADOdb/zipball/7ce997d4c5957a1a96e7ab483ad088b15f02b191",
-                "reference": "7ce997d4c5957a1a96e7ab483ad088b15f02b191",
+                "url": "https://api.github.com/repos/ADOdb/ADOdb/zipball/66b60ff95a969d7d79d385a25779e7d375a8040d",
+                "reference": "66b60ff95a969d7d79d385a25779e7d375a8040d",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
                 }
             ],
             "description": "ADOdb is a PHP database abstraction layer library",
-            "homepage": "http://adodb.sourceforge.net/",
+            "homepage": "http://adodb.org/",
             "keywords": [
                 "abstraction",
                 "database",
@@ -59,7 +59,7 @@
                 "library",
                 "php"
             ],
-            "time": "2016-08-10 11:08:40"
+            "time": "2016-08-31 14:21:42"
         },
         {
             "name": "container-interop/container-interop",
@@ -451,16 +451,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.24.1",
+            "version": "v1.24.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "3566d311a92aae4deec6e48682dc5a4528c4a512"
+                "reference": "33093f6e310e6976baeac7b14f3a6ec02f2d79b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3566d311a92aae4deec6e48682dc5a4528c4a512",
-                "reference": "3566d311a92aae4deec6e48682dc5a4528c4a512",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/33093f6e310e6976baeac7b14f3a6ec02f2d79b7",
+                "reference": "33093f6e310e6976baeac7b14f3a6ec02f2d79b7",
                 "shasum": ""
             },
             "require": {
@@ -508,7 +508,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-05-30 09:11:59"
+            "time": "2016-09-01 17:50:53"
         }
     ],
     "packages-dev": [],

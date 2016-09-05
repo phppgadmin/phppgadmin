@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        {% include 'home_header.twig' %}
+    </head>
+
+    <frameset cols="{{cols}}">
+
+        <frame src="/src/views/intro.php" name="detail" id="detail" frameborder="0" />
+        <frame src="/tree/browser" name="browser" id="browser" frameborder="0" />
+
+        <noframes>
+
+            <body>{{strnoframes}}
+                <br />
+                <a href="/src/views/intro.php">{{strnoframeslink}}</a>
+            </body>
+        </noframes>
+    </frameset>
+
+</html>

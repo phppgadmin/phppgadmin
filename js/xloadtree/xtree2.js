@@ -54,9 +54,10 @@
 // WebFXTreePersisitance
 function WebFXTreePersistence() {}
 var _p = WebFXTreePersistence.prototype;
-_p.getExpanded = function (oNode) { return false; };
+_p.getExpanded = function (oNode) {
+	return false;
+};
 _p.setExpanded = function (oNode, bOpen) {};
-
 
 
 // Cookie handling
@@ -128,7 +129,6 @@ _p.setExpanded = function (oNode, bOpen) {
 };
 
 
-
 // this object provides a few useful methods when working with arrays
 var arrayHelper = {
 	indexOf: function (a, o) {
@@ -161,25 +161,25 @@ var arrayHelper = {
 // WebFX Tree Config object                                                  //
 ///////////////////////////////////////////////////////////////////////////////
 var webFXTreeConfig = {
-	rootIcon        : "images/folder.png",
-	openRootIcon    : "images/openfolder.png",
-	folderIcon      : "images/folder.png",
-	openFolderIcon  : "images/openfolder.png",
-	fileIcon        : "images/file.png",
-	iIcon           : "images/I.png",
-	lIcon           : "images/L.png",
-	lMinusIcon      : "images/Lminus.png",
-	lPlusIcon       : "images/Lplus.png",
-	tIcon           : "images/T.png",
-	tMinusIcon      : "images/Tminus.png",
-	tPlusIcon       : "images/Tplus.png",
-	plusIcon        : "images/plus.png",
-	minusIcon       : "images/minus.png",
-	blankIcon       : "images/blank.png",
-	defaultText     : "Tree Item",
-	defaultAction   : null,
-	defaultBehavior : "classic",
-	usePersistence	: true
+	rootIcon: "images/folder.png",
+	openRootIcon: "images/openfolder.png",
+	folderIcon: "images/folder.png",
+	openFolderIcon: "images/openfolder.png",
+	fileIcon: "images/file.png",
+	iIcon: "images/I.png",
+	lIcon: "images/L.png",
+	lMinusIcon: "images/Lminus.png",
+	lPlusIcon: "images/Lplus.png",
+	tIcon: "images/T.png",
+	tMinusIcon: "images/Tminus.png",
+	tPlusIcon: "images/Tplus.png",
+	plusIcon: "images/plus.png",
+	minusIcon: "images/minus.png",
+	blankIcon: "images/blank.png",
+	defaultText: "Tree Item",
+	defaultAction: null,
+	defaultBehavior: "classic",
+	usePersistence: true
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -201,7 +201,7 @@ var webFXTreeHandler = {
 	addNode: function (oNode) {
 		this.all[oNode.id] = oNode;
 	},
-	removeNode:	function (oNode) {
+	removeNode: function (oNode) {
 		delete this.all[oNode.id];
 	},
 
@@ -235,24 +235,24 @@ var webFXTreeHandler = {
 
 	_htmlToText: function (s) {
 		switch (s) {
-			case "&amp;":
-				return "&";
-			case "&lt;":
-				return "<";
-			case "&gt;":
-				return ">";
-			case "&quot;":
-				return "\"";
-			case "&nbsp;":
-				return String.fromCharCode(160);
-			default:
-				if (/\s+/.test(s)) {
-					return " ";
-				}
-				if (/^<BR/gi.test(s)) {
-					return "\n";
-				}
-				return "";
+		case "&amp;":
+			return "&";
+		case "&lt;":
+			return "<";
+		case "&gt;":
+			return ">";
+		case "&quot;":
+			return "\"";
+		case "&nbsp;":
+			return String.fromCharCode(160);
+		default:
+			if (/\s+/.test(s)) {
+				return " ";
+			}
+			if (/^<BR/gi.test(s)) {
+				return "\n";
+			}
+			return "";
 		}
 	},
 
@@ -262,18 +262,18 @@ var webFXTreeHandler = {
 
 	_textToHtml: function (s) {
 		switch (s) {
-			case "&":
-				return "&amp;";
-			case "<":
-				return "&lt;";
-			case ">":
-				return "&gt;";
-			case "\n":
-				return "<BR>";
-			case "\"":
-				return "&quot;";	// so we can use this in attributes
-			default:
-				return "&nbsp;";
+		case "&":
+			return "&amp;";
+		case "<":
+			return "&lt;";
+		case ">":
+			return "&gt;";
+		case "\n":
+			return "<BR>";
+		case "\"":
+			return "&quot;"; // so we can use this in attributes
+		default:
+			return "&nbsp;";
 		}
 	},
 
@@ -300,7 +300,7 @@ function WebFXTreeAbstractNode(sText, oAction, oIconAction) {
 
 _p = WebFXTreeAbstractNode.prototype;
 _p._selected = false;
-_p.indentWidth = 19;
+_p.indentWidth = 15;
 _p.open = false;
 _p.text = webFXTreeConfig.defaultText;
 _p.action = null;
@@ -379,7 +379,6 @@ _p.add = function (oChild, oBefore) {
 
 	return oChild;
 };
-
 
 
 _p.remove = function (oChild) {
@@ -586,7 +585,7 @@ _p._setSelected = function (b) {
 	if (this._selected != b) {
 		this._selected = b;
 
-		var wasFocused = false;	// used to keep focus state
+		var wasFocused = false; // used to keep focus state
 		var si = t.getSelected();
 		if (b && si != null && si != this) {
 			var oldFireChange = t._fireChange;
@@ -893,24 +892,24 @@ _p.getExpandIconSrc = function () {
 		}
 
 		switch (bits) {
-			case 1:
-				return webFXTreeConfig.plusIcon;
-			case 2:
-				return webFXTreeConfig.minusIcon;
-			case 4:
-				return webFXTreeConfig.lIcon;
-			case 5:
-				return webFXTreeConfig.lPlusIcon;
-			case 6:
-				return webFXTreeConfig.lMinusIcon;
-			case 8:
-				return webFXTreeConfig.tIcon;
-			case 9:
-				return webFXTreeConfig.tPlusIcon;
-			case 10:
-				return webFXTreeConfig.tMinusIcon;
-			default:	// 0
-				return webFXTreeConfig.blankIcon;
+		case 1:
+			return webFXTreeConfig.plusIcon;
+		case 2:
+			return webFXTreeConfig.minusIcon;
+		case 4:
+			return webFXTreeConfig.lIcon;
+		case 5:
+			return webFXTreeConfig.lPlusIcon;
+		case 6:
+			return webFXTreeConfig.lMinusIcon;
+		case 8:
+			return webFXTreeConfig.tIcon;
+		case 9:
+			return webFXTreeConfig.tPlusIcon;
+		case 10:
+			return webFXTreeConfig.tMinusIcon;
+		default: // 0
+			return webFXTreeConfig.blankIcon;
 		}
 	} else {
 		if (t && hideLines) {
@@ -1079,8 +1078,8 @@ _p.setIconAction = function (oAction) {
 	var el = this.getIconElement();
 	if (el) {
 		el.href = this._getIconHref();
-	}   
-}   
+	}
+}
 
 _p.getIconAction = function () {
 	if (this.iconAction)
@@ -1144,8 +1143,8 @@ _p._onmousedown = function (e) {
 	}
 
 	this.select();
-	if (/*!/webfx-tree-item-label/.test(el.className) && */!webFXTreeHandler.opera)	{ // opera cancels the click if focus is called
-		
+	if ( /*!/webfx-tree-item-label/.test(el.className) && */ !webFXTreeHandler.opera) { // opera cancels the click if focus is called
+
 		// in case we are not clicking on the label
 		if (webFXTreeHandler.ie) {
 			window.setTimeout("WebFXTreeAbstractNode._onTimeoutFocus(\"" + this.id + "\")", 10);
@@ -1170,7 +1169,7 @@ _p._onclick = function (e) {
 
 	var doAction = null;
 	if (/webfx-tree-icon/.test(el.className) && this.iconAction) {
-		doAction = this.iconAction; 
+		doAction = this.iconAction;
 	} else {
 		doAction = this.action;
 	}
@@ -1207,52 +1206,52 @@ _p._onkeydown = function (e) {
 	var n;
 	var rv = true;
 	switch (e.keyCode) {
-		case 39:	// RIGHT
-			if (e.altKey) {
-				rv = true;
-				break;
-			}
-			if (this.hasChildren()) {
-				if (!this.getExpanded()) {
-					this.setExpanded(true);
-				} else {
-					this.getFirstChild().focus();
-				}
-			}
-			rv = false;
+	case 39: // RIGHT
+		if (e.altKey) {
+			rv = true;
 			break;
-		case 37:	// LEFT
-			if (e.altKey) {
-				rv = true;
-				break;
-			}
-			if (this.hasChildren() && this.getExpanded()) {
-				this.setExpanded(false);
+		}
+		if (this.hasChildren()) {
+			if (!this.getExpanded()) {
+				this.setExpanded(true);
 			} else {
-				var p = this.getParent();
-				var t = this.getTree();
-				// don't go to root if hidden
-				if (p && (t.showRootNode || p != t)) {
-					p.focus();
-				}
+				this.getFirstChild().focus();
 			}
-			rv = false;
+		}
+		rv = false;
+		break;
+	case 37: // LEFT
+		if (e.altKey) {
+			rv = true;
 			break;
+		}
+		if (this.hasChildren() && this.getExpanded()) {
+			this.setExpanded(false);
+		} else {
+			var p = this.getParent();
+			var t = this.getTree();
+			// don't go to root if hidden
+			if (p && (t.showRootNode || p != t)) {
+				p.focus();
+			}
+		}
+		rv = false;
+		break;
 
-		case 40:	// DOWN
-			n = this.getNextShownNode();
-			if (n) {
-				n.focus();
-			}
-			rv = false;
-			break;
-		case 38:	// UP
-			n = this.getPreviousShownNode()
-			if (n) {
-				n.focus();
-			}
-			rv = false;
-			break;
+	case 40: // DOWN
+		n = this.getNextShownNode();
+		if (n) {
+			n.focus();
+		}
+		rv = false;
+		break;
+	case 38: // UP
+		n = this.getPreviousShownNode()
+		if (n) {
+			n.focus();
+		}
+		rv = false;
+		break;
 	}
 
 	if (!rv && e.preventDefault) {
@@ -1323,11 +1322,6 @@ _p.getPreviousShownNode = function () {
 	}
 	return p;
 };
-
-
-
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1412,7 +1406,7 @@ _p.getRowClassName = function () {
 _p.getIconSrc = function () {
 	var behavior = this.getTree() ? this.getTree().getBehavior() : webFXTreeConfig.defaultBehavior;
 	var open = behavior == "classic" && this.getExpanded() ||
-			   behavior != "classic" && this.isSelected();
+		behavior != "classic" && this.isSelected();
 	if (open && this.openIcon) {
 		return this.openIcon;
 	}
@@ -1454,7 +1448,7 @@ _p.setTabIndex = function (i) {
 	this.tabIndex = i;
 	if (n) {
 		n._setTabIndex(i);
-	}	
+	}
 };
 
 _p.getTabIndex = function () {
@@ -1545,7 +1539,6 @@ _p.getSuspendRedraw = function () {
 };
 
 
-
 ///////////////////////////////////////////////////////////////////////////////
 // WebFXTreeItem
 ///////////////////////////////////////////////////////////////////////////////
@@ -1593,7 +1586,7 @@ _p.getCreated = function () {
 _p.getIconSrc = function () {
 	var behavior = this.getTree() ? this.getTree().getBehavior() : webFXTreeConfig.defaultBehavior;
 	var open = behavior == "classic" && this.getExpanded() ||
-	           behavior != "classic" && this.isSelected();
+		behavior != "classic" && this.isSelected();
 	if (open && this.openIcon) {
 		return this.openIcon;
 	}
@@ -1609,8 +1602,6 @@ _p.getIconSrc = function () {
 };
 
 /* end tree model */
-
-
 
 
 if (window.attachEvent) {

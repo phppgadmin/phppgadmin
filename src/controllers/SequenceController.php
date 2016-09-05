@@ -18,8 +18,8 @@ class SequenceController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'sequences');
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'sequences');
 		$misc->printMsg($msg);
 
 		// Get all sequences
@@ -90,7 +90,7 @@ class SequenceController extends BaseController {
 			],
 		];
 
-		echo $misc->printTable($sequences, $columns, $actions, 'sequences-sequences', $lang['strnosequences']);
+		echo $this->printTable($sequences, $columns, $actions, 'sequences-sequences', $lang['strnosequences']);
 
 		$misc->printNavLinks(['create' => [
 			'attr' => [
@@ -116,7 +116,7 @@ class SequenceController extends BaseController {
 		$misc = $this->misc;
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
-		$misc->printTrail('sequence');
+		$this->printTrail('sequence');
 		$misc->printTitle($lang['strproperties'], 'pg.sequence');
 		$misc->printMsg($msg);
 
@@ -278,7 +278,7 @@ class SequenceController extends BaseController {
 		}
 
 		if ($confirm) {
-			$misc->printTrail('sequence');
+			$this->printTrail('sequence');
 			$misc->printTitle($lang['strdrop'], 'pg.sequence.drop');
 			$misc->printMsg($msg);
 
@@ -372,7 +372,7 @@ class SequenceController extends BaseController {
 			$_POST['formCacheValue'] = '';
 		}
 
-		$misc->printTrail('schema');
+		$this->printTrail('schema');
 		$misc->printTitle($lang['strcreatesequence'], 'pg.sequence.create');
 		$misc->printMsg($msg);
 
@@ -521,7 +521,7 @@ class SequenceController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('sequence');
+		$this->printTrail('sequence');
 		$misc->printTitle($lang['strsetval'], 'pg.sequence');
 		$misc->printMsg($msg);
 
@@ -625,7 +625,7 @@ class SequenceController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		$misc->printTrail('sequence');
+		$this->printTrail('sequence');
 		$misc->printTitle($lang['stralter'], 'pg.sequence.alter');
 		$misc->printMsg($msg);
 
