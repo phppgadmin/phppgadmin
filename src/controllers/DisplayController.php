@@ -761,7 +761,7 @@ class DisplayController extends BaseController {
 
 						foreach ($actions['actionbuttons'] as $action) {
 							echo "<td class=\"opbutton{$id}\">";
-							$misc->printLink($action);
+							$this->printLink($action);
 							echo "</td>\n";
 						}
 					}

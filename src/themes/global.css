@@ -59,25 +59,21 @@ body.flexbox_body {
 
 .topbar {
     position: fixed;
+    z-index: 100;
     width: 100%;
     top: 0;
 }
 
 .trail {
     position: fixed;
+    z-index: 100;
     width: 100%;
-    top: 28px;
-}
-
-.tabs {
-    position: fixed;
-    width: 100%;
-    top: 58px;
+    top: 27px;
 }
 
 .detailbody {
-    margin-top: 150px;
-    margin-bottom: -150px;
+    margin-top: 58px;
+    margin-bottom: -58px;
 }
 
 

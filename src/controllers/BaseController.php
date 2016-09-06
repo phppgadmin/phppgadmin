@@ -95,6 +95,11 @@ class BaseController {
 		return $html_trail->getLastTabURL($section);
 	}
 
+	function printLink($link, $do_print = true) {
+		$html_trail = $this->getNavbarController();
+		return $html_trail->printLink($link, $do_print);
+	}
+
 	public function render() {
 		$misc   = $this->misc;
 		$lang   = $this->lang;

@@ -56,7 +56,7 @@ class SQLEditController extends BaseController {
 			$_REQUEST['filter'] = '';
 		}
 
-		$default_html = $this->printTabs($this->getNavTabs('popup'), 'find', false);
+		$default_html = $this->printTabs($misc->getNavTabs('popup'), 'find', false);
 
 		$default_html .= "<form action=\"database.php\" method=\"post\" target=\"detail\">\n";
 		$default_html .= $this->_printConnection('find');
@@ -109,7 +109,7 @@ class SQLEditController extends BaseController {
 			$_SESSION['sqlquery'] = '';
 		}
 
-		$default_html = $this->printTabs($this->getNavTabs('popup'), 'sql', false);
+		$default_html = $this->printTabs($misc->getNavTabs('popup'), 'sql', false);
 
 		$default_html .= '<form action="/src/views/sql.php" method="post" enctype="multipart/form-data" class="sqlform" id="sqlform" target="detail">';
 		$default_html .= "\n";

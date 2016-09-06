@@ -5,9 +5,9 @@
  *
  * $Id: lib.inc.php,v 1.123 2008/04/06 01:10:35 xzilla Exp $
  */
-if (!defined('BASE_PATH')) {
-	DEFINE('BASE_PATH', dirname(__DIR__));
-}
+
+DEFINE('BASE_PATH', dirname(__DIR__));
+
 require_once BASE_PATH . '/src/errorhandler.inc.php';
 
 if (!defined('ADODB_ERROR_HANDLER_TYPE')) {
@@ -26,11 +26,11 @@ include_once BASE_PATH . '/src/decorator.inc.php';
 Kint::enabled(true);
 
 $handler = PhpConsole\Handler::getInstance();
-/* You can override default Handler behavior:
-$handler->setHandleErrors(false);  // disable errors handling
+// You can override default Handler behavior:
+$handler->setHandleErrors(false); // disable errors handling
 $handler->setHandleExceptions(false); // disable exceptions handling
 $handler->setCallOldHandlers(false); // disable passing errors & exceptions to prviously defined handlers
- */
+
 $handler->start(); // initialize handlers
 PhpConsole\Helper::register(); // it will register global PC class
 
