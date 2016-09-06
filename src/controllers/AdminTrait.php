@@ -191,6 +191,7 @@ trait AdminTrait {
 			$this->doDefault($lang['strspecifytabletoanalyze']);
 			return;
 		}
+		\Kint::dump($_REQUEST['object']);
 
 		if ($confirm) {
 			if (isset($_REQUEST['ma'])) {

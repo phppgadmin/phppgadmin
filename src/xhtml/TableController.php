@@ -99,7 +99,7 @@ class TableController extends HTMLController {
 
 			$tablehtml .= $this->getThead($columns, $actions);
 
-			$tablehtml .= $this->getTbody($columns, $actions, $tabledata);
+			$tablehtml .= $this->getTbody($columns, $actions, $tabledata, $pre_fn);
 
 			$tablehtml .= $this->getTfooter($columns, $actions);
 
@@ -152,7 +152,7 @@ class TableController extends HTMLController {
 		return $tablehtml;
 	}
 
-	private function getTbody($columns, $actions, $tabledata) {
+	private function getTbody($columns, $actions, $tabledata, $pre_fn) {
 		// Display table rows
 		$i          = 0;
 		$tbody_html = '<tbody>';
@@ -173,7 +173,7 @@ class TableController extends HTMLController {
 				foreach ($ma['keycols'] as $k => $v) {
 					$a[$k] = $tabledata->fields[$v];
 				}
-
+				\Kint::dump($a);
 				$tbody_html .= "<td>";
 				$tbody_html .= "<input type=\"checkbox\" name=\"ma[]\" value=\"" . htmlentities(serialize($a), ENT_COMPAT, 'UTF-8') . "\" />";
 				$tbody_html .= "</td>\n";
