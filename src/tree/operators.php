@@ -20,7 +20,7 @@ function doTree($container) {
 	$operators = $data->getOperators();
 
 	// Operator prototype: "type operator type"
-	$proto = concat(Decorator::field('oprleftname'), ' ', Decorator::field('oprname'), ' ', Decorator::field('oprrightname'));
+	$proto = Decorator::concat(Decorator::field('oprleftname'), ' ', Decorator::field('oprname'), ' ', Decorator::field('oprrightname'));
 
 	$reqvars = $misc->getRequestVars('operator');
 

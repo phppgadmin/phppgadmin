@@ -10,6 +10,51 @@ class Decorator {
 		return $this->v;
 	}
 
+	public static function get_sanitized_value(&$var, &$fields, $esc = null) {
+		if (is_a($var, 'PHPPgAdmin\Decorators\Decorator')) {
+			$val = $var->value($fields);
+		} else {
+			$val = &$var;
+		}
+
+		if (is_string($val)) {
+			switch ($esc) {
+				case 'xml':
+					return strtr($val, [
+						'&' => '&amp;',
+						"'" => '&apos;', '"' => '&quot;',
+						'<' => '&lt;', '>' => '&gt;',
+					]);
+				case 'html':
+					return htmlentities($val, ENT_COMPAT, 'UTF-8');
+				case 'url':
+					return urlencode($val);
+			}
+		}
+		return $val;
+	}
+
+	public static function value_xml_attr($attr, &$var, &$fields) {
+		$val = self::get_sanitized_value($var, $fields, 'xml');
+		if (!empty($val)) {
+			return " {$attr}=\"{$val}\"";
+		} else {
+			return '';
+		}
+
+	}
+
+	public static function value_url(&$var, &$fields) {
+		return self::get_sanitized_value($var, $fields, 'url');
+	}
+
+	public static function concat( /* ... */) {
+		return new \PHPPgAdmin\Decorators\ConcatDecorator(func_get_args());
+	}
+
+	public static function replace($str, $params) {
+		return new \PHPPgAdmin\Decorators\replaceDecorator($str, $params);
+	}
 	public static function field($fieldName, $default = null) {
 		return new FieldDecorator($fieldName, $default);
 	}

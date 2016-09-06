@@ -75,8 +75,9 @@ $app->get('/redirect[/{subject}]', function ($request, $response, $args) use ($m
 
 	$body = $response->getBody();
 	if (!isset($_server_info['username'])) {
-
+		$this->misc->setNoDBConnection(true);
 		$login_controller = new \PHPPgAdmin\Controller\LoginController($this);
+
 		$body->write($login_controller->doLoginForm($msg));
 
 		return $response;
@@ -96,7 +97,7 @@ $app->get('/redirect[/{subject}]', function ($request, $response, $args) use ($m
 				if (strpos($key, '?') !== FALSE) {
 					$key = explode('?', $key)[1];
 				}
-				$urlvars[$key] = value($urlvar, $_REQUEST);
+				$urlvars[$key] = \PHPPgAdmin\Decorators\Decorator::get_sanitized_value($urlvar, $_REQUEST);
 			}
 
 			$_REQUEST = array_merge($_REQUEST, $urlvars);
@@ -138,9 +139,6 @@ $app->get('/tree/browser', function ($request, $response, $args) use ($msg) {
 		'Tplus' => $this->misc->icon('Tplus'),
 
 	];
-
-	$viewVars['cols'] = $cols;
-	$viewVars['rtl']  = $rtl;
 
 	$this->view->render($response, 'browser.twig', $viewVars);
 

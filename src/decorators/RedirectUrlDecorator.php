@@ -14,19 +14,19 @@ class RedirectUrlDecorator extends Decorator {
 	}
 
 	function value($fields) {
-		$url = value($this->b, $fields);
+		$url = Decorator::get_sanitized_value($this->b, $fields);
 
 		if ($url === false) {
 			return '';
 		}
 
 		if (!empty($this->q)) {
-			$queryVars = value($this->q, $fields);
+			$queryVars = Decorator::get_sanitized_value($this->q, $fields);
 
 			$sep = '?';
 			foreach ($queryVars as $var => $value) {
-				$varname  = value_url($var, $fields);
-				$varvalue = value_url($value, $fields);
+				$varname  = Decorator::value_url($var, $fields);
+				$varvalue = Decorator::value_url($value, $fields);
 				if ($varname == 'subject') {
 					$url = '/' . str_replace('.php', '/' . $varvalue, $url);
 				}

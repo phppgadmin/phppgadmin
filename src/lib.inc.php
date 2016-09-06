@@ -7,6 +7,14 @@
  */
 
 DEFINE('BASE_PATH', dirname(__DIR__));
+ini_set('error_log', BASE_PATH . '/temp/logs/phppga.php_error.log');
+$debugmode = true;
+
+if ($debugmode) {
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+}
 
 require_once BASE_PATH . '/src/errorhandler.inc.php';
 
@@ -17,25 +25,18 @@ if (!defined('ADODB_ERROR_HANDLER')) {
 	define('ADODB_ERROR_HANDLER', 'Error_Handler');
 }
 
-ini_set('error_log', BASE_PATH . '/temp/logs/phppga.php_error.log');
-
 require_once BASE_PATH . '/vendor/autoload.php';
-
-include_once BASE_PATH . '/src/decorator.inc.php';
 
 Kint::enabled(true);
 
 $handler = PhpConsole\Handler::getInstance();
 // You can override default Handler behavior:
-$handler->setHandleErrors(false); // disable errors handling
-$handler->setHandleExceptions(false); // disable exceptions handling
-$handler->setCallOldHandlers(false); // disable passing errors & exceptions to prviously defined handlers
+//$handler->setHandleErrors(false); // disable errors handling
+//$handler->setHandleExceptions(false); // disable exceptions handling
+//$handler->setCallOldHandlers(false); // disable passing errors & exceptions to prviously defined handlers
 
-$handler->start(); // initialize handlers
+$handler->start(); // initialize handlers*/
 PhpConsole\Helper::register(); // it will register global PC class
-
-// Set error reporting level to max
-error_reporting(E_ALL);
 
 // Application name
 $appName = 'phpPgAdmin';
@@ -46,7 +47,6 @@ $appVersion = '6.0.0-alpha';
 // PostgreSQL and PHP minimum version
 $postgresqlMinVer = '9.3';
 $phpMinVer        = '5.5';
-$debugmode        = true;
 
 // Check the version of PHP
 if (version_compare(phpversion(), $phpMinVer, '<')) {

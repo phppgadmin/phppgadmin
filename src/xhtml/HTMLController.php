@@ -1,11 +1,12 @@
 <?php
 
-namespace PHPPgAdmin\Controller\HTML;
+namespace PHPPgAdmin\XHtml;
+use \PHPPgAdmin\Decorators\Decorator;
 
 /**
  * Base controller class
  */
-class HTMLController extends \PHPPgAdmin\Controller\BaseController {
+class HTMLController {
 	private $container         = null;
 	private $_connection       = null;
 	private $_no_db_connection = false;
@@ -41,7 +42,7 @@ class HTMLController extends \PHPPgAdmin\Controller\BaseController {
 		$this->appThemes      = $container->get('appThemes');
 		$this->action         = $container->get('action');
 
-		\PC::debug($this->_name, 'instanced controller');
+		//\PC::debug($this->_name, 'instanced controller');
 	}
 
 	public function getContainer() {
@@ -58,21 +59,21 @@ class HTMLController extends \PHPPgAdmin\Controller\BaseController {
 	 * @param $fields Field data from which 'urlfield' and 'vars' are obtained.
 	 */
 	protected function getActionUrl(&$action, &$fields) {
-		$url = value($action['url'], $fields);
+		$url = Decorator::get_sanitized_value($action['url'], $fields);
 
 		if ($url === false) {
 			return '';
 		}
 
 		if (!empty($action['urlvars'])) {
-			$urlvars = value($action['urlvars'], $fields);
+			$urlvars = Decorator::get_sanitized_value($action['urlvars'], $fields);
 		} else {
 			$urlvars = [];
 		}
 
 		/* set server, database and schema parameter if not presents */
 		if (isset($urlvars['subject'])) {
-			$subject = value($urlvars['subject'], $fields);
+			$subject = Decorator::get_sanitized_value($urlvars['subject'], $fields);
 		} else {
 			$subject = '';
 		}
@@ -89,7 +90,7 @@ class HTMLController extends \PHPPgAdmin\Controller\BaseController {
 
 		$sep = '?';
 		foreach ($urlvars as $var => $varfield) {
-			$url .= $sep . value_url($var, $fields) . '=' . value_url($varfield, $fields);
+			$url .= $sep . Decorator::value_url($var, $fields) . '=' . Decorator::value_url($varfield, $fields);
 			$sep = '&';
 		}
 		//return '/src/views/' . $url;
@@ -121,10 +122,10 @@ class HTMLController extends \PHPPgAdmin\Controller\BaseController {
 			if ($attr == 'href' and is_array($value)) {
 				$tag .= 'href="' . htmlentities($this->getActionUrl($value, $link['fields'])) . '" ';
 			} else {
-				$tag .= htmlentities($attr) . '="' . value($value, $link['fields'], 'html') . '" ';
+				$tag .= htmlentities($attr) . '="' . Decorator::get_sanitized_value($value, $link['fields'], 'html') . '" ';
 			}
 		}
-		$tag .= ">" . value($link['content'], $link['fields'], 'html') . "</a>\n";
+		$tag .= ">" . Decorator::get_sanitized_value($link['content'], $link['fields'], 'html') . "</a>\n";
 
 		if ($do_print) {
 			echo $tag;

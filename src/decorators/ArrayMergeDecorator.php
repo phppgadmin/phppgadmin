@@ -7,9 +7,9 @@ class ArrayMergeDecorator extends Decorator {
 	}
 
 	function value($fields) {
-		$accum = array();
+		$accum = [];
 		foreach ($this->m as $var) {
-			$accum = array_merge($accum, value($var, $fields));
+			$accum = array_merge($accum, Decorator::get_sanitized_value($var, $fields));
 		}
 		return $accum;
 	}

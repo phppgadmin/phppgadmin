@@ -20,7 +20,7 @@ function doTree($container) {
 	$opclasses = $data->getOpClasses();
 
 	// OpClass prototype: "op_class/access_method"
-	$proto = concat(Decorator::field('opcname'), '/', Decorator::field('amname'));
+	$proto = Decorator::concat(Decorator::field('opcname'), '/', Decorator::field('amname'));
 
 	$attrs = [
 		'text' => $proto,

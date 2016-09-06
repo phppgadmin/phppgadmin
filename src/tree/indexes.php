@@ -32,7 +32,7 @@ function doTree($container) {
 
 	$attrs = [
 		'text' => Decorator::field('indname'),
-		'icon' => callback('getIcon'),
+		'icon' => Decorator::callback('getIcon'),
 	];
 
 	return $misc->printTree($indexes, $attrs, 'indexes', false);

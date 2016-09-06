@@ -9,7 +9,7 @@ class ConcatDecorator extends Decorator {
 	function value($fields) {
 		$accum = '';
 		foreach ($this->c as $var) {
-			$accum .= value($var, $fields);
+			$accum .= Decorator::get_sanitized_value($var, $fields);
 		}
 		return trim($accum);
 	}

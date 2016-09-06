@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPPgAdmin\Controller\HTML;
+namespace PHPPgAdmin\XHtml;
 
 /**
  * Class to render tables. Formerly part of Misc.php
@@ -170,7 +170,6 @@ class NavbarController extends HTMLController {
 	function getLastTabURL($section) {
 		$lang = $this->lang;
 		$misc = $this->misc;
-		$data = $misc->getDatabaseAccessor();
 
 		$tabs = $misc->getNavTabs($section);
 
@@ -351,7 +350,8 @@ class NavbarController extends HTMLController {
 		$plugin_manager = $this->plugin_manager;
 		$misc           = $this->misc;
 		$appName        = $misc->appName;
-		$data           = $misc->getDatabaseAccessor();
+
+		$data = $misc->getDatabaseAccessor();
 
 		$trail = [];
 		$vars  = '';

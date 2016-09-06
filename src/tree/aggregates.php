@@ -15,7 +15,7 @@ function doTree($container) {
 
 	$aggregates = $data->getAggregates();
 
-	$proto   = concat(Decorator::field('proname'), ' (', Decorator::field('proargtypes'), ')');
+	$proto   = Decorator::concat(Decorator::field('proname'), ' (', Decorator::field('proargtypes'), ')');
 	$reqvars = $misc->getRequestVars('aggregate');
 
 	$attrs = [

@@ -26,12 +26,12 @@ class LoginController extends BaseController {
 	public $_name              = 'LoginController';
 	public $_title             = 'strlogin';
 
-	function doLoginForm($msg) {
+	function doLoginForm($msg = '') {
 
 		$conf = $this->conf;
 		$misc = $this->misc;
 		$lang = $this->lang;
-		\PC::debug($misc, 'LoginController::doLoginForm');
+		//\PC::debug($misc, 'LoginController::doLoginForm');
 		//$msg  = $container->msg;
 
 		$login_html = $misc->printHeader($lang[$this->_title], null, false);

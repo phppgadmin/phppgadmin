@@ -5,7 +5,7 @@ class CallbackDecorator extends Decorator {
 
 	function __construct($callback, $param = null) {
 		$this->fn = $callback;
-		$this->p = $param;
+		$this->p  = $param;
 	}
 
 	function value($fields) {

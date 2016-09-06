@@ -86,9 +86,10 @@ class IntroController extends BaseController {
 
 	public function render() {
 
-		$conf = $this->conf;
-		$misc = $this->misc;
-		$lang = $this->lang;
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$action = $this->action;
 
 		$misc->printHeader($lang['strintro']);
 		$misc->printBody();

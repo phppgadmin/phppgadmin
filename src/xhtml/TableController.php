@@ -1,6 +1,7 @@
 <?php
 
-namespace PHPPgAdmin\Controller\HTML;
+namespace PHPPgAdmin\XHtml;
+use \PHPPgAdmin\Decorators\Decorator;
 
 /**
  * Class to render tables. Formerly part of Misc.php
@@ -200,7 +201,7 @@ class TableController extends HTMLController {
 						break;
 					case 'comment':
 						$tbody_html .= "<td class='comment_cell'>";
-						$val = value($column['field'], $tabledata->fields);
+						$val = Decorator::get_sanitized_value($column['field'], $tabledata->fields);
 						if (!is_null($val)) {
 							$tbody_html .= htmlentities($val);
 						}
@@ -208,7 +209,7 @@ class TableController extends HTMLController {
 						break;
 					default:
 						$tbody_html .= "<td{$class}>";
-						$val = value($column['field'], $tabledata->fields);
+						$val = Decorator::get_sanitized_value($column['field'], $tabledata->fields);
 						if (!is_null($val)) {
 							if (isset($column['url'])) {
 								$tbody_html .= "<a href=\"{$column['url']}";

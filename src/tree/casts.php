@@ -18,7 +18,7 @@ function doTree($container) {
 
 	$casts = $data->getCasts();
 
-	$proto = concat(Decorator::field('castsource'), ' AS ', Decorator::field('casttarget'));
+	$proto = Decorator::concat(Decorator::field('castsource'), ' AS ', Decorator::field('casttarget'));
 
 	$attrs = [
 		'text' => $proto,

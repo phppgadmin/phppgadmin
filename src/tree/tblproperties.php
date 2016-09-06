@@ -26,7 +26,7 @@ function doTree($container) {
 			[
 				'table' => $_REQUEST['table'],
 				'column' => Decorator::field('attname'),
-				'query' => replace(
+				'query' => Decorator::replace(
 					'SELECT "%column%", count(*) AS "count" FROM "%table%" GROUP BY "%column%" ORDER BY "%column%"',
 					[
 						'%column%' => Decorator::field('attname'),

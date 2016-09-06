@@ -19,7 +19,7 @@ function doTree($container) {
 
 	$funcs = $data->getFunctions();
 
-	$proto = concat(Decorator::field('proname'), ' (', Decorator::field('proarguments'), ')');
+	$proto = Decorator::concat(Decorator::field('proname'), ' (', Decorator::field('proarguments'), ')');
 
 	$reqvars = $misc->getRequestVars('function');
 

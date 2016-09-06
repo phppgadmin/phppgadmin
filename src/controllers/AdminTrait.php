@@ -649,37 +649,37 @@ trait AdminTrait {
 				],
 				'autovacuum_enabled' => [
 					'title' => $lang['strenabled'],
-					'field' => callback('enlight', ['autovacuum_enabled', $defaults['autovacuum']]),
+					'field' => Decorator::callback('enlight', ['autovacuum_enabled', $defaults['autovacuum']]),
 					'type' => 'verbatim',
 				],
 				'autovacuum_vacuum_threshold' => [
 					'title' => $lang['strvacuumbasethreshold'],
-					'field' => callback('enlight', ['autovacuum_vacuum_threshold', $defaults['autovacuum_vacuum_threshold']]),
+					'field' => Decorator::callback('enlight', ['autovacuum_vacuum_threshold', $defaults['autovacuum_vacuum_threshold']]),
 					'type' => 'verbatim',
 				],
 				'autovacuum_vacuum_scale_factor' => [
 					'title' => $lang['strvacuumscalefactor'],
-					'field' => callback('enlight', ['autovacuum_vacuum_scale_factor', $defaults['autovacuum_vacuum_scale_factor']]),
+					'field' => Decorator::callback('enlight', ['autovacuum_vacuum_scale_factor', $defaults['autovacuum_vacuum_scale_factor']]),
 					'type' => 'verbatim',
 				],
 				'autovacuum_analyze_threshold' => [
 					'title' => $lang['stranalybasethreshold'],
-					'field' => callback('enlight', ['autovacuum_analyze_threshold', $defaults['autovacuum_analyze_threshold']]),
+					'field' => Decorator::callback('enlight', ['autovacuum_analyze_threshold', $defaults['autovacuum_analyze_threshold']]),
 					'type' => 'verbatim',
 				],
 				'autovacuum_analyze_scale_factor' => [
 					'title' => $lang['stranalyzescalefactor'],
-					'field' => callback('enlight', ['autovacuum_analyze_scale_factor', $defaults['autovacuum_analyze_scale_factor']]),
+					'field' => Decorator::callback('enlight', ['autovacuum_analyze_scale_factor', $defaults['autovacuum_analyze_scale_factor']]),
 					'type' => 'verbatim',
 				],
 				'autovacuum_vacuum_cost_delay' => [
 					'title' => $lang['strvacuumcostdelay'],
-					'field' => concat(callback('enlight', ['autovacuum_vacuum_cost_delay', $defaults['autovacuum_vacuum_cost_delay']]), 'ms'),
+					'field' => Decorator::concat(Decorator::callback('enlight', ['autovacuum_vacuum_cost_delay', $defaults['autovacuum_vacuum_cost_delay']]), 'ms'),
 					'type' => 'verbatim',
 				],
 				'autovacuum_vacuum_cost_limit' => [
 					'title' => $lang['strvacuumcostlimit'],
-					'field' => callback('enlight', ['autovacuum_vacuum_cost_limit', $defaults['autovacuum_vacuum_cost_limit']]),
+					'field' => Decorator::callback('enlight', ['autovacuum_vacuum_cost_limit', $defaults['autovacuum_vacuum_cost_limit']]),
 					'type' => 'verbatim',
 				],
 			];

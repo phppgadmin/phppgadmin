@@ -33,7 +33,7 @@ function doTree($container) {
 
 	$attrs = [
 		'text' => Decorator::field('conname'),
-		'icon' => callback('getIcon'),
+		'icon' => Decorator::callback('getIcon'),
 	];
 
 	$misc->printTree($constraints, $attrs, 'constraints');

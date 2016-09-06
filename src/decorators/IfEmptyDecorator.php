@@ -12,11 +12,11 @@ class IfEmptyDecorator extends Decorator {
 	}
 
 	function value($fields) {
-		$val = value($this->v, $fields);
+		$val = Decorator::get_sanitized_value($this->v, $fields);
 		if (empty($val)) {
-			return value($this->e, $fields);
+			return Decorator::get_sanitized_value($this->e, $fields);
 		} else {
-			return isset($this->f) ? value($this->f, $fields) : $val;
+			return isset($this->f) ? Decorator::get_sanitized_value($this->f, $fields) : $val;
 		}
 
 	}

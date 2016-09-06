@@ -43,7 +43,7 @@ class Misc {
 		$this->appVersion     = $container->get('settings')['appVersion'];
 		$this->appLangFiles   = $container->get('appLangFiles');
 
-		\PC::debug(['appName' => $this->appName, 'appVersion' => $this->appVersion], 'Misc constructor');
+		//\PC::debug(['appName' => $this->appName, 'appVersion' => $this->appVersion], 'Misc constructor');
 
 		if (count($this->conf['servers']) === 1) {
 			$info            = $this->conf['servers'][0];
@@ -71,11 +71,21 @@ class Misc {
 			if ($this->conf['extra_login_security']) {
 				// Disallowed logins if extra_login_security is enabled.
 				// These must be lowercase.
-				$bad_usernames = ['pgsql', 'postgres', 'root', 'administrator'];
+				$bad_usernames = [
+					'pgsql' => 'pgsql',
+					'postgres' => 'postgres',
+					'root' => 'root',
+					'administrator' => 'administrator',
+				];
 
-				$username = strtolower($server_info['username']);
+				if (isset($server_info['username']) && array_key_exists(strtolower($server_info['username']), $bad_usernames)) {
+					unset($_SESSION['webdbLogin'][$this->server_id]);
+					$msg              = $lang['strlogindisallowed'];
+					$login_controller = new LoginController($this->app->getContainer());
+					return $login_controller->render();
+				}
 
-				if ($server_info['password'] == '' || in_array($username, $bad_usernames)) {
+				if (!isset($server_info['password']) || $server_info['password'] == '') {
 					unset($_SESSION['webdbLogin'][$this->server_id]);
 					$msg              = $lang['strlogindisallowed'];
 					$login_controller = new LoginController($this->app->getContainer());
@@ -169,6 +179,12 @@ class Misc {
 
 		if ($server_id !== null) {
 			$this->server_id = $server_id;
+		}
+
+		$server_info = $this->getServerInfo($this->server_id);
+
+		if ($this->_no_db_connection || !isset($server_info['username'])) {
+			return null;
 		}
 
 		if ($this->data === null) {
@@ -1749,20 +1765,20 @@ class Misc {
 			foreach ($treedata as $rec) {
 
 				echo "<tree";
-				echo value_xml_attr('text', $attrs['text'], $rec);
-				echo value_xml_attr('action', $attrs['action'], $rec);
-				echo value_xml_attr('src', $attrs['branch'], $rec);
+				echo Decorator::value_xml_attr('text', $attrs['text'], $rec);
+				echo Decorator::value_xml_attr('action', $attrs['action'], $rec);
+				echo Decorator::value_xml_attr('src', $attrs['branch'], $rec);
 
-				$icon = $this->icon(value($attrs['icon'], $rec));
-				echo value_xml_attr('icon', $icon, $rec);
-				echo value_xml_attr('iconaction', $attrs['iconAction'], $rec);
+				$icon = $this->icon(Decorator::get_sanitized_value($attrs['icon'], $rec));
+				echo Decorator::value_xml_attr('icon', $icon, $rec);
+				echo Decorator::value_xml_attr('iconaction', $attrs['iconAction'], $rec);
 
 				if (!empty($attrs['openicon'])) {
-					$icon = $this->icon(value($attrs['openIcon'], $rec));
+					$icon = $this->icon(Decorator::get_sanitized_value($attrs['openIcon'], $rec));
 				}
-				echo value_xml_attr('openicon', $icon, $rec);
+				echo Decorator::value_xml_attr('openicon', $icon, $rec);
 
-				echo value_xml_attr('tooltip', $attrs['toolTip'], $rec);
+				echo Decorator::value_xml_attr('tooltip', $attrs['toolTip'], $rec);
 
 				echo " />\n";
 			}

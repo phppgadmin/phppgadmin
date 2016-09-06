@@ -41,7 +41,7 @@ class BaseController {
 		$this->appThemes      = $container->get('appThemes');
 		$this->action         = $container->get('action');
 
-		\PC::debug($this->_name, 'instanced controller');
+		//\PC::debug($this->_name, 'instanced controller');
 	}
 
 	public function getContainer() {
@@ -50,15 +50,16 @@ class BaseController {
 
 	private function getTableController() {
 		if ($this->table_controller === null) {
-			$this->table_controller = new HTML\TableController($this->getContainer());
+			$this->table_controller = new \PHPPgAdmin\XHtml\TableController($this->getContainer());
 		}
 		return $this->table_controller;
 	}
 
 	private function getNavbarController() {
 		if ($this->trail_controller === null) {
-			$this->trail_controller = new HTML\NavbarController($this->getContainer());
+			$this->trail_controller = new \PHPPgAdmin\XHtml\NavbarController($this->getContainer());
 		}
+
 		return $this->trail_controller;
 	}
 	/**
