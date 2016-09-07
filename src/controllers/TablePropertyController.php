@@ -9,6 +9,69 @@ use \PHPPgAdmin\Decorators\Decorator;
 class TablePropertyController extends BaseController {
 	public $_name = 'TablePropertyController';
 
+	public function render() {
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$data   = $misc->getDatabaseAccessor();
+		$action = $this->action;
+
+		$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table']);
+		$misc->printBody();
+
+		switch ($action) {
+			case 'alter':
+				if (isset($_POST['alter'])) {
+					$this->doSaveAlter();
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_alter':
+				$this->doAlter();
+				break;
+			case 'import':
+				$this->doImport();
+				break;
+			case 'export':
+				$this->doExport();
+				break;
+			case 'add_column':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doAddColumn();
+				}
+
+				break;
+			case 'properties':
+				if (isset($_POST['cancel'])) {
+					$this->doDefault();
+				} else {
+					$this->doProperties();
+				}
+
+				break;
+			case 'drop':
+				if (isset($_POST['drop'])) {
+					$this->doDrop(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_drop':
+				$this->doDrop(true);
+				break;
+			default:
+				$this->doDefault();
+				break;
+		}
+
+		$misc->printFooter();
+
+	}
 	public function doSaveAlter() {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -451,9 +514,9 @@ class TablePropertyController extends BaseController {
 
 	}
 
-/**
- * Show default list of columns in the table
- */
+	/**
+	 * Show default list of columns in the table
+	 */
 	public function doDefault($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;

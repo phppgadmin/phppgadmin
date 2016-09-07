@@ -7,26 +7,25 @@ use \PHPPgAdmin\Decorators\Decorator;
  * Base controller class
  */
 class HTMLController {
-	private $container         = null;
-	private $_connection       = null;
-	private $_no_db_connection = false;
-	private $_reload_browser   = false;
-	private $app               = null;
-	private $data              = null;
-	private $database          = null;
-	private $server_id         = null;
-	public $appLangFiles       = [];
-	public $appThemes          = [];
-	public $appName            = '';
-	public $appVersion         = '';
-	public $form               = '';
-	public $href               = '';
-	public $lang               = [];
-	public $action             = '';
-	public $_name              = 'HTMLController';
-	public $_title             = 'base';
-	private $table_controller  = null;
-	private $trail_controller  = null;
+	private $container        = null;
+	private $_connection      = null;
+	private $_reload_browser  = false;
+	private $app              = null;
+	private $data             = null;
+	private $database         = null;
+	private $server_id        = null;
+	public $appLangFiles      = [];
+	public $appThemes         = [];
+	public $appName           = '';
+	public $appVersion        = '';
+	public $form              = '';
+	public $href              = '';
+	public $lang              = [];
+	public $action            = '';
+	public $_name             = 'HTMLController';
+	public $_title            = 'base';
+	private $table_controller = null;
+	private $trail_controller = null;
 
 	/* Constructor */
 	function __construct(\Slim\Container $container) {

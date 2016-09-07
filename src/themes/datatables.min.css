@@ -13,6 +13,7 @@
 table.dataTable {
 	width: auto;
 	clear: both;
+	min-width: 100%;
 }
 
 table.dataTable thead th,
@@ -20,7 +21,10 @@ table.dataTable tfoot th {
 	font-weight: bold
 }
 
-table.dataTable thead th,
+table.dataTable thead th {
+	padding: 2px 4px
+}
+
 table.dataTable thead td {
 	padding: 10px 18px
 }
@@ -346,6 +350,7 @@ table.dataTable td {
 }
 
 .dataTables_wrapper {
+	margin-top: 10px;
 	position: relative;
 	clear: both;
 	*zoom: 1;
@@ -353,10 +358,13 @@ table.dataTable td {
 }
 
 .dataTables_wrapper .dataTables_length {
+	margin: 5px 5px;
+	padding: 1px 2px 1px 5px;
 	float: left
 }
 
 .dataTables_wrapper .dataTables_filter {
+	margin: 5px 15px;
 	float: right;
 	text-align: right
 }

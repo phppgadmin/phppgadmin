@@ -1,7 +1,6 @@
 <?php
 
 if (!defined('BASE_PATH')) {
-	$_no_db_connection = true;
 	require_once '../lib.inc.php';
 }
 

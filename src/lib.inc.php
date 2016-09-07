@@ -142,6 +142,7 @@ $container['misc'] = $misc;
 
 // 4. Check for theme by server/db/user
 $_server_info = $misc->getServerInfo();
+
 include_once BASE_PATH . '/src/themes.php';
 
 $container['appThemes'] = $appThemes;
@@ -167,35 +168,9 @@ if (!function_exists('pg_connect')) {
 	exit;
 }
 
-// Create data accessor object, if necessary
-if (!isset($_no_db_connection)) {
+$container['action'] = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 
-	if ($misc->getServerId() === null) {
-		echo $lang['strnoserversupplied'];
-		exit;
-	}
-
-	/* starting with PostgreSQL 9.0, we can set the application name */
-	if (isset($_server_info['pgVersion']) && $_server_info['pgVersion'] >= 9) {
-		putenv("PGAPPNAME={$appName}_{$appVersion}");
-	}
-
-	// Redirect to the login form if not logged in
-	if (!isset($_server_info['username'])) {
-
-		$login_controller = new \PHPPgAdmin\Controller\LoginController($container);
-		echo $login_controller->doLoginForm($msg);
-
-		exit;
-	}
-
-	// Connect to database and set the global $data variable
-	$data = $misc->getDatabaseAccessor();
-
-}
-$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-
-$container['action'] = $action;
 if (!isset($msg)) {
 	$msg = '';
 }
+$container['msg'] = $msg;

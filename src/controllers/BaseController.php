@@ -6,26 +6,25 @@ namespace PHPPgAdmin\Controller;
  * Base controller class
  */
 class BaseController {
-	private $container         = null;
-	private $_connection       = null;
-	private $_no_db_connection = false;
-	private $_reload_browser   = false;
-	private $app               = null;
-	private $data              = null;
-	private $database          = null;
-	private $server_id         = null;
-	public $appLangFiles       = [];
-	public $appThemes          = [];
-	public $appName            = '';
-	public $appVersion         = '';
-	public $form               = '';
-	public $href               = '';
-	public $lang               = [];
-	public $action             = '';
-	public $_name              = 'BaseController';
-	public $_title             = 'base';
-	private $table_controller  = null;
-	private $trail_controller  = null;
+	private $container        = null;
+	private $_connection      = null;
+	private $_reload_browser  = false;
+	private $app              = null;
+	private $data             = null;
+	private $database         = null;
+	private $server_id        = null;
+	public $appLangFiles      = [];
+	public $appThemes         = [];
+	public $appName           = '';
+	public $appVersion        = '';
+	public $form              = '';
+	public $href              = '';
+	public $lang              = [];
+	public $action            = '';
+	public $_name             = 'BaseController';
+	public $_title            = 'base';
+	private $table_controller = null;
+	private $trail_controller = null;
 
 	/* Constructor */
 	function __construct(\Slim\Container $container) {
@@ -34,14 +33,30 @@ class BaseController {
 		$this->conf           = $container->get('conf');
 		$this->view           = $container->get('view');
 		$this->plugin_manager = $container->get('plugin_manager');
-		$this->appName        = $container->get('settings')['appName'];
-		$this->appVersion     = $container->get('settings')['appVersion'];
-		$this->appLangFiles   = $container->get('appLangFiles');
-		$this->misc           = $container->get('misc');
-		$this->appThemes      = $container->get('appThemes');
-		$this->action         = $container->get('action');
 
-		//\PC::debug($this->_name, 'instanced controller');
+		$this->appLangFiles = $container->get('appLangFiles');
+		$this->misc         = $container->get('misc');
+		$this->appThemes    = $container->get('appThemes');
+		$this->action       = $container->get('action');
+
+		$msg = $container->get('msg');
+		if ($this->misc->getNoDBConnection() === false) {
+			if ($this->misc->getServerId() === null) {
+				echo $lang['strnoserversupplied'];
+				exit;
+			}
+			$_server_info = $this->misc->getServerInfo();
+			// Redirect to the login form if not logged in
+			if (!isset($_server_info['username'])) {
+
+				$login_controller = new \PHPPgAdmin\Controller\LoginController($container);
+				echo $login_controller->doLoginForm($msg);
+
+				exit;
+			}
+		}
+
+		\PC::debug(['name' => $this->_name, 'no_db_connection' => $this->misc->getNoDBConnection()], 'instanced controller');
 	}
 
 	public function getContainer() {
@@ -50,14 +65,14 @@ class BaseController {
 
 	private function getTableController() {
 		if ($this->table_controller === null) {
-			$this->table_controller = new \PHPPgAdmin\XHtml\TableController($this->getContainer());
+			$this->table_controller = new \PHPPgAdmin\XHtml\HTMLTableController($this->getContainer());
 		}
 		return $this->table_controller;
 	}
 
 	private function getNavbarController() {
 		if ($this->trail_controller === null) {
-			$this->trail_controller = new \PHPPgAdmin\XHtml\NavbarController($this->getContainer());
+			$this->trail_controller = new \PHPPgAdmin\XHtml\HTMLNavbarController($this->getContainer());
 		}
 
 		return $this->trail_controller;

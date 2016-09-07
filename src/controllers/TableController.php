@@ -98,6 +98,220 @@ class TableController extends BaseController {
 		$misc->printFooter();
 
 	}
+
+	/**
+	 * Show default list of tables in the database
+	 */
+	public function doDefault($msg = '') {
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
+
+		$this->printTrail('schema');
+		$this->printTabs('schema', 'tables');
+		$misc->printMsg($msg);
+
+		$tables = $data->getTables();
+
+		$columns = [
+			'table' => [
+				'title' => $lang['strtable'],
+				'field' => Decorator::field('relname'),
+				'url' => "/redirect/table?{$misc->href}&amp;",
+				'vars' => ['table' => 'relname'],
+			],
+			'owner' => [
+				'title' => $lang['strowner'],
+				'field' => Decorator::field('relowner'),
+			],
+			'tablespace' => [
+				'title' => $lang['strtablespace'],
+				'field' => Decorator::field('tablespace'),
+			],
+			'tuples' => [
+				'title' => $lang['strestimatedrowcount'],
+				'field' => Decorator::field('reltuples'),
+				'type' => 'numeric',
+			],
+			'actions' => [
+				'title' => $lang['stractions'],
+			],
+			'comment' => [
+				'title' => $lang['strcomment'],
+				'field' => Decorator::field('relcomment'),
+			],
+		];
+
+		$actions = [
+			'multiactions' => [
+				'keycols' => ['table' => 'relname'],
+				'url' => 'tables.php',
+				'default' => 'analyze',
+			],
+			'browse' => [
+				'content' => $lang['strbrowse'],
+				'attr' => [
+					'href' => [
+						'url' => 'display.php',
+						'urlvars' => [
+							'subject' => 'table',
+							'return' => 'table',
+							'table' => Decorator::field('relname'),
+						],
+					],
+				],
+			],
+			'select' => [
+				'content' => $lang['strselect'],
+				'attr' => [
+					'href' => [
+						'url' => 'tables.php',
+						'urlvars' => [
+							'action' => 'confselectrows',
+							'table' => Decorator::field('relname'),
+						],
+					],
+				],
+			],
+			'insert' => [
+				'content' => $lang['strinsert'],
+				'attr' => [
+					'href' => [
+						'url' => 'tables.php',
+						'urlvars' => [
+							'action' => 'confinsertrow',
+							'table' => Decorator::field('relname'),
+						],
+					],
+				],
+			],
+			'empty' => [
+				'multiaction' => 'confirm_empty',
+				'content' => $lang['strempty'],
+				'attr' => [
+					'href' => [
+						'url' => 'tables.php',
+						'urlvars' => [
+							'action' => 'confirm_empty',
+							'table' => Decorator::field('relname'),
+						],
+					],
+				],
+			],
+			'alter' => [
+				'content' => $lang['stralter'],
+				'attr' => [
+					'href' => [
+						'url' => 'tblproperties.php',
+						'urlvars' => [
+							'action' => 'confirm_alter',
+							'table' => Decorator::field('relname'),
+						],
+					],
+				],
+			],
+			'drop' => [
+				'multiaction' => 'confirm_drop',
+				'content' => $lang['strdrop'],
+				'attr' => [
+					'href' => [
+						'url' => 'tables.php',
+						'urlvars' => [
+							'action' => 'confirm_drop',
+							'table' => Decorator::field('relname'),
+						],
+					],
+				],
+			],
+			'vacuum' => [
+				'multiaction' => 'confirm_vacuum',
+				'content' => $lang['strvacuum'],
+				'attr' => [
+					'href' => [
+						'url' => 'tables.php',
+						'urlvars' => [
+							'action' => 'confirm_vacuum',
+							'table' => Decorator::field('relname'),
+						],
+					],
+				],
+			],
+			'analyze' => [
+				'multiaction' => 'confirm_analyze',
+				'content' => $lang['stranalyze'],
+				'attr' => [
+					'href' => [
+						'url' => 'tables.php',
+						'urlvars' => [
+							'action' => 'confirm_analyze',
+							'table' => Decorator::field('relname'),
+						],
+					],
+				],
+			],
+			'reindex' => [
+				'multiaction' => 'confirm_reindex',
+				'content' => $lang['strreindex'],
+				'attr' => [
+					'href' => [
+						'url' => 'tables.php',
+						'urlvars' => [
+							'action' => 'confirm_reindex',
+							'table' => Decorator::field('relname'),
+						],
+					],
+				],
+			],
+			//'cluster' TODO ?
+		];
+
+		if (!$data->hasTablespaces()) {
+			unset($columns['tablespace']);
+		}
+
+		//\Kint::dump($tables);
+
+		echo $this->printTable($tables, $columns, $actions, $this->table_place, $lang['strnotables']);
+
+		$navlinks = [
+			'create' => [
+				'attr' => [
+					'href' => [
+						'url' => 'tables.php',
+						'urlvars' => [
+							'action' => 'create',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+						],
+					],
+				],
+				'content' => $lang['strcreatetable'],
+			],
+		];
+
+		if (($tables->recordCount() > 0) && $data->hasCreateTableLike()) {
+			$navlinks['createlike'] = [
+				'attr' => [
+					'href' => [
+						'url' => 'tables.php',
+						'urlvars' => [
+							'action' => 'createlike',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+						],
+					],
+				],
+				'content' => $lang['strcreatetablelike'],
+			];
+		}
+		$this->printNavLinks($navlinks, 'tables-tables', get_defined_vars());
+
+		echo $this->view->fetch('table_list_footer.twig', ['table_class' => $this->table_place]);
+
+	}
 	/**
 	 * Displays a screen where they can enter a new table
 	 */
@@ -905,217 +1119,5 @@ class TableController extends BaseController {
 			}
 		} // END DROP
 	} // END Function
-
-	/**
-	 * Show default list of tables in the database
-	 */
-	public function doDefault($msg = '') {
-		$conf = $this->conf;
-		$misc = $this->misc;
-		$lang = $this->lang;
-		$data = $misc->getDatabaseAccessor();
-
-		$this->printTrail('schema');
-		$this->printTabs('schema', 'tables');
-		$misc->printMsg($msg);
-
-		$tables = $data->getTables();
-
-		$columns = [
-			'table' => [
-				'title' => $lang['strtable'],
-				'field' => Decorator::field('relname'),
-				'url' => "/redirect/table?{$misc->href}&amp;",
-				'vars' => ['table' => 'relname'],
-			],
-			'owner' => [
-				'title' => $lang['strowner'],
-				'field' => Decorator::field('relowner'),
-			],
-			'tablespace' => [
-				'title' => $lang['strtablespace'],
-				'field' => Decorator::field('tablespace'),
-			],
-			'tuples' => [
-				'title' => $lang['strestimatedrowcount'],
-				'field' => Decorator::field('reltuples'),
-				'type' => 'numeric',
-			],
-			'actions' => [
-				'title' => $lang['stractions'],
-			],
-			'comment' => [
-				'title' => $lang['strcomment'],
-				'field' => Decorator::field('relcomment'),
-			],
-		];
-
-		$actions = [
-			'multiactions' => [
-				'keycols' => ['table' => 'relname'],
-				'url' => 'tables.php',
-				'default' => 'analyze',
-			],
-			'browse' => [
-				'content' => $lang['strbrowse'],
-				'attr' => [
-					'href' => [
-						'url' => 'display.php',
-						'urlvars' => [
-							'subject' => 'table',
-							'return' => 'table',
-							'table' => Decorator::field('relname'),
-						],
-					],
-				],
-			],
-			'select' => [
-				'content' => $lang['strselect'],
-				'attr' => [
-					'href' => [
-						'url' => 'tables.php',
-						'urlvars' => [
-							'action' => 'confselectrows',
-							'table' => Decorator::field('relname'),
-						],
-					],
-				],
-			],
-			'insert' => [
-				'content' => $lang['strinsert'],
-				'attr' => [
-					'href' => [
-						'url' => 'tables.php',
-						'urlvars' => [
-							'action' => 'confinsertrow',
-							'table' => Decorator::field('relname'),
-						],
-					],
-				],
-			],
-			'empty' => [
-				'multiaction' => 'confirm_empty',
-				'content' => $lang['strempty'],
-				'attr' => [
-					'href' => [
-						'url' => 'tables.php',
-						'urlvars' => [
-							'action' => 'confirm_empty',
-							'table' => Decorator::field('relname'),
-						],
-					],
-				],
-			],
-			'alter' => [
-				'content' => $lang['stralter'],
-				'attr' => [
-					'href' => [
-						'url' => 'tblproperties.php',
-						'urlvars' => [
-							'action' => 'confirm_alter',
-							'table' => Decorator::field('relname'),
-						],
-					],
-				],
-			],
-			'drop' => [
-				'multiaction' => 'confirm_drop',
-				'content' => $lang['strdrop'],
-				'attr' => [
-					'href' => [
-						'url' => 'tables.php',
-						'urlvars' => [
-							'action' => 'confirm_drop',
-							'table' => Decorator::field('relname'),
-						],
-					],
-				],
-			],
-			'vacuum' => [
-				'multiaction' => 'confirm_vacuum',
-				'content' => $lang['strvacuum'],
-				'attr' => [
-					'href' => [
-						'url' => 'tables.php',
-						'urlvars' => [
-							'action' => 'confirm_vacuum',
-							'table' => Decorator::field('relname'),
-						],
-					],
-				],
-			],
-			'analyze' => [
-				'multiaction' => 'confirm_analyze',
-				'content' => $lang['stranalyze'],
-				'attr' => [
-					'href' => [
-						'url' => 'tables.php',
-						'urlvars' => [
-							'action' => 'confirm_analyze',
-							'table' => Decorator::field('relname'),
-						],
-					],
-				],
-			],
-			'reindex' => [
-				'multiaction' => 'confirm_reindex',
-				'content' => $lang['strreindex'],
-				'attr' => [
-					'href' => [
-						'url' => 'tables.php',
-						'urlvars' => [
-							'action' => 'confirm_reindex',
-							'table' => Decorator::field('relname'),
-						],
-					],
-				],
-			],
-			//'cluster' TODO ?
-		];
-
-		if (!$data->hasTablespaces()) {
-			unset($columns['tablespace']);
-		}
-
-		echo $this->printTable($tables, $columns, $actions, $this->table_place, $lang['strnotables']);
-
-		$navlinks = [
-			'create' => [
-				'attr' => [
-					'href' => [
-						'url' => 'tables.php',
-						'urlvars' => [
-							'action' => 'create',
-							'server' => $_REQUEST['server'],
-							'database' => $_REQUEST['database'],
-							'schema' => $_REQUEST['schema'],
-						],
-					],
-				],
-				'content' => $lang['strcreatetable'],
-			],
-		];
-
-		if (($tables->recordCount() > 0) && $data->hasCreateTableLike()) {
-			$navlinks['createlike'] = [
-				'attr' => [
-					'href' => [
-						'url' => 'tables.php',
-						'urlvars' => [
-							'action' => 'createlike',
-							'server' => $_REQUEST['server'],
-							'database' => $_REQUEST['database'],
-							'schema' => $_REQUEST['schema'],
-						],
-					],
-				],
-				'content' => $lang['strcreatetablelike'],
-			];
-		}
-		$this->printNavLinks($navlinks, 'tables-tables', get_defined_vars());
-
-		echo $this->view->fetch('table_list_footer.twig', ['table_class' => $this->table_place]);
-
-	}
 
 }

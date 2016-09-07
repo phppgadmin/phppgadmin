@@ -8,6 +8,14 @@ namespace PHPPgAdmin\Controller;
 class IntroController extends BaseController {
 	public $_name = 'IntroController';
 
+	/* Constructor */
+	function __construct(\Slim\Container $container) {
+		$this->misc = $container->get('misc');
+
+		$this->misc->setNoDBConnection(true);
+		parent::__construct($container);
+
+	}
 	/**
 	 * Intro screen
 	 *
@@ -91,6 +99,7 @@ class IntroController extends BaseController {
 		$lang   = $this->lang;
 		$action = $this->action;
 
+		$misc->setNoDBConnection(true);
 		$misc->printHeader($lang['strintro']);
 		$misc->printBody();
 

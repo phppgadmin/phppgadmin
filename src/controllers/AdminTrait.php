@@ -182,18 +182,19 @@ trait AdminTrait {
  */
 	public function doAnalyze($type, $confirm = false) {
 		$this->script = ($type == 'database') ? 'database.php' : 'tables.php';
-		$script       = $this->script;
-		$data         = $this->data;
-		$misc         = $this->misc;
-		$lang         = $this->lang;
+
+		$script = $this->script;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$data   = $misc->getDatabaseAccessor();
 
 		if (($type == 'table') && empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
 			$this->doDefault($lang['strspecifytabletoanalyze']);
 			return;
 		}
-		\Kint::dump($_REQUEST['object']);
 
 		if ($confirm) {
+
 			if (isset($_REQUEST['ma'])) {
 				$this->printTrail('schema');
 				$misc->printTitle($lang['stranalyze'], 'pg.analyze');
@@ -201,6 +202,7 @@ trait AdminTrait {
 				echo "<form action=\"/src/views/{$script}\" method=\"post\">\n";
 				foreach ($_REQUEST['ma'] as $v) {
 					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					\Kint::dump($a);
 					echo "<p>", sprintf($lang['strconfanalyzetable'], $misc->printVal($a['table'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
 				}

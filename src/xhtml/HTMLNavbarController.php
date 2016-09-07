@@ -6,8 +6,8 @@ namespace PHPPgAdmin\XHtml;
  * Class to render tables. Formerly part of Misc.php
  *
  */
-class NavbarController extends HTMLController {
-	public $_name = 'NavbarController';
+class HTMLNavbarController extends HTMLController {
+	public $_name = 'HTMLNavbarController';
 
 	/**
 	 * Display a bread crumb trail.

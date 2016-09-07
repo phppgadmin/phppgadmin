@@ -27,6 +27,7 @@ class Misc {
 	public $form                   = '';
 	public $href                   = '';
 	public $lang                   = [];
+	private $server_info           = null;
 	private $_no_output            = false;
 
 	/* Constructor */
@@ -53,6 +54,13 @@ class Misc {
 		} else if (isset($_SESSION['webdbLogin']) && count($_SESSION['webdbLogin']) > 0) {
 			$this->server_id = array_keys($_SESSION['webdbLogin'])[0];
 		}
+
+		$_server_info = $this->getServerInfo();
+		/* starting with PostgreSQL 9.0, we can set the application name */
+		if (isset($_server_info['pgVersion']) && $_server_info['pgVersion'] >= 9) {
+			putenv("PGAPPNAME=" . $this->appName . '_' . $this->appVersion);
+		}
+
 		//\PC::debug($this->conf, 'conf');
 		//\PC::debug($this->server_id, 'server_id');
 	}
@@ -240,6 +248,7 @@ class Misc {
 	 */
 	function isDumpEnabled($all = false) {
 		$info = $this->getServerInfo();
+
 		return !empty($info[$all ? 'pg_dumpall_path' : 'pg_dump_path']);
 	}
 
@@ -2020,11 +2029,14 @@ class Misc {
 
 		if ($server_id !== null) {
 			$this->server_id = $server_id;
+		} else if ($this->server_info !== null) {
+			return $this->server_info;
 		}
 
 		// Check for the server in the logged-in list
 		if (isset($_SESSION['webdbLogin'][$this->server_id])) {
-			return $_SESSION['webdbLogin'][$this->server_id];
+			$this->server_info = $_SESSION['webdbLogin'][$this->server_id];
+			return $this->server_info;
 		}
 
 		// Otherwise, look for it in the conf file
@@ -2037,18 +2049,21 @@ class Misc {
 					$this->setReloadBrowser(true);
 					$this->setServerInfo(null, $info, $this->server_id);
 				}
+				$this->server_info = $info;
+				return $this->server_info;
 
-				return $info;
 			}
 		}
 
 		if ($server_id === null) {
-
-			return null;
+			$this->server_info = null;
+			return $this->server_info;
 
 		} else {
+			$this->server_info = null;
 			// Unable to find a matching server, are we being hacked?
 			echo $this->lang['strinvalidserverparam'];
+
 			exit;
 		}
 	}

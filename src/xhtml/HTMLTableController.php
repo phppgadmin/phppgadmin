@@ -7,8 +7,9 @@ use \PHPPgAdmin\Decorators\Decorator;
  * Class to render tables. Formerly part of Misc.php
  *
  */
-class TableController extends HTMLController {
-	public $_name = 'TableController';
+class HTMLTableController extends HTMLController {
+	public $_name = 'HTMLTableController';
+	private $ma   = [];
 
 	/**
 	 * Display a table of data.
@@ -65,7 +66,7 @@ class TableController extends HTMLController {
 		$plugin_manager->do_hook('actionbuttons', $plugin_functions_parameters);
 
 		if ($this->has_ma = isset($actions['multiactions'])) {
-			$ma = $actions['multiactions'];
+			$this->ma = $actions['multiactions'];
 		}
 		$tablehtml = '';
 
@@ -86,9 +87,9 @@ class TableController extends HTMLController {
 
 			if ($this->has_ma) {
 				$tablehtml .= "<script src=\"/js/multiactionform.js\" type=\"text/javascript\"></script>\n";
-				$tablehtml .= "<form id=\"multi_form\" action=\"{$ma['url']}\" method=\"post\" enctype=\"multipart/form-data\">\n";
-				if (isset($ma['vars'])) {
-					foreach ($ma['vars'] as $k => $v) {
+				$tablehtml .= "<form id=\"multi_form\" action=\"{$this->ma['url']}\" method=\"post\" enctype=\"multipart/form-data\">\n";
+				if (isset($this->ma['vars'])) {
+					foreach ($this->ma['vars'] as $k => $v) {
 						$tablehtml .= "<input type=\"hidden\" name=\"$k\" value=\"$v\" />";
 					}
 				}
@@ -108,8 +109,8 @@ class TableController extends HTMLController {
 			// Multi action table footer w/ options & [un]check'em all
 			if ($this->has_ma) {
 				// if default is not set or doesn't exist, set it to null
-				if (!isset($ma['default']) || !isset($actions[$ma['default']])) {
-					$ma['default'] = null;
+				if (!isset($this->ma['default']) || !isset($actions[$this->ma['default']])) {
+					$this->ma['default'] = null;
 				}
 
 				$tablehtml .= "<br />\n";
@@ -124,13 +125,16 @@ class TableController extends HTMLController {
 				$tablehtml .= "<td>&nbsp;--->&nbsp;</td>\n";
 				$tablehtml .= "<td>\n";
 				$tablehtml .= "\t<select name=\"action\">\n";
-				if ($ma['default'] == null) {
+				if ($this->ma['default'] == null) {
 					$tablehtml .= "\t\t<option value=\"\">--</option>\n";
 				}
 
 				foreach ($actions as $k => $a) {
 					if (isset($a['multiaction'])) {
-						$tablehtml .= "\t\t<option value=\"{$a['multiaction']}\"" . ($ma['default'] == $k ? ' selected="selected"' : '') . ">{$a['content']}</option>\n";
+						$selected = $this->ma['default'] == $k ? ' selected="selected" ' : '';
+						$tablehtml .= "\t\t";
+						$tablehtml .= '<option value="' . $a['multiaction'] . '" ' . $selected . ' rel="' . $k . '">' . $a['content'] . '</option>';
+						$tablehtml .= "\n";
 					}
 				}
 
@@ -170,10 +174,11 @@ class TableController extends HTMLController {
 
 			$tbody_html .= "<tr class=\"data{$id}\">\n";
 			if ($this->has_ma) {
-				foreach ($ma['keycols'] as $k => $v) {
+				$a = [];
+				foreach ($this->ma['keycols'] as $k => $v) {
 					$a[$k] = $tabledata->fields[$v];
 				}
-				\Kint::dump($a);
+				//\Kint::dump($a);
 				$tbody_html .= "<td>";
 				$tbody_html .= "<input type=\"checkbox\" name=\"ma[]\" value=\"" . htmlentities(serialize($a), ENT_COMPAT, 'UTF-8') . "\" />";
 				$tbody_html .= "</td>\n";
@@ -258,12 +263,12 @@ class TableController extends HTMLController {
 			switch ($column_id) {
 				case 'actions':
 					if (sizeof($actions) > 0) {
-						$thead_html .= "<th class=\"data\" colspan=\"" . count($actions) . "\">{$column['title']}</th>\n";
+						$thead_html .= '<th class="data" colspan="' . count($actions) . '">' . $column['title'] . '</th>' . "\n";
 					}
 
 					break;
 				default:
-					$thead_html .= "<th class=\"data{$class}\">";
+					$thead_html .= '<th class="data' . $class . '">';
 					if (isset($column['help'])) {
 						$thead_html .= $this->misc->printHelp($column['title'], $column['help'], false);
 					} else {

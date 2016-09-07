@@ -7,32 +7,40 @@ namespace PHPPgAdmin\Controller;
  */
 class LoginController extends BaseController {
 
-	private $container         = null;
-	private $_connection       = null;
-	private $_no_db_connection = false;
-	private $_reload_browser   = false;
-	private $app               = null;
-	private $data              = null;
-	private $database          = null;
-	private $server_id         = null;
-	public $appLangFiles       = [];
-	public $appThemes          = [];
-	public $appName            = '';
-	public $appVersion         = '';
-	public $form               = '';
-	public $href               = '';
-	public $lang               = [];
-	public $action             = '';
-	public $_name              = 'LoginController';
-	public $_title             = 'strlogin';
+	private $container       = null;
+	private $_connection     = null;
+	private $_reload_browser = false;
+	private $app             = null;
+	private $data            = null;
+	private $database        = null;
+	private $server_id       = null;
+	public $appLangFiles     = [];
+	public $appThemes        = [];
+	public $appName          = '';
+	public $appVersion       = '';
+	public $form             = '';
+	public $href             = '';
+	public $lang             = [];
+	public $action           = '';
+	public $_name            = 'LoginController';
+	public $_title           = 'strlogin';
+
+	/* Constructor */
+	function __construct(\Slim\Container $container) {
+		$this->misc = $container->get('misc');
+
+		$this->misc->setNoDBConnection(true);
+		parent::__construct($container);
+
+	}
 
 	function doLoginForm($msg = '') {
 
 		$conf = $this->conf;
 		$misc = $this->misc;
 		$lang = $this->lang;
-		//\PC::debug($misc, 'LoginController::doLoginForm');
-		//$msg  = $container->msg;
+
+		$misc->setNoDBConnection(true);
 
 		$login_html = $misc->printHeader($lang[$this->_title], null, false);
 		$login_html .= $misc->printBody(false);
@@ -118,6 +126,8 @@ class LoginController extends BaseController {
 		$misc   = $this->misc;
 		$lang   = $this->lang;
 		$action = $this->action;
+
+		$misc->setNoDBConnection(true);
 
 		switch ($action) {
 			default:
