@@ -140,7 +140,6 @@ class TableSpacesController extends BaseController {
 	 * Displays a screen where they can enter a new tablespace
 	 */
 	function doCreate($msg = '') {
-		global $spcname;
 		$conf = $this->conf;
 		$misc = $this->misc;
 		$lang = $this->lang;

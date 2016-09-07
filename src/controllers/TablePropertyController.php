@@ -100,13 +100,13 @@ class TablePropertyController extends BaseController {
 				// Jump them to the new table name
 				$_REQUEST['table'] = $_POST['name'];
 				// Force a browser reload
-				$_reload_browser = true;
+				$misc->setReloadBrowser(true);
 			}
 			// If schema has changed, need to change to the new schema and reload the browser
 			if (!empty($_POST['newschema']) && ($_POST['newschema'] != $data->_schema)) {
 				// Jump them to the new sequence schema
 				$misc->setCurrentSchema($_POST['newschema']);
-				$_reload_browser = true;
+				$misc->setReloadBrowser(true);
 			}
 			$this->doDefault($lang['strtablealtered']);
 		} else {
@@ -463,7 +463,7 @@ class TablePropertyController extends BaseController {
 					$_POST['type'], $_POST['array'] != '', $_POST['length'], isset($_POST['notnull']),
 					$_POST['default'], $_POST['comment']);
 				if ($status == 0) {
-					$_reload_browser = true;
+					$misc->setReloadBrowser(true);
 					$this->doDefault($lang['strcolumnadded']);
 				} else {
 					$_REQUEST['stage'] = 1;
@@ -504,7 +504,7 @@ class TablePropertyController extends BaseController {
 		} else {
 			$status = $data->dropColumn($_POST['table'], $_POST['column'], isset($_POST['cascade']));
 			if ($status == 0) {
-				$_reload_browser = true;
+				$misc->setReloadBrowser(true);
 				$this->doDefault($lang['strcolumndropped']);
 			} else {
 				$this->doDefault($lang['strcolumndroppedbad']);

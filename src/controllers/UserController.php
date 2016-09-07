@@ -339,10 +339,9 @@ class UserController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		function renderUseExpires($val) {
-			global $lang;
+		$renderUseExpires = function ($val) use ($lang) {
 			return $val == 'infinity' ? $lang['strnever'] : htmlspecialchars($val);
-		}
+		};
 
 		$this->printTrail('server');
 		$this->printTabs('server', 'users');
@@ -369,7 +368,7 @@ class UserController extends BaseController {
 				'title' => $lang['strexpires'],
 				'field' => Decorator::field('useexpires'),
 				'type' => 'callback',
-				'params' => ['function' => 'renderUseExpires', 'null' => $lang['strnever']],
+				'params' => ['function' => $renderUseExpires, 'null' => $lang['strnever']],
 			],
 			'defaults' => [
 				'title' => $lang['strsessiondefaults'],

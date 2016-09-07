@@ -31,6 +31,6 @@ function doTree() {
 		),
 	];
 
-	$misc->printTree($types, $attrs, 'types');
-	exit;
+	return $misc->printTree($types, $attrs, 'types');
+
 }

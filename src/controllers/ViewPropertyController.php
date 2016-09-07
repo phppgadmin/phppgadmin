@@ -195,7 +195,6 @@ class ViewPropertyController extends BaseController {
 
 		switch ($_REQUEST['stage']) {
 			case 1:
-				global $lang;
 
 				$this->printTrail('column');
 				$misc->printTitle($lang['stralter'], 'pg.column.alter');
@@ -238,7 +237,6 @@ class ViewPropertyController extends BaseController {
 
 				break;
 			case 2:
-				global $data, $lang;
 
 				// Check inputs
 				if (trim($_REQUEST['field']) == '') {
@@ -348,7 +346,6 @@ class ViewPropertyController extends BaseController {
 			}
 
 		} else {
-			global $data, $lang, $_reload_browser, $misc;
 
 			// For databases that don't allow owner change
 			if (!isset($_POST['owner'])) {

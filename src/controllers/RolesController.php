@@ -9,16 +9,201 @@ use \PHPPgAdmin\Decorators\Decorator;
 class RolesController extends BaseController {
 	public $_name = 'RolesController';
 
-/**
- * Displays a screen for create a new role
- */
-	function doCreate($msg = '') {
+	/**
+	 * Show default list of roles in the database
+	 */
+	function doDefault($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		global $username;
+		$renderRoleConnLimit = function ($val) use ($lang) {
+			return $val == '-1' ? $lang['strnolimit'] : htmlspecialchars($val);
+		};
+
+		$renderRoleExpires = function ($val) use ($lang) {
+			return $val == 'infinity' ? $lang['strnever'] : htmlspecialchars($val);
+		};
+
+		$this->printTrail('server');
+		$this->printTabs('server', 'roles');
+		$misc->printMsg($msg);
+
+		$roles = $data->getRoles();
+
+		$columns = [
+			'role' => [
+				'title' => $lang['strrole'],
+				'field' => Decorator::field('rolname'),
+				'url' => "/redirect/role?action=properties&amp;{$misc->href}&amp;",
+				'vars' => ['rolename' => 'rolname'],
+			],
+			'superuser' => [
+				'title' => $lang['strsuper'],
+				'field' => Decorator::field('rolsuper'),
+				'type' => 'yesno',
+			],
+			'createdb' => [
+				'title' => $lang['strcreatedb'],
+				'field' => Decorator::field('rolcreatedb'),
+				'type' => 'yesno',
+			],
+			'createrole' => [
+				'title' => $lang['strcancreaterole'],
+				'field' => Decorator::field('rolcreaterole'),
+				'type' => 'yesno',
+			],
+			'inherits' => [
+				'title' => $lang['strinheritsprivs'],
+				'field' => Decorator::field('rolinherit'),
+				'type' => 'yesno',
+			],
+			'canloging' => [
+				'title' => $lang['strcanlogin'],
+				'field' => Decorator::field('rolcanlogin'),
+				'type' => 'yesno',
+			],
+			'connlimit' => [
+				'title' => $lang['strconnlimit'],
+				'field' => Decorator::field('rolconnlimit'),
+				'type' => 'callback',
+				'params' => ['function' => $renderRoleConnLimit],
+			],
+			'expires' => [
+				'title' => $lang['strexpires'],
+				'field' => Decorator::field('rolvaliduntil'),
+				'type' => 'callback',
+				'params' => ['function' => $renderRoleExpires, 'null' => $lang['strnever']],
+			],
+			'actions' => [
+				'title' => $lang['stractions'],
+			],
+		];
+
+		$actions = [
+			'alter' => [
+				'content' => $lang['stralter'],
+				'attr' => [
+					'href' => [
+						'url' => 'roles.php',
+						'urlvars' => [
+							'action' => 'alter',
+							'rolename' => Decorator::field('rolname'),
+						],
+					],
+				],
+			],
+			'drop' => [
+				'content' => $lang['strdrop'],
+				'attr' => [
+					'href' => [
+						'url' => 'roles.php',
+						'urlvars' => [
+							'action' => 'confirm_drop',
+							'rolename' => Decorator::field('rolname'),
+						],
+					],
+				],
+			],
+		];
+
+		echo $this->printTable($roles, $columns, $actions, 'roles-roles', $lang['strnoroles']);
+
+		$navlinks = [
+			'create' => [
+				'attr' => [
+					'href' => [
+						'url' => 'roles.php',
+						'urlvars' => [
+							'action' => 'create',
+							'server' => $_REQUEST['server'],
+						],
+					],
+				],
+				'content' => $lang['strcreaterole'],
+			],
+		];
+		$this->printNavLinks($navlinks, 'roles-roles', get_defined_vars());
+	}
+
+	function render() {
+
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$data   = $misc->getDatabaseAccessor();
+		$action = $this->action;
+
+		$misc->printHeader($lang['strroles']);
+		$misc->printBody();
+
+		switch ($action) {
+			case 'create':
+				$this->doCreate();
+				break;
+			case 'save_create':
+				if (isset($_POST['create'])) {
+					$this->doSaveCreate();
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'alter':
+				$this->doAlter();
+				break;
+			case 'save_alter':
+				if (isset($_POST['alter'])) {
+					$this->doSaveAlter();
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'confirm_drop':
+				$this->doDrop(true);
+				break;
+			case 'drop':
+				if (isset($_POST['drop'])) {
+					$this->doDrop(false);
+				} else {
+					$this->doDefault();
+				}
+
+				break;
+			case 'properties':
+				$this->doProperties();
+				break;
+			case 'confchangepassword':
+				$this->doChangePassword(true);
+				break;
+			case 'changepassword':
+				if (isset($_REQUEST['ok'])) {
+					$this->doChangePassword(false);
+				} else {
+					$this->doAccount();
+				}
+
+				break;
+			case 'account':
+				$this->doAccount();
+				break;
+			default:
+				$this->doDefault();
+		}
+
+		$misc->printFooter();
+	}
+
+	/**
+	 * Displays a screen for create a new role
+	 */
+	function doCreate($msg = '') {
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		if (!isset($_POST['formRolename'])) {
 			$_POST['formRolename'] = '';
@@ -133,9 +318,9 @@ class RolesController extends BaseController {
 		echo "</form>\n";
 	}
 
-/**
- * Actually creates the new role in the database
- */
+	/**
+	 * Actually creates the new role in the database
+	 */
 	function doSaveCreate() {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -173,9 +358,9 @@ class RolesController extends BaseController {
 		}
 	}
 
-/**
- * Function to allow alter a role
- */
+	/**
+	 * Function to allow alter a role
+	 */
 	function doAlter($msg = '') {
 		$conf = $this->conf;
 		$misc = $this->misc;
@@ -670,189 +855,6 @@ class RolesController extends BaseController {
 
 			}
 		}
-	}
-
-	/**
-	 * Show default list of roles in the database
-	 */
-	function doDefault($msg = '') {
-		$conf = $this->conf;
-		$misc = $this->misc;
-		$lang = $this->lang;
-		$data = $misc->getDatabaseAccessor();
-
-		function renderRoleConnLimit($val) {
-			global $lang;
-			return $val == '-1' ? $lang['strnolimit'] : htmlspecialchars($val);
-		}
-
-		function renderRoleExpires($val) {
-			global $lang;
-			return $val == 'infinity' ? $lang['strnever'] : htmlspecialchars($val);
-		}
-
-		$this->printTrail('server');
-		$this->printTabs('server', 'roles');
-		$misc->printMsg($msg);
-
-		$roles = $data->getRoles();
-
-		$columns = [
-			'role' => [
-				'title' => $lang['strrole'],
-				'field' => Decorator::field('rolname'),
-				'url' => "/redirect/role?action=properties&amp;{$misc->href}&amp;",
-				'vars' => ['rolename' => 'rolname'],
-			],
-			'superuser' => [
-				'title' => $lang['strsuper'],
-				'field' => Decorator::field('rolsuper'),
-				'type' => 'yesno',
-			],
-			'createdb' => [
-				'title' => $lang['strcreatedb'],
-				'field' => Decorator::field('rolcreatedb'),
-				'type' => 'yesno',
-			],
-			'createrole' => [
-				'title' => $lang['strcancreaterole'],
-				'field' => Decorator::field('rolcreaterole'),
-				'type' => 'yesno',
-			],
-			'inherits' => [
-				'title' => $lang['strinheritsprivs'],
-				'field' => Decorator::field('rolinherit'),
-				'type' => 'yesno',
-			],
-			'canloging' => [
-				'title' => $lang['strcanlogin'],
-				'field' => Decorator::field('rolcanlogin'),
-				'type' => 'yesno',
-			],
-			'connlimit' => [
-				'title' => $lang['strconnlimit'],
-				'field' => Decorator::field('rolconnlimit'),
-				'type' => 'callback',
-				'params' => ['function' => 'renderRoleConnLimit'],
-			],
-			'expires' => [
-				'title' => $lang['strexpires'],
-				'field' => Decorator::field('rolvaliduntil'),
-				'type' => 'callback',
-				'params' => ['function' => 'renderRoleExpires', 'null' => $lang['strnever']],
-			],
-			'actions' => [
-				'title' => $lang['stractions'],
-			],
-		];
-
-		$actions = [
-			'alter' => [
-				'content' => $lang['stralter'],
-				'attr' => [
-					'href' => [
-						'url' => 'roles.php',
-						'urlvars' => [
-							'action' => 'alter',
-							'rolename' => Decorator::field('rolname'),
-						],
-					],
-				],
-			],
-			'drop' => [
-				'content' => $lang['strdrop'],
-				'attr' => [
-					'href' => [
-						'url' => 'roles.php',
-						'urlvars' => [
-							'action' => 'confirm_drop',
-							'rolename' => Decorator::field('rolname'),
-						],
-					],
-				],
-			],
-		];
-
-		echo $this->printTable($roles, $columns, $actions, 'roles-roles', $lang['strnoroles']);
-
-		$navlinks = [
-			'create' => [
-				'attr' => [
-					'href' => [
-						'url' => 'roles.php',
-						'urlvars' => [
-							'action' => 'create',
-							'server' => $_REQUEST['server'],
-						],
-					],
-				],
-				'content' => $lang['strcreaterole'],
-			],
-		];
-		$this->printNavLinks($navlinks, 'roles-roles', get_defined_vars());
-	}
-
-	function render() {
-
-		$misc->printHeader($lang['strroles']);
-		$misc->printBody();
-
-		switch ($action) {
-			case 'create':
-				$this->doCreate();
-				break;
-			case 'save_create':
-				if (isset($_POST['create'])) {
-					$this->doSaveCreate();
-				} else {
-					$this->doDefault();
-				}
-
-				break;
-			case 'alter':
-				$this->doAlter();
-				break;
-			case 'save_alter':
-				if (isset($_POST['alter'])) {
-					$this->doSaveAlter();
-				} else {
-					$this->doDefault();
-				}
-
-				break;
-			case 'confirm_drop':
-				$this->doDrop(true);
-				break;
-			case 'drop':
-				if (isset($_POST['drop'])) {
-					$this->doDrop(false);
-				} else {
-					$this->doDefault();
-				}
-
-				break;
-			case 'properties':
-				$this->doProperties();
-				break;
-			case 'confchangepassword':
-				$this->doChangePassword(true);
-				break;
-			case 'changepassword':
-				if (isset($_REQUEST['ok'])) {
-					$this->doChangePassword(false);
-				} else {
-					$this->doAccount();
-				}
-
-				break;
-			case 'account':
-				$this->doAccount();
-				break;
-			default:
-				$this->doDefault();
-		}
-
-		$misc->printFooter();
 	}
 
 }

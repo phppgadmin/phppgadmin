@@ -6,8 +6,10 @@ use \PHPPgAdmin\Decorators\Decorator;
  * $Id: viewproperties.php,v 1.34 2007/12/11 14:17:17 ioguix Exp $
  */
 
-function doTree() {
-	global $misc, $data;
+function doTree($container) {
+
+	$misc = $container->get('misc');
+	$data = $misc->getDatabaseAccessor();
 
 	$reqvars = $misc->getRequestVars('column');
 	$columns = $data->getTableAttributes($_REQUEST['view']);
@@ -39,7 +41,6 @@ function doTree() {
 		'toolTip' => Decorator::field('comment'),
 	];
 
-	$misc->printTree($columns, $attrs, 'viewcolumns');
+	return $misc->printTree($columns, $attrs, 'viewcolumns');
 
-	exit;
 }

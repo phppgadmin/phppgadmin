@@ -25,6 +25,6 @@ function doTree($container) {
 		'icon' => 'Cast',
 	];
 
-	$misc->printTree($casts, $attrs, 'casts');
-	exit;
+	return $misc->printTree($casts, $attrs, 'casts');
+
 }

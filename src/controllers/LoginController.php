@@ -7,23 +7,22 @@ namespace PHPPgAdmin\Controller;
  */
 class LoginController extends BaseController {
 
-	private $container       = null;
-	private $_connection     = null;
-	private $_reload_browser = false;
-	private $app             = null;
-	private $data            = null;
-	private $database        = null;
-	private $server_id       = null;
-	public $appLangFiles     = [];
-	public $appThemes        = [];
-	public $appName          = '';
-	public $appVersion       = '';
-	public $form             = '';
-	public $href             = '';
-	public $lang             = [];
-	public $action           = '';
-	public $_name            = 'LoginController';
-	public $_title           = 'strlogin';
+	private $container   = null;
+	private $_connection = null;
+	private $app         = null;
+	private $data        = null;
+	private $database    = null;
+	private $server_id   = null;
+	public $appLangFiles = [];
+	public $appThemes    = [];
+	public $appName      = '';
+	public $appVersion   = '';
+	public $form         = '';
+	public $href         = '';
+	public $lang         = [];
+	public $action       = '';
+	public $_name        = 'LoginController';
+	public $_title       = 'strlogin';
 
 	/* Constructor */
 	function __construct(\Slim\Container $container) {

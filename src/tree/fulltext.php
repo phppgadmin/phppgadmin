@@ -61,7 +61,7 @@ function doSubTree($container, $what) {
 			$urlvars = ['action' => 'viewparsers'];
 			break;
 		default:
-			exit;
+			return;
 	}
 
 	$reqvars = $misc->getRequestVars('ftscfg');

@@ -24,6 +24,6 @@ function doTree($container) {
 		'toolTip' => Decorator::field('concomment'),
 	];
 
-	$misc->printTree($conversions, $attrs, 'conversions');
-	exit;
+	return $misc->printTree($conversions, $attrs, 'conversions');
+
 }

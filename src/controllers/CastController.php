@@ -18,14 +18,14 @@ class CastController extends BaseController {
 		$lang = $this->lang;
 		$data = $misc->getDatabaseAccessor();
 
-		function renderCastContext($val) {
-			global $lang;
+		$renderCastContext = function ($val) use ($lang) {
+
 			switch ($val) {
 				case 'e':return $lang['strno'];
 				case 'a':return $lang['strinassignment'];
 				default:return $lang['stryes'];
 			}
-		}
+		};
 
 		$this->printTrail('database');
 		$this->printTabs('database', 'casts');
@@ -51,7 +51,7 @@ class CastController extends BaseController {
 				'title' => $lang['strimplicit'],
 				'field' => Decorator::field('castcontext'),
 				'type' => 'callback',
-				'params' => ['function' => 'renderCastContext', 'align' => 'center'],
+				'params' => ['function' => $renderCastContext, 'align' => 'center'],
 			],
 			'comment' => [
 				'title' => $lang['strcomment'],
@@ -62,5 +62,26 @@ class CastController extends BaseController {
 		$actions = [];
 
 		echo $this->printTable($casts, $columns, $actions, 'casts-casts', $lang['strnocasts']);
+	}
+
+	public function render() {
+		$conf   = $this->conf;
+		$misc   = $this->misc;
+		$lang   = $this->lang;
+		$data   = $misc->getDatabaseAccessor();
+		$action = $this->action;
+
+		$misc->printHeader($lang['strcasts']);
+		$misc->printBody();
+
+		switch ($action) {
+
+			default:
+				$cast_controller->doDefault();
+				break;
+		}
+
+		$misc->printFooter();
+
 	}
 }

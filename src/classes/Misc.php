@@ -124,9 +124,7 @@ class Misc {
 	}
 
 	function setNoOutput($flag) {
-		global $_no_output;
 		$this->_no_output = boolval($flag);
-		$_no_output       = $this->_no_output;
 		return $this;
 	}
 
@@ -163,18 +161,14 @@ class Misc {
 	 * @param boolean $flag sets internal $_reload_browser var which will be passed to the footer methods
 	 */
 	function setReloadBrowser($flag) {
-		global $_reload_browser;
-		$_reload_browser       = $flag;
 		$this->_reload_browser = boolval($flag);
 		return $this;
 	}
 	/**
 	 * [setReloadBrowser description]
-	 * @param boolean $flag sets internal $_reload_browser var which will be passed to the footer methods
+	 * @param boolean $flag sets internal $_reload_drop_database var which will be passed to the footer methods
 	 */
 	function setReloadDropDatabase($flag) {
-		global $_reload_drop_database;
-		$_reload_drop_database       = $flag;
 		$this->_reload_drop_database = boolval($flag);
 		return $this;
 	}
@@ -286,7 +280,7 @@ class Misc {
 	}
 
 	function getSubjectParams($subject) {
-		global $plugin_manager;
+		$plugin_manager = $this->plugin_manager;
 
 		$vars = [];
 
@@ -738,7 +732,7 @@ class Misc {
 	}
 
 	/**
-	 * Prints the page header.  If global variable $_no_output is
+	 * Prints the page header.  If member variable $this->_no_output is
 	 * set then no header is drawn.
 	 * @param $title The title of the page
 	 * @param $script script tag
@@ -1549,7 +1543,7 @@ class Misc {
 	 * @param $max_width - the number of pages to make available at any one time (default = 20)
 	 */
 	function printPages($page, $pages, $gets, $max_width = 20) {
-		global $lang;
+		$lang = $this->lang;
 
 		$window = 10;
 
@@ -1850,7 +1844,8 @@ class Misc {
 	 * @return The escaped string
 	 */
 	function escapeShellArg($str) {
-		global $data, $lang;
+		$data = $this->getDatabaseAccessor();
+		$lang = $this->lang;
 
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			// Due to annoying PHP bugs, shell arguments cannot be escaped
@@ -1874,7 +1869,7 @@ class Misc {
 	 * @return The escaped string
 	 */
 	function escapeShellCmd($str) {
-		global $data;
+		$data = $this->getDatabaseAccessor();
 
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			$data->fieldClean($str);
@@ -2108,7 +2103,7 @@ class Misc {
 	 * @return $data->seSchema() on error
 	 */
 	function setCurrentSchema($schema) {
-		global $data;
+		$data = $this->getDatabaseAccessor();
 
 		$status = $data->setSchema($schema);
 		if ($status != 0) {
@@ -2237,7 +2232,7 @@ class Misc {
 	 *   )
 	 **/
 	function getAutocompleteFKProperties($table) {
-		global $data;
+		$data = $this->getDatabaseAccessor();
 
 		$fksprops = [
 			'byconstr' => [],

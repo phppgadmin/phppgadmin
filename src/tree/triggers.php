@@ -21,6 +21,6 @@ function doTree($container) {
 		'icon' => 'Trigger',
 	];
 
-	$misc->printTree($triggers, $attrs, 'triggers');
-	exit;
+	return $misc->printTree($triggers, $attrs, 'triggers');
+
 }

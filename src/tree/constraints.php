@@ -36,6 +36,6 @@ function doTree($container) {
 		'icon' => Decorator::callback('getIcon'),
 	];
 
-	$misc->printTree($constraints, $attrs, 'constraints');
-	exit;
+	return $misc->printTree($constraints, $attrs, 'constraints');
+
 }

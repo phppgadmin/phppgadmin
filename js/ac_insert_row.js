@@ -74,13 +74,13 @@ function openlist(e) {
     };
 
     jQuery.ajax({
-        url: 'ajax-ac-insert.php?server=' + server,
+        url: '/srv/views/ajax-ac-insert.php?server=' + server,
         type: 'post',
         data: datas,
         dataType: 'html',
         cache: false,
         contentType: 'application/x-www-form-urlencoded',
-        success: function(ret) {
+        success: function (ret) {
             jQuery.ppa.i = 0;
             jQuery.ppa.fkbg.show();
             with(jQuery.ppa.fklist) {
@@ -162,11 +162,11 @@ function autocomplete(event) {
 
 /* bind actions on values lines: hover for style change, click for select */
 with(jQuery('tr.acline')) {
-    live('mouseover', function() {
+    live('mouseover', function () {
         selectVal(jQuery('table.ac_values tr').index(this));
     });
 
-    live('click', function() {
+    live('click', function () {
         var a = jQuery(this).find('td > a.fkval');
 
         for (i = 0; i < a.length; i++) {
@@ -177,8 +177,7 @@ with(jQuery('tr.acline')) {
 }
 
 
-
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     /* register some global value in the ppa namespace */
     jQuery.ppa = {
         fklist: jQuery('#fklist'),
@@ -188,7 +187,7 @@ jQuery(document).ready(function() {
         o: 0 // offset when navigating prev/next
     };
 
-    jQuery.ppa.fklist.on('click', '#fkprev', function() {
+    jQuery.ppa.fklist.on('click', '#fkprev', function () {
         jQuery.ppa.o -= 11;
         /* get the field that is the previous html elt from the #fklist
          * and trigger its focus to refresh the list AND actualy 
@@ -197,7 +196,7 @@ jQuery(document).ready(function() {
     });
 
 
-    jQuery.ppa.fklist.on('click', '#fknext', function() {
+    jQuery.ppa.fklist.on('click', '#fknext', function () {
         jQuery.ppa.o += 11;
         /* get the field that is the previous html elt from the #fklist
          * and trigger its focus to refresh the list AND actualy 
@@ -206,20 +205,20 @@ jQuery(document).ready(function() {
     });
 
     /* close the list when clicking outside of it */
-    jQuery.ppa.fkbg.click(function(e) {
+    jQuery.ppa.fkbg.click(function (e) {
         hideAc();
     });
 
     /* do not submit the form when selecting a value by pressing enter */
     jQuery.ppa.attrs
-        .keydown(function(e) {
+        .keydown(function (e) {
             if (e.keyCode == 13 && jQuery.ppa.fklist[0].style.display == 'block')
                 return false;
         });
 
     /* enable/disable auto-complete according to the checkbox */
     triggerAc(
-        jQuery('#no_ac').click(function() {
+        jQuery('#no_ac').click(function () {
             triggerAc(this.checked);
         })[0].checked
     );

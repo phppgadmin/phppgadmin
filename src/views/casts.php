@@ -11,14 +11,4 @@ require_once '../lib.inc.php';
 
 $cast_controller = new \PHPPgAdmin\Controller\CastController($container);
 
-$misc->printHeader($lang['strcasts']);
-$misc->printBody();
-
-switch ($action) {
-
-	default:
-		$cast_controller->doDefault();
-		break;
-}
-
-$misc->printFooter();
+$cast_controller->render();

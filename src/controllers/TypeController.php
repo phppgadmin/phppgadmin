@@ -107,8 +107,10 @@ class TypeController extends BaseController {
  * Show confirmation of drop and perform actual drop
  */
 	public function doDrop($confirm) {
-		global $data, $misc;
-		global $lang;
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		if ($confirm) {
 			$this->printTrail('type');
@@ -140,8 +142,10 @@ class TypeController extends BaseController {
  * Displays a screen where they can enter a new composite type
  */
 	public function doCreateComposite($msg = '') {
-		global $data, $misc;
-		global $lang;
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		if (!isset($_REQUEST['stage'])) {
 			$_REQUEST['stage'] = 1;
@@ -187,7 +191,6 @@ class TypeController extends BaseController {
 				echo "</form>\n";
 				break;
 			case 2:
-				global $lang;
 
 				// Check inputs
 				$fields = trim($_REQUEST['fields']);
@@ -265,7 +268,6 @@ class TypeController extends BaseController {
 
 				break;
 			case 3:
-				global $data, $lang;
 
 				// Check inputs
 				$fields = trim($_REQUEST['fields']);
@@ -304,8 +306,10 @@ class TypeController extends BaseController {
  * Displays a screen where they can enter a new enum type
  */
 	public function doCreateEnum($msg = '') {
-		global $data, $misc;
-		global $lang;
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		if (!isset($_REQUEST['stage'])) {
 			$_REQUEST['stage'] = 1;
@@ -351,7 +355,6 @@ class TypeController extends BaseController {
 				echo "</form>\n";
 				break;
 			case 2:
-				global $lang;
 
 				// Check inputs
 				$values = trim($_REQUEST['values']);
@@ -397,7 +400,6 @@ class TypeController extends BaseController {
 
 				break;
 			case 3:
-				global $data, $lang;
 
 				// Check inputs
 				$values = trim($_REQUEST['values']);
@@ -434,8 +436,10 @@ class TypeController extends BaseController {
  * Displays a screen where they can enter a new type
  */
 	public function doCreate($msg = '') {
-		global $data, $misc;
-		global $lang;
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		if (!isset($_POST['typname'])) {
 			$_POST['typname'] = '';
@@ -553,8 +557,10 @@ class TypeController extends BaseController {
  * Actually creates the new type in the database
  */
 	public function doSaveCreate() {
-		global $data;
-		global $lang;
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		// Check that they've given a name and a length.
 		// Note: We're assuming they've given in and out functions here
@@ -589,8 +595,10 @@ class TypeController extends BaseController {
  * Show default list of types in the database
  */
 	public function doDefault($msg = '') {
-		global $data, $conf, $misc;
-		global $lang;
+		$conf = $this->conf;
+		$misc = $this->misc;
+		$lang = $this->lang;
+		$data = $misc->getDatabaseAccessor();
 
 		$this->printTrail('schema');
 		$this->printTabs('schema', 'types');

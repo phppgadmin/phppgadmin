@@ -8,7 +8,6 @@ namespace PHPPgAdmin\Controller;
 class BaseController {
 	private $container        = null;
 	private $_connection      = null;
-	private $_reload_browser  = false;
 	private $app              = null;
 	private $data             = null;
 	private $database         = null;
