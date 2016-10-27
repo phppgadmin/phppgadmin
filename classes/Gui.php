@@ -9,7 +9,7 @@
 		/**
 		 *Constructor
 		 */
-		function GUI () {}
+		function __construct () {}
 		 
 		/**
 		 * Prints a combox box
@@ -21,7 +21,7 @@
 		 * @param (optional) $iSize int to specify the size IF a multi select combo
 		 * @return string with the generated HTML select box
 		 */
-		function printCombo(&$arrOptions, $szName, $bBlankEntry = true, $szDefault = '', $bMultiple = false, $iSize = 10) {
+	 	static function printCombo(&$arrOptions, $szName, $bBlankEntry = true, $szDefault = '', $bMultiple = false, $iSize = 10) {
 			$htmlOut = '';
 			if ($bMultiple) // If multiple select combo
 				$htmlOut .= "<select name=\"$szName\" id=\"$szName\" multiple=\"multiple\" size=\"$iSize\">\n";
