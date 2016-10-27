@@ -12,7 +12,7 @@ class ArrayRecordSet {
 	var $EOF = false;
 	var $fields;
 	
-	function ArrayRecordSet($data) {
+	function __construct($data) {
 		$this->_array = $data;
 		$this->_count = count($this->_array);
 		$this->fields = reset($this->_array);

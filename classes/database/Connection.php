@@ -19,7 +19,7 @@ class Connection {
 	 * Creates a new connection.  Will actually make a database connection.
 	 * @param $fetchMode Defaults to associative.  Override for different behaviour
 	 */
-	function Connection($host, $port, $sslmode, $user, $password, $database, $fetchMode = ADODB_FETCH_ASSOC) {
+	function __construct($host, $port, $sslmode, $user, $password, $database, $fetchMode = ADODB_FETCH_ASSOC) {
 		$this->conn = ADONewConnection('postgres7');
 		$this->conn->setFetchMode($fetchMode);
 
