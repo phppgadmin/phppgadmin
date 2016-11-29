@@ -50,11 +50,11 @@
 				$finfo = $res->fetchField($j++);
 				if (in_array($n, $fkeynames))
 					echo "<td><a href=\"javascript:void(0)\" class=\"fkval\" name=\"{$keyspos[$n]}\">",
-						$misc->printVal($v, $finfo->type, array('clip' => 'collapsed')),
+						$misc->printVal($v, $finfo->type, array('clip' => 'collapsed', 'autocomplete' => 'true')),
 						"</a></td>";
 				else
 					echo "<td><a href=\"javascript:void(0)\">",
-						$misc->printVal($v, $finfo->type, array('clip' => 'collapsed')),
+						$misc->printVal($v, $finfo->type, array('clip' => 'collapsed', 'autocomplete' => 'true')),
 						"</a></td>";
 			}
 			echo "</tr>\n";

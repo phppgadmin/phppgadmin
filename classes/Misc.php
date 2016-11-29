@@ -280,7 +280,7 @@
 				case 'xid':
 				case 'cid':
 				case 'tid':
-					$align = 'right';
+					if (!isset($params['autocomplete'])) $align = 'right';
 					$out = nl2br(htmlspecialchars($str));
 					break;
 				case 'yesno':
