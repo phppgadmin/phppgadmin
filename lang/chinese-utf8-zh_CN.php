@@ -152,6 +152,10 @@
 	$lang['stradminondatabase'] = '以下管理功能可应用于数据库 %s.';
 	$lang['stradminontable'] = '以下管理功能可应用于表 %s.';
 
+	// Admin
+	$lang['stradminondatabase'] = '以下管理功能可应用于数据库 %s.';
+	$lang['stradminontable'] = '以下管理功能可应用于表 %s.';
+
 	// User-supplied SQL history
 	$lang['strhistory'] = '历史';
 	$lang['strnohistory'] = '无历史.';
