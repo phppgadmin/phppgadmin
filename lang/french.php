@@ -39,6 +39,7 @@
 	$lang['stractions'] = 'Actions';
 	$lang['strname'] = 'Nom';
 	$lang['strdefinition'] = 'Définition';
+	$lang['strrawdefinition'] = 'Définition brute';
 	$lang['strproperties'] = 'Propriétés';
 	$lang['strbrowse'] = 'Parcourir';
 	$lang['strenable'] = 'Activer';

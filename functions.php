@@ -213,10 +213,10 @@
 				echo "</td></tr>\n";
 			}
 
-                        // function owner
-                        if ($data->hasFunctionAlterOwner()) {
-		            $users = $data->getUsers();
-                            echo "<tr><td class=\"data1\" colspan=\"5\">{$lang['strowner']}: <select name=\"formFuncOwn\">";
+            // function owner
+			if ($data->hasFunctionAlterOwner()) {
+				$users = $data->getUsers();
+				echo "<tr><td class=\"data1\" colspan=\"5\">{$lang['strowner']}: <select name=\"formFuncOwn\">";
 				while (!$users->EOF) {
 					$uname = $users->fields['usename'];
 					echo "<option value=\"", htmlspecialchars($uname), "\"",
@@ -224,9 +224,9 @@
 					$users->moveNext();
 				}
 				echo "</select>\n";
-			    echo "<input type=\"hidden\" name=\"original_owner\" value=\"", htmlspecialchars($fndata->fields['proowner']),"\" />\n";
-                            echo "</td></tr>\n";
-                        }
+				echo "<input type=\"hidden\" name=\"original_owner\" value=\"", htmlspecialchars($fndata->fields['proowner']),"\" />\n";
+				echo "</td></tr>\n";
+            }
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
@@ -319,6 +319,7 @@
 				// Check to see if we have syntax highlighting for this language
 				if (isset($data->langmap[$funcdata->fields['prolanguage']])) {
 					$temp = syntax_highlight(htmlspecialchars($funcdata->fields['prosrc']), $data->langmap[$funcdata->fields['prolanguage']]);
+					$rawfunction = syntax_highlight(htmlspecialchars(str_replace(', OUT', ",\nOUT", $funcdata->fields['prodef'])), $data->langmap[$funcdata->fields['prolanguage']]);
 					$tag = 'prenoescape';
 				}
 				else {
@@ -326,6 +327,12 @@
 					$tag = 'pre';
 				}
 				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($temp, $tag, array('lineno' => true, 'class' => 'data1')), "</td></tr>\n";
+				
+				// Display raw definition if available
+				if (isset($rawfunction)) {
+					echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strrawdefinition']}</th></tr>\n";
+					echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($rawfunction, $tag, array('lineno' => true, 'class' => 'data1')), "</td></tr>\n";
+				}
 			}
 
 			// Display function cost options
