@@ -476,7 +476,7 @@ class Postgres extends ADODB_base {
 				END as dbsize, pdb.datcollate, pdb.datctype
 			FROM pg_catalog.pg_database pdb
 				LEFT JOIN pg_catalog.pg_roles pr ON (pdb.datdba = pr.oid)
-			WHERE true
+			WHERE pg_catalog.has_database_privilege(current_user, pdb.oid, 'CONNECT')
 				{$where}
 				{$clause}
 			{$orderby}";
