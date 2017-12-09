@@ -1443,7 +1443,7 @@
 				</script>";
 			}
 			else {
-				echo "<span class=\"appname\">{$appName}</span> <span class=\"version\">{$appVersion}</span>";
+				echo "<span class=\"appname\">{$appName}</span> <span class=\"version\">{$appVersion} (PHP ".phpversion().")</span>";
 			}
 /*
 			echo "<td style=\"text-align: right; width: 1%\">";

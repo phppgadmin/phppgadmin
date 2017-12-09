@@ -57,12 +57,13 @@ class ADODB_base {
 	 * @param $arr The array to clean, by reference
 	 * @return The cleaned array
 	 */
-	function arrayClean(&$arr) {
-		reset($arr);
-		while(list($k, $v) = each($arr))
-			$arr[$k] = addslashes($v);
-		return $arr;
-	}
+    function arrayClean(&$arr) {
+	reset($arr);
+	//while(list($k, $v) = each($arr))
+	foreach ($arr as $k => $v)
+	$arr[$k] = addslashes($v);
+	return $arr;
+    }
 	
 	/**
 	 * Executes a query on the underlying connection
@@ -141,12 +142,13 @@ class ADODB_base {
 
 		// Build clause
 		$sql = '';
-		while(list($key, $value) = each($conditions)) {
-			$this->clean($key);
-			$this->clean($value);
-			if ($sql) $sql .= " AND \"{$key}\"='{$value}'";
-			else $sql = "DELETE FROM {$schema}\"{$table}\" WHERE \"{$key}\"='{$value}'";
-		}
+	    foreach ($conditions as $key => $value) {
+		//while(list($key, $value) = each($conditions)) {
+		$this->clean($key);
+		$this->clean($value);
+		    if ($sql) $sql .= " AND \"{$key}\"='{$value}'";
+		else $sql = "DELETE FROM {$schema}\"{$table}\" WHERE \"{$key}\"='{$value}'";
+	    }
 
 		// Check for failures
 		if (!$this->conn->Execute($sql)) {
@@ -221,37 +223,41 @@ class ADODB_base {
 
 		// Populate the syntax arrays
 		reset($vars);
-		while(list($key, $value) = each($vars)) {
-			$this->fieldClean($key);
-			$this->clean($value);
-			if ($setClause) $setClause .= ", \"{$key}\"='{$value}'";
-			else $setClause = "UPDATE \"{$table}\" SET \"{$key}\"='{$value}'";
-		}
+	    foreach ($vars as $key => $value) {
+		//while(list($key, $value) = each($vars)) {
+		$this->fieldClean($key);
+		$this->clean($value);
+		if ($setClause) $setClause .= ", \"{$key}\"='{$value}'";
+		else $setClause = "UPDATE \"{$table}\" SET \"{$key}\"='{$value}'";
+	    }
 
-		reset($nulls);
-		while(list(, $value) = each($nulls)) {
-			$this->fieldClean($value);
-			if ($setClause) $setClause .= ", \"{$value}\"=NULL";
-			else $setClause = "UPDATE \"{$table}\" SET \"{$value}\"=NULL";
-		}
+	    reset($nulls);
+	    foreach ($nulls as $value) {
+	    //while(list(, $value) = each($nulls)) {
+		$this->fieldClean($value);
+		if ($setClause) $setClause .= ", \"{$value}\"=NULL";
+		else $setClause = "UPDATE \"{$table}\" SET \"{$value}\"=NULL";
+	    }
 
-		reset($where);
-		while(list($key, $value) = each($where)) {
-			$this->fieldClean($key);
-			$this->clean($value);
-			if ($whereClause) $whereClause .= " AND \"{$key}\"='{$value}'";
-			else $whereClause = " WHERE \"{$key}\"='{$value}'";
-		}
-
-		// Check for failures
-		if (!$this->conn->Execute($setClause . $whereClause)) {
-			// Check for unique constraint failure
-			if (stristr($this->conn->ErrorMsg(), 'unique'))
-				return -1;
+	    reset($where);
+	    
+	    foreach ($where as $key => $value) {
+		//while(list($key, $value) = each($where)) {
+		$this->fieldClean($key);
+		$this->clean($value);
+		if ($whereClause) $whereClause .= " AND \"{$key}\"='{$value}'";
+		else $whereClause = " WHERE \"{$key}\"='{$value}'";
+	    }
+	    
+	    // Check for failures
+	    if (!$this->conn->Execute($setClause . $whereClause)) {
+		// Check for unique constraint failure
+		if (stristr($this->conn->ErrorMsg(), 'unique'))
+		    return -1;
 			// Check for referential integrity failure
-			elseif (stristr($this->conn->ErrorMsg(), 'referential'))
-				return -2;
-		}
+		elseif (stristr($this->conn->ErrorMsg(), 'referential'))
+		return -2;
+	    }
 
 		// Check for no rows modified
 		if ($this->conn->Affected_Rows() == 0) return -3;

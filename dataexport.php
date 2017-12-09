@@ -117,133 +117,134 @@
 			else
 				$rs = $data->conn->Execute($_REQUEST['query']);
 
-			if ($format == 'copy') {
-				$data->fieldClean($_REQUEST['table']);
-				echo "COPY \"{$_REQUEST['table']}\"";
-				if ($oids) echo " WITH OIDS";
+		    if ($format == 'copy') {
+			$data->fieldClean($_REQUEST['table']);
+			echo "COPY \"{$_REQUEST['table']}\"";
+			if ($oids) echo " WITH OIDS";
 				echo " FROM stdin;\n";
-				while (!$rs->EOF) {
-					$first = true;
-					while(list($k, $v) = each($rs->fields)) {
-						// Escape value
-						$v = $data->escapeBytea($v);
-						
-						// We add an extra escaping slash onto octal encoded characters
-						$v = preg_replace('/\\\\([0-7]{3})/', '\\\\\1', $v);
-						if ($first) {
-							echo (is_null($v)) ? '\\N' : $v;
-							$first = false;
-						}
-						else echo "\t", (is_null($v)) ? '\\N' : $v;
-					}
-					echo "\n";
-					$rs->moveNext();
+			while (!$rs->EOF) {
+			    $first = true;
+			    foreach ($rs -> fields as $k => $v) {
+				//while(list($k, $v) = each($rs->fields)) {
+				// Escape value
+				$v = $data->escapeBytea($v);
+				
+				// We add an extra escaping slash onto octal encoded characters
+				$v = preg_replace('/\\\\([0-7]{3})/', '\\\\\1', $v);
+				if ($first) {
+				    echo (is_null($v)) ? '\\N' : $v;
+				    $first = false;
 				}
-				echo "\\.\n";
+				else echo "\t", (is_null($v)) ? '\\N' : $v;
+			    }
+			    echo "\n";
+			    $rs->moveNext();
 			}
-			elseif ($format == 'html') {
-				echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n";
-				echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n";
-				echo "<head>\r\n";
-				echo "\t<title></title>\r\n";
-				echo "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n";
-				echo "</head>\r\n";
+			echo "\\.\n";
+		    }
+		    elseif ($format == 'html') {
+			echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n";
+			echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n";
+			echo "<head>\r\n";
+			echo "\t<title></title>\r\n";
+			echo "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n";
+			echo "</head>\r\n";
 				echo "<body>\r\n";
-				echo "<table class=\"phppgadmin\">\r\n";
-				echo "\t<tr>\r\n";
-				if (!$rs->EOF) {
-					// Output header row
-					$j = 0;
-					foreach ($rs->fields as $k => $v) {
-						$finfo = $rs->fetchField($j++);
-						if ($finfo->name == $data->id && !$oids) continue;
-						echo "\t\t<th>", $misc->printVal($finfo->name, true), "</th>\r\n";
-					}
-				}
-				echo "\t</tr>\r\n";
-				while (!$rs->EOF) {
-					echo "\t<tr>\r\n";
-					$j = 0;
-					foreach ($rs->fields as $k => $v) {
-						$finfo = $rs->fetchField($j++);
-						if ($finfo->name == $data->id && !$oids) continue;
-						echo "\t\t<td>", $misc->printVal($v, true, $finfo->type), "</td>\r\n";
-					}
-					echo "\t</tr>\r\n";
-					$rs->moveNext();
-				}
-				echo "</table>\r\n";
-				echo "</body>\r\n";
-				echo "</html>\r\n";
+			echo "<table class=\"phppgadmin\">\r\n";
+			echo "\t<tr>\r\n";
+			if (!$rs->EOF) {
+			    // Output header row
+			    $j = 0;
+			    foreach ($rs->fields as $k => $v) {
+				$finfo = $rs->fetchField($j++);
+				if ($finfo->name == $data->id && !$oids) continue;
+				echo "\t\t<th>", $misc->printVal($finfo->name, true), "</th>\r\n";
+			    }
 			}
-			elseif ($format == 'xml') {
-				echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
+			echo "\t</tr>\r\n";
+			while (!$rs->EOF) {
+			    echo "\t<tr>\r\n";
+			    $j = 0;
+			    foreach ($rs->fields as $k => $v) {
+				$finfo = $rs->fetchField($j++);
+				if ($finfo->name == $data->id && !$oids) continue;
+				echo "\t\t<td>", $misc->printVal($v, true, $finfo->type), "</td>\r\n";
+			    }
+			    echo "\t</tr>\r\n";
+			    $rs->moveNext();
+			}
+			echo "</table>\r\n";
+			echo "</body>\r\n";
+			echo "</html>\r\n";
+		    }
+		    elseif ($format == 'xml') {
+			echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
 				echo "<data>\n";
-				if (!$rs->EOF) {
-					// Output header row
-					$j = 0;
-					echo "\t<header>\n";
-					foreach ($rs->fields as $k => $v) {
-						$finfo = $rs->fetchField($j++);
-						$name = htmlspecialchars($finfo->name);
-						$type = htmlspecialchars($finfo->type);
-						echo "\t\t<column name=\"{$name}\" type=\"{$type}\" />\n";
-					}
-					echo "\t</header>\n";
-				}
-				echo "\t<records>\n";
-				while (!$rs->EOF) {
-					$j = 0;
-					echo "\t\t<row>\n";
-					foreach ($rs->fields as $k => $v) {
-						$finfo = $rs->fetchField($j++);
-						$name = htmlspecialchars($finfo->name);
-						if (!is_null($v)) $v = htmlspecialchars($v);
-						echo "\t\t\t<column name=\"{$name}\"", (is_null($v) ? ' null="null"' : ''), ">{$v}</column>\n";
-					}
-					echo "\t\t</row>\n";
-					$rs->moveNext();
-				}
-				echo "\t</records>\n";
-				echo "</data>\n";
+			if (!$rs->EOF) {
+			    // Output header row
+			    $j = 0;
+			    echo "\t<header>\n";
+			    foreach ($rs->fields as $k => $v) {
+				$finfo = $rs->fetchField($j++);
+				$name = htmlspecialchars($finfo->name);
+				$type = htmlspecialchars($finfo->type);
+				echo "\t\t<column name=\"{$name}\" type=\"{$type}\" />\n";
+			    }
+			    echo "\t</header>\n";
 			}
-			elseif ($format == 'sql') {
-				$data->fieldClean($_REQUEST['table']);
-				while (!$rs->EOF) {
-					echo "INSERT INTO \"{$_REQUEST['table']}\" (";
-					$first = true;
-					$j = 0;
-					foreach ($rs->fields as $k => $v) {
-						$finfo = $rs->fetchField($j++);
-						$k = $finfo->name;
-						// SQL (INSERT) format cannot handle oids
-	//						if ($k == $data->id) continue;
-						// Output field
-						$data->fieldClean($k);
-						if ($first) echo "\"{$k}\"";
-						else echo ", \"{$k}\"";
-
-						if (!is_null($v)) {
-							// Output value
-							// addCSlashes converts all weird ASCII characters to octal representation,
-							// EXCEPT the 'special' ones like \r \n \t, etc.
-							$v = addCSlashes($v, "\0..\37\177..\377");
-							// We add an extra escaping slash onto octal encoded characters
-							$v = preg_replace('/\\\\([0-7]{3})/', '\\\1', $v);
-							// Finally, escape all apostrophes
-							$v = str_replace("'", "''", $v);
-						}
-						if ($first) {
-							$values = (is_null($v) ? 'NULL' : "'{$v}'");
-							$first = false;
-						}
-						else $values .= ', ' . ((is_null($v) ? 'NULL' : "'{$v}'"));
-					}
-					echo ") VALUES ({$values});\n";
-					$rs->moveNext();
-				}
+			echo "\t<records>\n";
+			while (!$rs->EOF) {
+			    $j = 0;
+			    echo "\t\t<row>\n";
+			    foreach ($rs->fields as $k => $v) {
+				$finfo = $rs->fetchField($j++);
+				$name = htmlspecialchars($finfo->name);
+				if (!is_null($v)) $v = htmlspecialchars($v);
+				echo "\t\t\t<column name=\"{$name}\"", (is_null($v) ? ' null="null"' : ''), ">{$v}</column>\n";
+			    }
+			    echo "\t\t</row>\n";
+			    $rs->moveNext();
 			}
-			else {
+			echo "\t</records>\n";
+			echo "</data>\n";
+		    }
+		    elseif ($format == 'sql') {
+			$data->fieldClean($_REQUEST['table']);
+			while (!$rs->EOF) {
+			    echo "INSERT INTO \"{$_REQUEST['table']}\" (";
+			    $first = true;
+			    $j = 0;
+			    foreach ($rs->fields as $k => $v) {
+				$finfo = $rs->fetchField($j++);
+				$k = $finfo->name;
+				// SQL (INSERT) format cannot handle oids
+				//						if ($k == $data->id) continue;
+				// Output field
+				$data->fieldClean($k);
+				if ($first) echo "\"{$k}\"";
+				else echo ", \"{$k}\"";
+				
+				if (!is_null($v)) {
+				    // Output value
+				    // addCSlashes converts all weird ASCII characters to octal representation,
+				    // EXCEPT the 'special' ones like \r \n \t, etc.
+				    $v = addCSlashes($v, "\0..\37\177..\377");
+				    // We add an extra escaping slash onto octal encoded characters
+				    $v = preg_replace('/\\\\([0-7]{3})/', '\\\1', $v);
+				    // Finally, escape all apostrophes
+				    $v = str_replace("'", "''", $v);
+				}
+				if ($first) {
+				    $values = (is_null($v) ? 'NULL' : "'{$v}'");
+				    $first = false;
+				}
+				else $values .= ', ' . ((is_null($v) ? 'NULL' : "'{$v}'"));
+			    }
+			    echo ") VALUES ({$values});\n";
+			    $rs->moveNext();
+			}
+		    }
+		    else {
 				switch ($format) {
 					case 'tab':
 						$sep = "\t";

@@ -191,21 +191,23 @@
 			}
 			$templatedbs->moveNext();
 		}
-		echo "\t\t\t</select>\n";
-		echo "\t\t</td>\n\t</tr>\n";
+	    echo "\t\t\t</select>\n";
+	    echo "\t\t</td>\n\t</tr>\n";
+	    
+	    // ENCODING
+	    echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strencoding']}</th>\n";
+	    echo "\t\t<td class=\"data1\">\n";
+	    echo "\t\t\t<select name=\"formEncoding\">\n";
+	    echo "\t\t\t\t<option value=\"\"></option>\n";
 
-		// ENCODING
-		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strencoding']}</th>\n";
-		echo "\t\t<td class=\"data1\">\n";
-		echo "\t\t\t<select name=\"formEncoding\">\n";
-		echo "\t\t\t\t<option value=\"\"></option>\n";
-		while (list ($key) = each ($data->codemap)) {
-		    echo "\t\t\t\t<option value=\"", htmlspecialchars($key), "\"",
-				($key == $_POST['formEncoding']) ? ' selected="selected"' : '', ">",
-				$misc->printVal($key), "</option>\n";
-		}
-		echo "\t\t\t</select>\n";
-		echo "\t\t</td>\n\t</tr>\n";
+	    foreach($data->codemap as $key => $value) {
+		//while (list ($key) = each ($data->codemap)) {
+		echo "\t\t\t\t<option value=\"", htmlspecialchars($key), "\"",
+		($key == $_POST['formEncoding']) ? ' selected="selected"' : '', ">",
+		$misc->printVal($key), "</option>\n";
+	    }
+	    echo "\t\t\t</select>\n";
+	    echo "\t\t</td>\n\t</tr>\n";
 
 		if ($data->hasDatabaseCollation()) {
 			if (!isset($_POST['formCollate'])) $_POST['formCollate'] = '';
