@@ -493,6 +493,12 @@
 				printf($lang['strpostgresqlversionnotsupported'], $postgresqlMinVer);
 				exit;
 			}
+			foreach ($server_info as $k => $v){
+				if (!empty($v)){
+					$this->setServerInfo($k, $v, $server_id);
+				}
+			}
+			
 			$this->setServerInfo('platform', $platform, $server_id);
 			$this->setServerInfo('pgVersion', $_connection->conn->pgVersion, $server_id);
 
