@@ -83,7 +83,7 @@
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = '開始';
 	$lang['stradmin'] = '管理';
-	$lang['strvacuum'] = '清空';
+	$lang['strvacuum'] = '清理(Vacuum)';
 	$lang['stranalyze'] = '分析';
 	$lang['strclusterindex'] = '叢集';
 	$lang['strclustered'] = '叢集?';
@@ -271,8 +271,8 @@
 	$lang['strdatabasedroppedbad'] = '刪除資料庫作業失敗。';
 	$lang['strentersql'] = '於下方輸入所要執行的 SQL 陳述式：';
 	$lang['strsqlexecuted'] = '成功執行 SQL 。';
-	$lang['strvacuumgood'] = '清空作業完成。';
-	$lang['strvacuumbad'] = '清空作業失敗。';
+	$lang['strvacuumgood'] = '清理(Vacuum)作業完成。';
+	$lang['strvacuumbad'] = '清理(Vacuum)作業失敗。';
 	$lang['stranalyzegood'] = '分析作業完成。';
 	$lang['stranalyzebad'] = '分析作業失敗.';
 	$lang['strreindexgood'] = '索引重建完成。';
