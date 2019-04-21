@@ -169,7 +169,7 @@ td:not(.constraint_cell) a:not(.help), th a { display:inline-block; height:100% 
 td.crumb a, td.tab a { width:90% }
 tr.data1 a, tr.data2 a { width:100% }
 td.opbutton1 a, td.opbutton2 a { width:inherit }
-td a.help { display:inline; position:absolute; width:10px; }
+td a.help { display:inline; position:absolute; min-width:10px; }
 a.pagenav { display:inline-block; min-width:15px; }
 a.toplink { display:inline }
 a:active {
@@ -258,5 +258,5 @@ div.logo { display:none }
 div.logo a {
 	display: block;
 	height: 100%;
-	color: transparent:
+	color: transparent;
 }

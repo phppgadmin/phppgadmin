@@ -1,5 +1,5 @@
 @import url(../global.css);
-@import url(//maxcdn.bootstrapcdn.com/bootstrap/3.2.2/css/bootstrap.min.css);
+@import url(//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css);
 /**
  * Default style sheet
  */
@@ -29,7 +29,7 @@ body.bottombar {
 	text-align: left;
 }
 h2 {
-	color: #336699 !important
+	color: #336699 !important;
 
 	font-weight: bold;
 	border: 2px solid #DFFBFD;
