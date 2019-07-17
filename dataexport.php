@@ -124,7 +124,7 @@
 				echo " FROM stdin;\n";
 				while (!$rs->EOF) {
 					$first = true;
-					while(list($k, $v) = each($rs->fields)) {
+					foreach ($rs->fields as $k => $v) {
 						// Escape value
 						$v = $data->escapeBytea($v);
 						

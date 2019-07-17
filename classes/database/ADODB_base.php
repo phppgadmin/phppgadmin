@@ -58,10 +58,7 @@ class ADODB_base {
 	 * @return The cleaned array
 	 */
 	function arrayClean(&$arr) {
-		reset($arr);
-		while(list($k, $v) = each($arr))
-			$arr[$k] = addslashes($v);
-		return $arr;
+		return $arr = array_map('addslashes', $arr);
 	}
 	
 	/**
@@ -132,8 +129,6 @@ class ADODB_base {
 	function delete($table, $conditions, $schema = '') {
 		$this->fieldClean($table);
 
-		reset($conditions);
-
 		if (!empty($schema)) {
 			$this->fieldClean($schema);
 			$schema = "\"{$schema}\".";
@@ -141,7 +136,7 @@ class ADODB_base {
 
 		// Build clause
 		$sql = '';
-		while(list($key, $value) = each($conditions)) {
+		foreach($conditions as $key => $value) {
 			$this->clean($key);
 			$this->clean($value);
 			if ($sql) $sql .= " AND \"{$key}\"='{$value}'";
@@ -220,23 +215,20 @@ class ADODB_base {
 		$whereClause = '';
 
 		// Populate the syntax arrays
-		reset($vars);
-		while(list($key, $value) = each($vars)) {
+		foreach($vars as $key => $value) {
 			$this->fieldClean($key);
 			$this->clean($value);
 			if ($setClause) $setClause .= ", \"{$key}\"='{$value}'";
 			else $setClause = "UPDATE \"{$table}\" SET \"{$key}\"='{$value}'";
 		}
 
-		reset($nulls);
-		while(list(, $value) = each($nulls)) {
+		foreach($nulls as $value) {
 			$this->fieldClean($value);
 			if ($setClause) $setClause .= ", \"{$value}\"=NULL";
 			else $setClause = "UPDATE \"{$table}\" SET \"{$value}\"=NULL";
 		}
 
-		reset($where);
-		while(list($key, $value) = each($where)) {
+		foreach($where as $key => $value) {
 			$this->fieldClean($key);
 			$this->clean($value);
 			if ($whereClause) $whereClause .= " AND \"{$key}\"='{$value}'";
