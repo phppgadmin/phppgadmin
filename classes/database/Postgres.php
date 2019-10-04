@@ -1043,14 +1043,14 @@ class Postgres extends ADODB_base {
 		$this->clean($c_schema);
 		$this->clean($table);
 
-		$sql = "SELECT relhasoids FROM pg_catalog.pg_class WHERE relname='{$table}'
+		$sql = "SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 			AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$c_schema}')";
 
 		$rs = $this->selectSet($sql);
 		if ($rs->recordCount() != 1) return null;
 		else {
-			$rs->fields['relhasoids'] = $this->phpBool($rs->fields['relhasoids']);
-			return $rs->fields['relhasoids'];
+			$rs->fields['oid'] = $this->phpBool($rs->fields['oid']);
+			return $rs->fields['oid'];
 		}
 	}
 
@@ -1066,11 +1066,10 @@ class Postgres extends ADODB_base {
 
 		$sql = "
 			SELECT
-			  c.relname, n.nspname, u.usename AS relowner,
+			  c.relname, n.nspname AS relowner,
 			  pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment,
 			  (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
 			FROM pg_catalog.pg_class c
-			     LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner
 			     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
 			WHERE c.relkind = 'r'
 			      AND n.nspname = '{$c_schema}'
@@ -2673,7 +2672,7 @@ class Postgres extends ADODB_base {
 				u.usename AS seqowner, n.nspname
             FROM
                 \"{$sequence}\" AS s, pg_catalog.pg_sequence m,  
-                pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n                       
+                pg_catalog.pg_class c, pg_catalog.pg_namespace n                       
             WHERE
                 c.relowner=u.usesysid AND c.relnamespace=n.oid 
                 AND c.oid = m.seqrelid AND c.relname = '{$c_sequence}' AND c.relkind = 'S' AND n.nspname='{$c_schema}' 
@@ -4254,7 +4253,6 @@ class Postgres extends ADODB_base {
 			FROM pg_catalog.pg_proc p
 				INNER JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
 				INNER JOIN pg_catalog.pg_language pl ON pl.oid = p.prolang
-				LEFT JOIN pg_catalog.pg_user u ON u.usesysid = p.proowner
 			WHERE NOT p.prokind = 'a' 
 				AND {$where}
 			ORDER BY p.proname, proresult
@@ -4542,7 +4540,6 @@ class Postgres extends ADODB_base {
 				pg_catalog.obj_description(t.oid, 'pg_type') AS typcomment
 			FROM (pg_catalog.pg_type t
 				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace)
-				LEFT JOIN pg_catalog.pg_user pu ON t.typowner = pu.usesysid
 			WHERE (t.typrelid = 0 OR (SELECT c.relkind IN ({$tqry}) FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid {$where2}))
 			AND t.typname !~ '^_'
 			AND {$where}
@@ -5958,8 +5955,8 @@ class Postgres extends ADODB_base {
 				WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN NULL
 				ELSE pg_catalog.format_type(p.proargtypes[0], NULL) END AS proargtypes,
 				a.aggtransfn, format_type(a.aggtranstype, NULL) AS aggstype, a.aggfinalfn,
-				a.agginitval, a.aggsortop, u.usename, pg_catalog.obj_description(p.oid, 'pg_proc') AS aggrcomment
-			FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_user u, pg_catalog.pg_aggregate a
+				a.agginitval, a.aggsortop, pg_catalog.obj_description(p.oid, 'pg_proc') AS aggrcomment
+			FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n u, pg_catalog.pg_aggregate a
 			WHERE n.oid = p.pronamespace AND p.proowner=u.usesysid AND p.oid=a.aggfnoid
 				AND p.prokind = 'a' AND n.nspname='{$c_schema}'
 				AND p.proname='" . $name . "'
@@ -5979,9 +5976,9 @@ class Postgres extends ADODB_base {
 		$c_schema = $this->_schema;
 		$this->clean($c_schema);
 		$sql = "SELECT p.proname, CASE p.proargtypes[0] WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN NULL ELSE
-			   pg_catalog.format_type(p.proargtypes[0], NULL) END AS proargtypes, a.aggtransfn, u.usename,
+			   pg_catalog.format_type(p.proargtypes[0], NULL) END AS proargtypes, a.aggtransfn,
 			   pg_catalog.obj_description(p.oid, 'pg_proc') AS aggrcomment
-			   FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_user u, pg_catalog.pg_aggregate a
+			   FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_aggregate a
 			   WHERE n.oid = p.pronamespace AND p.proowner=u.usesysid AND p.oid=a.aggfnoid
 			   AND p.prokind = 'a' AND n.nspname='{$c_schema}' ORDER BY 1, 2";
 
@@ -6632,7 +6629,7 @@ class Postgres extends ADODB_base {
 		$this->clean($groname);
 
 		$sql = "
-			SELECT s.usename FROM pg_catalog.pg_user s, pg_catalog.pg_group g
+			SELECT s.usename FROM pg_catalog.pg_group g
 			WHERE g.groname='{$groname}' AND s.usesysid = ANY (g.grolist)
 			ORDER BY s.usename";
 
