@@ -3,8 +3,6 @@
 	/**
 	* French Language file for phpPgAdmin. 
 	* @maintainer Guillaume (ioguix) de Rorthais
-	*
-	* $Id: french.php,v 1.36 2008/03/27 10:46:32 ioguix Exp $
 	*/
 
 	// Language and character set
@@ -126,6 +124,7 @@
 	$lang['strvariables'] = 'Variables';
 	$lang['strprocess'] = 'Processus';
 	$lang['strprocesses'] = 'Processus';
+	$lang['strblocked']  =  'Bloqué';
 	$lang['strsetting'] = 'Paramétrage';
 	$lang['streditsql'] = 'Éditer SQL';
 	$lang['strruntime'] = 'Temps d\'exécution total : %s ms';
@@ -136,7 +135,6 @@
 	$lang['strfileimported'] = 'Fichier importé.';
 	$lang['strtrycred'] = 'Utilisez ces identifiants pour tous les serveurs';
 	$lang['strconfdropcred'] = 'For security reason, disconnecting will destroy your shared login information. Are you sure you want to disconnect ?';
-	$lang['strconfdropcred'] = 'Par mesure de sécurité, la déconnexion supprimera le partage de vos identifiants pour tous les serveurs. Êtes-vous certain de vouloir vous déconnecter ?';
 	$lang['stractionsonmultiplelines'] = 'Actions sur plusieurs lignes';
 	$lang['strselectall'] = 'Sélectionner tout';
 	$lang['strunselectall'] = 'Desélectionner tout';
@@ -149,6 +147,7 @@
 	$lang['strstop'] = 'Arrêter';
 	$lang['strgotoppage'] = 'Haut de la page';
 	$lang['strtheme'] = 'Thème';
+	$lang['strcluster']  =  'Cluster';
 
 	// Admin
 	$lang['stradminondatabase'] = 'Les actions d\'administration suivantes s\'appliquent à l\'ensemble de la base de donnée %s.';
@@ -177,6 +176,8 @@
 	$lang['strnoframeslink'] = 'Utiliser sans frames';
 	$lang['strbadconfig'] = 'Le fichier de configuration config.inc.php est obsolète. Vous avez besoin de le regénérer à partir de config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Vous n\'avez pas compilé correctement le support de la base de données dans votre installation de PHP.';
+	$lang['strlibnotfound'] = 'Votre installation PHP n\'a pas le module %s. Vous devez l\'installer, l\'activer ou le compiler pour utiliser phpPgAdmin.';
+	$lang['strlibnotfound_plural'] = 'Votre installation PHP n\'a pas les modules %s. Vous devez les installer, les activer ou les compiler pour utiliser phpPgAdmin.';
 	$lang['strpostgresqlversionnotsupported'] = 'Cette version de PostgreSQL n\'est pas supportée. Merci de mettre à jour PHP à la version %s ou ultérieure.';
 	$lang['strbadschema'] = 'Schéma spécifié invalide.';
 	$lang['strbadencoding'] = 'Impossible de spécifier l\'encodage de la base de données.';
@@ -485,11 +486,11 @@
 	$lang['strindextype'] = 'Type d\'index';
 	$lang['strtablecolumnlist'] = 'Liste des colonnes';
 	$lang['strindexcolumnlist'] = 'Liste des colonnes dans l\'index';
+$lang['strconfcluster']  =  'Are you sure you want to cluster on "%s"?';
 	$lang['strclusteredgood'] = 'Cluster effectué.';
 	$lang['strclusteredbad'] = 'Échec du cluster.';
 	$lang['strconcurrently'] = 'En parallèle';
 	$lang['strnoclusteravailable'] = 'La table n\'est pas encore ordonnée selon un index.';
-	$lang['strcluster'] = 'Cluster';
 
 	// Rules
 	$lang['strrules'] = 'Règles';
@@ -896,4 +897,9 @@
 	$lang['strftstabdicts'] = 'Dictionaires';
 	$lang['strftstabparsers'] = 'Analyseurs syntaxique';
 	$lang['strftscantparsercopy'] = 'Vous ne pouvez spécifier en même temps un modèle et un analyseur lors de la création d\'une configuration FTS.';
+
+	//Plugins
+	$lang['strpluginnotfound']  =  'Erreur: greffon \'%s\' non trouvé. Vérifiez si le greffon existe dans le répertoire plugins/, ou si ce greffon a un fichier plugin.php. Les noms des greffons sont sensibles aux majuscules.';
+	$lang['stractionnotfound']  =  'Erreur: action \'%s\' non trouvée dans le greffon \'%s\', ou elle n\'a pas été déclarée comme une action.';
+	$lang['strhooknotfound']  =  'Erreur: Le hook \'%s\' n\'est pas disponible.';
 ?>
