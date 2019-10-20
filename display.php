@@ -402,8 +402,8 @@
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			/* we are browsing a referenced table here
 			 * we should show OID if show_oids is true
-			 * so we give true to withOid in functions bellow
-			 * as 3rd paramter */
+			 * so we give true to withOid in functions below
+			 * as 3rd parameter */
 		
 			echo "<table><tr>";
 				printTableHeaderCells($rs, false, true);

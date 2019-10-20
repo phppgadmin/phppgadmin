@@ -185,7 +185,7 @@
 		while (!$templatedbs->EOF) {
 			$dbname = htmlspecialchars($templatedbs->fields['datname']);
 			if ($dbname != 'template1') { 
-				// filter out for $conf[show_system] users so we dont get duplicates 
+				// filter out for $conf[show_system] users so we don't get duplicates 
 				echo "\t\t\t\t<option value=\"{$dbname}\"",
 					($dbname == $_POST['formTemplate']) ? ' selected="selected"' : '', ">{$dbname}</option>\n";
 			}

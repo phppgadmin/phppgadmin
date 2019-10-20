@@ -48,7 +48,7 @@ class VariablesTest extends PreconditionSet
     
     /**
      * TestCaseId: DVA001
-     * This test is used to display the list of Prcesses.
+     * This test is used to display the list of Processes.
      */
     function testVariablesList()
     {

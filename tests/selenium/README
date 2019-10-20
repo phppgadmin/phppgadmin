@@ -1,7 +1,7 @@
 HowTo run the tests
 ~~~~~~~~~~~~~~~~~~~
 
-1. Create & configure your ./tests/selenium/config.test.php (See sample one in ./tests/selenium/config.inc.php-dist)
+1. Create & configure your ./tests/selenium/config.test.php (See sample one in ./tests/selenium/config.test.php-dist)
 2. Make sure "$conf['show_system']" is set to "true" in your "./conf/config.inc.php"
 3. Open your browser and go to http://$webUrl/
 Where $webUrl is the value set in your ./tests/selenium/config.inc.php
@@ -13,9 +13,9 @@ Enjoy the tests.
 HowTo write new tests
 ~~~~~~~~~~~~~~~~~~~~~
 
-Normaly, the selenium's statis HTML tests files cannot behave differently in regard to the PG backend where the tests are run on. In order to address
+Normally, the selenium's statis HTML tests files cannot behave differently in regard to the PG backend where the tests are run on. In order to address
 this issue we are using PHP scripts that connect to each backends using the PPA database classes and allow you to use their methods,
-and especialy the $data->has*() ones,  throught the $data variable like in any other ppa script.
+and especially the $data->has*() ones,  throught the $data variable like in any other ppa script.
 
 TestSuite.php is the test suite script that build the list of tests groups (top left frame).
 
@@ -45,4 +45,4 @@ When executed from TestSuite.php, test-builders should:
 	server.
 	- Each selenium actions are mapped (or should be) as methods. As instance, if you want to use the clickAndWait action, you should call the
 	clickAndWait($locator) method. For the assertText, assertText($selector, $value), etc...
-	- Use the addComment method to show comments anywhere in the tests page. Usefull to explain whatthe next tests are going to do.
+	- Use the addComment method to show comments anywhere in the tests page. Useful to explain whatthe next tests are going to do.

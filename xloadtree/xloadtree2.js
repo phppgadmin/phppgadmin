@@ -49,7 +49,7 @@
 | Created 2003-??-?? | All changes are in the log above. | Updated 2004-06-06 |
 |-----------------------------------------------------------------------------|
 | Note local changes have been made to allow Icons to have different links    |
-|  than thier text label counterparts. Thanks to JGuillaume de Rorthais       |
+|  than their text label counterparts. Thanks to JGuillaume de Rorthais       |
 \----------------------------------------------------------------------------*/
 
 webFXTreeConfig.loadingText = "Loading...";

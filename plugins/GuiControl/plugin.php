@@ -21,7 +21,7 @@ class GuiControl extends Plugin {
 
 	/**
 	 * This method returns the functions that will hook in the phpPgAdmin core.
-	 * To do include a function just put in the $hooks array the follwing code:
+	 * To do include a function just put in the $hooks array the following code:
 	 * 'hook' => array('function1', 'function2').
 	 *
 	 * Example:
@@ -47,7 +47,7 @@ class GuiControl extends Plugin {
 
 	/**
 	 * This method returns the functions that will be used as actions.
-	 * To do include a function that will be used as action, just put in the $actions array the follwing code:
+	 * To do include a function that will be used as action, just put in the $actions array the following code:
 	 *
 	 * $actions = array(
 	 *	'show_page',

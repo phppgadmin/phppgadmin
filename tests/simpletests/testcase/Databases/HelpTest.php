@@ -72,7 +72,7 @@ class HelpTest extends PreconditionSet
         $this->assertTrue($this->get("$webUrl/help.php?help=pg.column.add"));
 
         // Comment this for avoiding error by Xdebug.
-        // Becase we cannot assert something about the content of the page via
+        // Because we cannot assert something about the content of the page via
         // hyperlink outside
         // $this->assertWantedPattern('/"Schemas"/');
 

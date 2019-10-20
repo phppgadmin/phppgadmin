@@ -274,7 +274,7 @@ class ColumnTest extends PreconditionSet{
     
     /**
      * TestCaseID: TDC02
-     * Drop a column wich "CASCADE" checked
+     * Drop a column which "CASCADE" checked
      */ 
     function testDropColumnWithCascade()
     {

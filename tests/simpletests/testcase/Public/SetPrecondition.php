@@ -79,7 +79,7 @@ class PreconditionSet extends WebTestCase
     /**
      * Drop a exist database by the specify database name.
      *
-     * @param string $databaseName The specify database name which be droped.
+     * @param string $databaseName The specify database name which be dropped.
      * 
      * @access public
      */
@@ -185,7 +185,7 @@ class PreconditionSet extends WebTestCase
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
 		
-        // Login and trun to the page which list all the 
+        // Login and turn to the page which list all the 
         // table in the database.
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
                      "$webUrl/login.php");

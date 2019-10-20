@@ -70,7 +70,7 @@ class GroupsTest extends PreconditionSet
 
     /*
      * TestCaseID: SAG01
-     * Test to add users to the gruop.
+     * Test to add users to the group.
      */
     function testAddUser() 
     {
@@ -94,7 +94,7 @@ class GroupsTest extends PreconditionSet
         $this->assertTrue($this->setField('user', $POWER_USER_NAME));
         $this->assertTrue($this->clickSubmit($lang['straddmember']));
        
-        // Verify the group's memebers.
+        // Verify the group's members.
         $this->assertWantedText($SUPER_USER_NAME);
         $this->assertWantedText($POWER_USER_NAME);
         $this->assertWantedText($NORMAL_USER_NAME);
@@ -115,7 +115,7 @@ class GroupsTest extends PreconditionSet
         global $NORMAL_USER_NAME;
         global $lang, $SERVER;
         
-        // Turn to the gruop properties page.
+        // Turn to the group properties page.
         $this->assertTrue($this->get("$webUrl/groups.php", array('server' => $SERVER)));
 		$this->assertTrue($this->get("$webUrl/groups.php",
 			array('action' => 'properties',

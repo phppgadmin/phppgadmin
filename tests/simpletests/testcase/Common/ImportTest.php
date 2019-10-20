@@ -15,7 +15,7 @@ if(is_dir('../Public'))
 
 /**
  * This class is to test the import function.
- * It includes importing for XML format data and incorect text format data.
+ * It includes importing for XML format data and incorrect text format data.
  * 
  * This part test cases cannot pass because simpletest does not support upload file.
  */
@@ -84,7 +84,7 @@ class ImportTest extends PreconditionSet
     
     /*
      * TestCaseID: CID02
-     * Test to import incorect text format data into the table.
+     * Test to import incorrect text format data into the table.
      * 
      * This test case will failed because SimpleTest1.0 doesn't support upload file.
      */

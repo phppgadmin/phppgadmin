@@ -528,7 +528,7 @@
 			if($types->fields['typname'] == $_POST['formReturns']) {
 				$szSelected = " selected=\"selected\"";
 			}
-			/* this variable is include in the JS code bellow, so we need to ENT_QUOTES */
+			/* this variable is include in the JS code below, so we need to ENT_QUOTES */
 			$szTypes .= "<option value=\"". htmlspecialchars($types->fields['typname'], ENT_QUOTES) ."\"{$szSelected}>";
 			$szTypes .= htmlspecialchars($types->fields['typname'], ENT_QUOTES) ."</option>";
 			$types->moveNext();

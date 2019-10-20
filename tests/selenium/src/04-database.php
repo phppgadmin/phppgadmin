@@ -9,7 +9,7 @@
 		 * 1/ create test database with altered name and owner
 		 * 2/ alter its owner
 		 * 3/ alter its name, owner and comment back to normal
-		 * NB: droping database is in the cleantests.php tests
+		 * NB: dropping database is in the cleantests.php tests
 		 */
 		$t = new TestBuilder($test_title,
 			'Create and Alter database.'

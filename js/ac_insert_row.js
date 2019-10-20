@@ -185,7 +185,7 @@ with(jQuery('tr.acline')) {
 jQuery('#fkprev').live('click', function () {
 	jQuery.ppa.o -= 11;
 	/* get the field that is the previous html elt from the #fklist
-	 * and trigger its focus to refresh the list AND actualy 
+	 * and trigger its focus to refresh the list AND actually 
 	 * focus back on the field */
 	jQuery('#fklist').prev().focus();
 });
@@ -193,7 +193,7 @@ jQuery('#fkprev').live('click', function () {
 jQuery('#fknext').live('click', function () {
 	jQuery.ppa.o += 11;
 	/* get the field that is the previous html elt from the #fklist
-	 * and trigger its focus to refresh the list AND actualy 
+	 * and trigger its focus to refresh the list AND actually 
 	 * focus back on the field*/
 	jQuery('#fklist').prev().focus();
 });

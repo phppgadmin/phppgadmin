@@ -151,7 +151,7 @@ class FunctionTest extends PreconditionSet
         $this->assertTrue($this->setField('formProperties[1]', 'RETURNS NULL ON NULL INPUT'));
         $this->assertTrue($this->setField('formProperties[2]', 'SECURITY DEFINER'));
 
-        // Click the "Create"  button to create the C fucntion.       
+        // Click the "Create"  button to create the C function.       
         $this->assertTrue($this->clickSubmit($lang['strcreate']));
         // Verify whether the function is created successfully.
         $this->assertTrue($this->assertWantedText($lang['strfunctioncreated']));
@@ -177,7 +177,7 @@ class FunctionTest extends PreconditionSet
 						'subject' => 'schema'))
 					);
         
-        // Alter the definiton of "cfunction".        
+        // Alter the definition of "cfunction".        
         $this->assertTrue($this->clickLink('cfunction (text)'));
         $this->assertTrue($this->clickLink($lang['stralter']));
                 
@@ -186,7 +186,7 @@ class FunctionTest extends PreconditionSet
         $this->assertTrue($this->setField('formProperties[1]', 'CALLED ON NULL INPUT'));
         $this->assertTrue($this->setField('formProperties[2]', 'SECURITY INVOKER'));   
                 
-        // Click the "Create"  button to alter the fucntion.       
+        // Click the "Create"  button to alter the function.       
         $this->assertTrue($this->clickSubmit($lang['stralter']));
         // Verify whether the function is updated successfully.
         $this->assertTrue($this->assertWantedText($lang['strfunctionupdated']));             
@@ -212,7 +212,7 @@ class FunctionTest extends PreconditionSet
 						'subject' => 'schema'))
 					);
        
-        // Drop the fucntion "sqlplfunction". 
+        // Drop the function "sqlplfunction". 
         $this->assertTrue($this->clickLink('sqlplfunction (double precision[], double precision)'));        
         $this->assertTrue($this->clickLink($lang['strdrop']));        
         $this->assertTrue($this->setField('cascade', TRUE));
@@ -222,7 +222,7 @@ class FunctionTest extends PreconditionSet
         // Verify whether the function is dropped successfully.
         $this->assertTrue($this->assertWantedText($lang['strfunctiondropped']));
        
-        // Drop the fucntion "cfunction". 
+        // Drop the function "cfunction". 
         $this->assertTrue($this->clickLink('cfunction (text)'));        
         $this->assertTrue($this->clickLink($lang['strdrop']));        
         $this->assertTrue($this->setField('cascade', TRUE));

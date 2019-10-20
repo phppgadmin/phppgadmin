@@ -120,7 +120,7 @@ Indexes
 Types
 -----
 
-* Suppres psuedo-type options in type list for creating composite types. (done ?)
+* Suppress pseudo-type options in type list for creating composite types. (done ?)
 
 
 Operators
@@ -190,7 +190,7 @@ Full Text Search (8.3)
 Miscellaneous
 -------------
 
-* Audit for PHP 5.3.x compatability 
+* Audit for PHP 5.3.x compatibility 
 * Support 8.1 standard compliant strings (E'')
 * Support per-database connection limits per 8.1
 * Put a 'What's blocking this query' on Processes view

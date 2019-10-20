@@ -22,10 +22,10 @@ To Create a new translation:
 3. Update the comment at the top of the file.  Put yourself as the language 
    maintainer. Edit the 'applang' variable and put your language's name in it,
    in your language.
-   Edit the 'applocale' and put your language code according to the standart:
+   Edit the 'applocale' and put your language code according to the standard:
      http://www.ietf.org/rfc/rfc1766.txt
 
-   Basicaly, you just need to put your language code [1] and optionnaly country
+   Basically, you just need to put your language code [1] and optionally country
    code [2] separated by a '-'. As instance for french canadian, it is: fr-CA
      [1]: http://www.w3.org/WAI/ER/IG/ert/iso639.htm
      [2]: http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm

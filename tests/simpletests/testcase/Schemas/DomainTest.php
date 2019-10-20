@@ -100,7 +100,7 @@ class DomainTest extends PreconditionSet
 
         // Click the "Alter" button to alter the domain.
         $this->assertTrue($this->clickSubmit($lang['stralter']));
-        // Verify whether the domian is altered successfully.
+        // Verify whether the domain is altered successfully.
         $this->assertTrue($this->assertWantedText($lang['strdomainaltered']));    
 
         return TRUE;   
@@ -156,7 +156,7 @@ class DomainTest extends PreconditionSet
 						'schema' => 'public&'))
 					);
 
-        // Display the specfied damain.
+        // Display the specified damain.
         $this->assertTrue($this->clickLink('spikedomain'));
 
         // Drop the constraint.
@@ -208,7 +208,7 @@ class DomainTest extends PreconditionSet
         
         // Click the "Drop" button to drop the domain.
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
-        // Verify whether the domain is droped successfully.
+        // Verify whether the domain is dropped successfully.
         $this->assertTrue($this->assertWantedText($lang['strdomaindropped']));
         
         return TRUE;

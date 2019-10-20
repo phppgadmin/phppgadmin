@@ -604,7 +604,7 @@
 					echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($a['table'])), "</p>\n";
 					printf('<input type="hidden" name="table[]" value="%s" />', htmlspecialchars($a['table']));
 				}
-			} // END mutli empty
+			} // END multi empty
 			else {
 				$misc->printTrail('table');
 				$misc->printTitle($lang['strempty'],'pg.table.empty');
@@ -613,7 +613,7 @@
 
 				echo "<form action=\"tables.php\" method=\"post\">\n";
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-			} // END not mutli empty
+			} // END not multi empty
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"empty\" />\n";
 			echo $misc->form;
@@ -633,14 +633,14 @@
 					}
 				}
 				doDefault($msg);
-			} // END mutli empty
+			} // END multi empty
 			else {
 				$status = $data->emptyTable($_POST['table']);
 				if ($status == 0)
 					doDefault($lang['strtableemptied']);
 				else
 					doDefault($lang['strtableemptiedbad']);
-			} // END not mutli empty
+			} // END not multi empty
 		} // END do Empty
 	}
 

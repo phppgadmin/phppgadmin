@@ -193,7 +193,7 @@
 		$sel2 = new XHTML_Select('formEvent');
 		$sel2->set_data($data->triggerEvents);
 		
-		/* Populate occurences */
+		/* Populate occurrences */
 		$sel3 = new XHTML_Select('formFrequency');
 		$sel3->set_data($data->triggerFrequency);
 		

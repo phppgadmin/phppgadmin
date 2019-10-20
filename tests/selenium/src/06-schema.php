@@ -8,7 +8,7 @@
 		/*
 		 * 1/ create test schema
 		 * 2/ alter its name, owner and comment
-		 * NB: droping the schema is in the cleantests.php tests
+		 * NB: dropping the schema is in the cleantests.php tests
 		 */
 		$t = new TestBuilder($test_title,
 			'Create and Alter schema.'

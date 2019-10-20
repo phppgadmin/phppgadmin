@@ -56,7 +56,7 @@ class Postgres83 extends Postgres84 {
 		return $this->help_page;
 	}
 
-	// Databse functions
+	// Database functions
 
 	/**
 	 * Return all database available on the server
@@ -278,7 +278,7 @@ class Postgres83 extends Postgres84 {
 	 * @param $restartvalue The sequence current value
 	 * @param $cachevalue The sequence cache value
 	 * @param $cycledvalue Sequence can cycle ?
-	 * @param $startvalue The sequence start value when issueing a restart (ignored)
+	 * @param $startvalue The sequence start value when issuing a restart (ignored)
 	 * @return 0 success
 	 */
 	function alterSequenceProps($seqrs, $increment,	$minvalue, $maxvalue,

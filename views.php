@@ -514,7 +514,7 @@
 			}
 			
 			//if linkfields has no length then either _POST['formLink'] was not set, or there were no join conditions 
-			//just select from all seleted tables - a cartesian join do a
+			//just select from all selected tables - a cartesian join do a
 			if (!strlen($linkFields) ) {
 				foreach ($_POST['formTables'] as $curTable) {
 					$arrTmp = unserialize($curTable);

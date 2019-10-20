@@ -11,7 +11,7 @@
 		 * 3/ create table like student in test_schema
 		 * 4/ alter each param one by one on test_toalter
 		 * 5/ alter back test_toalter in one step
-		 * NB: droping a table is in the cleantests.php tests
+		 * NB: dropping a table is in the cleantests.php tests
 		 */
 		$t = new TestBuilder($test_title,
 			'Create tables, make some alterations...'

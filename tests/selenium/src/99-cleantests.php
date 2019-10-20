@@ -10,7 +10,7 @@
 		 * 2/ logout / login as admin_user and drop user role/user
 		 * 3/ try to drop himself -> fail
 		 * 4/ drop domain -> fail table promo depend on it
-		 * 5/ drop domain with cascade, test if promo.year disapeared
+		 * 5/ drop domain with cascade, test if promo.year disappeared
 		 * 6/ drop table student with cascade using the action button
 		 * 7/ drop table promo using the button from tblproperties
 		 * 8/ drop test database

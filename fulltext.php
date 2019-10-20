@@ -279,7 +279,7 @@
 	}
 
 	/**
-	 * Display a form to permit editing FTS configuration properies.
+	 * Display a form to permit editing FTS configuration properties.
 	 */
 	function doAlterConfig($msg = '') {
 		global $data, $misc, $lang;
@@ -689,7 +689,7 @@
 	}
 
 	/**
-	 * Display a form to permit editing FTS dictionary properies.
+	 * Display a form to permit editing FTS dictionary properties.
 	 */
 	function doAlterDict($msg = '') {
 		global $data, $misc, $lang;

@@ -311,7 +311,7 @@ class TableTest extends PreconditionSet
     /**
      * TestCaseID: HER01
 	 * Edit a row.
-	 * XXX Fail cause we have no index on viewtest, created by $this->createable
+	 * XXX Fail cause we have no index on viewtest, created by $this->createTable
 	 * see Public/SetPrecondition.php
      */
     function testEditRow()

@@ -53,7 +53,7 @@
 	 */
 	//$conf['srv_groups'][0]['desc'] = 'group one';
 
-	/* Add here servers indexes belonging to the group '0' seperated by comma */
+	/* Add here servers indexes belonging to the group '0' separated by comma */
 	//$conf['srv_groups'][0]['servers'] = '0,1,2';
 
 	/* A server can belong to multi groups. Here server 1 is referenced in both

@@ -180,7 +180,7 @@
 	}
 
 	/**
-	 * Display a form to permit editing schema properies.
+	 * Display a form to permit editing schema properties.
 	 * TODO: permit changing owner
 	 */
 	function doAlter($msg = '') {

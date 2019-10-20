@@ -284,7 +284,7 @@ class ViewTest extends PreconditionSet
      
     /**
      * TestCaseID: HAD01
-     * Alter the definiton of an existing view.
+     * Alter the definition of an existing view.
      */
     function testAlterDefinition()
     {

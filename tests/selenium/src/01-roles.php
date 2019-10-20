@@ -12,7 +12,7 @@
 		 * 4/ logout & login as admin_user
 		 * 5/ create user role/user with altered name, pass and props
 		 * 6/ alter user back to the normal value
-		 * NB: droping role tests are in the cleantests.php tests
+		 * NB: dropping role tests are in the cleantests.php tests
 		 */
 		$t = new TestBuilder($test_title,
 			'Create test admin role, test user role and tests Roles (or user/groups) features.'

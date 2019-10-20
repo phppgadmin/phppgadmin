@@ -11,7 +11,7 @@
 		 * 3/ drop unwanted check constraint on domain
 		 * 4/ alter domain giving owner to super_user
 		 * 5/ alter back the owner to admin_user
-		 * NB: droping domain is in the cleantests.php tests
+		 * NB: dropping domain is in the cleantests.php tests
 		 */
 		$t = new TestBuilder($test_title,
 			'Create and Alter a domain.'

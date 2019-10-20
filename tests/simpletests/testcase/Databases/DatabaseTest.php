@@ -80,7 +80,7 @@ class DatabaseTest extends PreconditionSet
         // Verify weather the database has been created.
         // Because the phpPgAdmin cannot drop the currently open database.
         // this test case may be failed 
-        // when runing the testcase second time without removing the databases.
+        // when running the testcase second time without removing the databases.
         $this->assertWantedText($lang['strdatabasecreated']);
 
         // Release the resource. 
@@ -128,7 +128,7 @@ class DatabaseTest extends PreconditionSet
         // Verify weather the database has been created.
         // Because the phpPgAdmin cannot drop the currently open database,
         // this test case may be failed 
-        // when runing the testcase second time without removing the databases.
+        // when running the testcase second time without removing the databases.
         $this->assertWantedText($lang['strdatabasecreated']);
 
         // Release the resource.
@@ -144,7 +144,7 @@ class DatabaseTest extends PreconditionSet
      * TestCaseId: DDD001
      * This test is used to drop a defined database.
      *
-     * This test is faild, because the PostgreSQL cannot support deleteing
+     * This test is failed, because the PostgreSQL cannot support deleting
      * an open database currently.
      */
     function testDropDatabase()
@@ -164,7 +164,7 @@ class DatabaseTest extends PreconditionSet
         // Click the submit button "Drop" next page.
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
 
-        // Verify weather the database has been droped.
+        // Verify weather the database has been dropped.
         // There is an issue about PostgreSQL.  So let me difine the displayed text.
         $this->assertWantedText($lang['strdatabasedropped']);
 

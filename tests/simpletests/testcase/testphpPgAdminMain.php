@@ -7,7 +7,7 @@
  */
 
 // Import necessary library files to setup the testcase.
-// And for web testcase, the library web_tester.php shoule be included.
+// And for web testcase, the library web_tester.php should be included.
 
 require_once("$PHP_SIMPLETEST_HOME/web_tester.php");
 require_once("$PHP_SIMPLETEST_HOME/reporter.php");
