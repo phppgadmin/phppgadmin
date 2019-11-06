@@ -139,7 +139,7 @@
 		global $data, $misc;
 		global $lang;
 
-		// Determine whether or not the table has an object ID
+		// Determine whether or not the table has an object ID (Always false if version>=12)
 		$hasID = $data->hasObjectID($_REQUEST['table']);
 
 		$misc->printTrail('table');
