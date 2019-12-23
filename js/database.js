@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function() {
 
 	var timeid = query = null;
 	var controlLink = $('#control');
@@ -34,24 +34,25 @@ $(document).ready(function() {
 		}
 	}
 
-	controlLink.toggle(
-		function() {
+	controlLink.on('click', function() {
+		if (!timeid) {
 			$(errmsg).hide();
 			timeid = window.setTimeout(refreshTable, Database.ajax_time_refresh);
 			controlLink.html('<img src="'+ Database.str_stop.icon +'" alt="" />&nbsp;'
 				+ Database.str_stop.text + '&nbsp;&nbsp;&nbsp;'
 			);
-		},
-		function() {
+		} else {
 			$(errmsg).hide();
 			$(loading).hide();
 			window.clearInterval(timeid);
+			timeid = null;
 			if (query) query.abort();
 			controlLink.html('<img src="'+ Database.str_start.icon +'" alt="" />&nbsp;'
 				+ Database.str_start.text
 			);
 		}
-	);
+		return false;  /* disable event propagation */
+	});
 
 	/* preload images */
 	$('#control img').hide()
@@ -60,5 +61,5 @@ $(document).ready(function() {
 		.show();
 	
 	/* start refreshing */
-	controlLink.click();
+	controlLink.trigger('click');
 });

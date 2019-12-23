@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function() {
 	
 	/* init some needed tags and values */
 	
@@ -9,7 +9,7 @@ $(document).ready(function() {
 		root: $('#root')
 	};
 	
-	$("a.fk").live('click', function (event) {
+	$("a.fk").on('click', function (event) {
 		/* make the cursor being a waiting cursor */
 		$('body').css('cursor','wait');
 
@@ -80,7 +80,7 @@ $(document).ready(function() {
 		return false; // do not refresh the page
 	});
 
-	$(".fk_delete").live('click', function (event) {
+	$(document).on('click', '.fk_delete', function (event) {
 		with($(this).closest('div')) {
 			data('ref').closest('tr').find('a.'+data('refclass')).closest('div').removeClass('highlight');
 			remove();

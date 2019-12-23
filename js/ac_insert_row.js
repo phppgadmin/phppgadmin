@@ -14,15 +14,15 @@ function hideAc() {
 function triggerAc(ac) {
 	if (ac) {
 		jQuery.ppa.attrs
-			.bind('keyup.ac_action', autocomplete)
-			.bind('focus.ac_action', autocomplete)
-			.bind('keypress.ac_action', move)
+			.on('keyup.ac_action', autocomplete)
+			.on('focus.ac_action', autocomplete)
+			.on('keydown.ac_action', move)
 			.addClass('ac_field');
 	}
 	else {
 		jQuery.ppa.attrs
 			.removeClass('ac_field')
-			.unbind('.ac_action');
+			.off('.ac_action');
 	}
 }
 
@@ -90,6 +90,7 @@ function openlist(e) {
 				show();
 				jQuery.ppa.numrow = find('tr').length;
 			}
+
 		}
 	});
 }
@@ -135,7 +136,7 @@ function autocomplete(event) {
 	/* if pressing enter, fire a click on the selected line */
 	if (event.keyCode == 13) {
 		if (jQuery.ppa.i > 0) {
-			jQuery.ppa.fklist.find('tr').eq(jQuery.ppa.i).click();
+			jQuery.ppa.fklist.find('tr').eq(jQuery.ppa.i).trigger('click');
 		}
 		return false;
 	}
@@ -166,23 +167,19 @@ function autocomplete(event) {
 	return true;
 }
 
-/* bind actions on values lines: hover for style change, click for select */
-with(jQuery('tr.acline')) {
-	live('mouseover', function () {
-		selectVal(jQuery('table.ac_values tr').index(this));
-	});
+$(document).on('mouseover', 'tr.acline', function() {
+	selectVal(jQuery('table.ac_values tr').index(this));
+});
 
-	live('click', function () {
-		var a = jQuery(this).find('td > a.fkval');
+$(document).on('click', 'tr.acline', function() {
+	var a = jQuery(this).find('td > a.fkval');
+	for (i=0; i < a.length; i++) {
+               jQuery('input[name="values['+ a[i].name +']"]').val(jQuery(a[i]).text());
+	}
+	hideAc();
+});
 
-		for (i=0; i < a.length; i++) {
-                       jQuery('input[name="values['+ a[i].name +']"]').val(jQuery(a[i]).text()); 
-		}
-		hideAc();
-	});
-}
-
-jQuery('#fkprev').live('click', function () {
+$(document).on('click', '#fkprev', function () {
 	jQuery.ppa.o -= 11;
 	/* get the field that is the previous html elt from the #fklist
 	 * and trigger its focus to refresh the list AND actually 
@@ -190,7 +187,7 @@ jQuery('#fkprev').live('click', function () {
 	jQuery('#fklist').prev().focus();
 });
 
-jQuery('#fknext').live('click', function () {
+$(document).on('click', '#fknext', function () {
 	jQuery.ppa.o += 11;
 	/* get the field that is the previous html elt from the #fklist
 	 * and trigger its focus to refresh the list AND actually 
@@ -198,7 +195,7 @@ jQuery('#fknext').live('click', function () {
 	jQuery('#fklist').prev().focus();
 });
 
-jQuery(document).ready(function () {
+jQuery(function () {
 	/* register some global value in the ppa namespace */
 	jQuery.ppa = {
 		fklist: jQuery('#fklist'),
@@ -209,20 +206,20 @@ jQuery(document).ready(function () {
 	};
 
 	/* close the list when clicking outside of it */
-	jQuery.ppa.fkbg.click(function (e) {
+	jQuery.ppa.fkbg.on('click', function (e) {
 		hideAc();
 	});
 
 	/* do not submit the form when selecting a value by pressing enter */
 	jQuery.ppa.attrs
-		.keydown(function (e) {
+		.on('keydown', function (e) {
 			if (e.keyCode == 13 && jQuery.ppa.fklist[0].style.display == 'block')
 				return false;
 		});
 	
 	/* enable/disable auto-complete according to the checkbox */
 	triggerAc(
-		jQuery('#no_ac').click(function () {
+		jQuery('#no_ac').on('click', function () {
 			triggerAc(this.checked);
 		})[0].checked
 	);

@@ -545,7 +545,7 @@
 				echo "<link rel=\"icon\" type=\"image/png\" href=\"images/themes/{$conf['theme']}/Introduction.png\" />\n";
 				echo "<script type=\"text/javascript\" src=\"libraries/js/jquery.js\"></script>";
 				echo "<script type=\"text/javascript\">// <!-- \n";
-				echo "$(document).ready(function() { \n";
+				echo "$(function() { \n";
 				echo "  if (window.parent.frames.length > 1)\n";
 				echo "    $('#csstheme', window.parent.frames[0].document).attr('href','themes/{$conf['theme']}/global.css');\n";
 				echo "}); // --></script>\n";
@@ -1416,17 +1416,17 @@
 				$history_window_id = htmlentities('history:'.$_REQUEST['server']);
 
 				echo "<script type=\"text/javascript\">
-						$('#toplink_sql').click(function() {
+						$('#toplink_sql').on('click', function() {
 							window.open($(this).attr('href'),'{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus();
 							return false;
 						});
 
-						$('#toplink_history').click(function() {
+						$('#toplink_history').on('click', function() {
 							window.open($(this).attr('href'),'{$history_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus();
 							return false;
 						});
 
-						$('#toplink_find').click(function() {
+						$('#toplink_find').on('click', function() {
 							window.open($(this).attr('href'),'{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus();
 							return false;
 						});
@@ -1434,7 +1434,7 @@
 
 				if (isset($_SESSION['sharedUsername'])) {
 					printf("
-						$('#toplink_logout').click(function() {
+						$('#toplink_logout').on('click', function() {
 							return confirm('%s');
 						});", str_replace("'", "\'", $lang['strconfdropcred']));
 				}
