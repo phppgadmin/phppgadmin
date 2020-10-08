@@ -1,4 +1,4 @@
-#!/usr/bin/php5
+#!/usr/bin/php
 <?php
 require_once('../conf/config.inc.php');
 require_once('../lang/recoded/english.php');
