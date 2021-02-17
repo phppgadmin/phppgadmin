@@ -2629,9 +2629,9 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($sequence);
 		$this->clean($sequence);
 
-		$sql = "SELECT pg_catalog.has_sequence_privilege('{$f_schema}.{$sequence}','SELECT,USAGE')";
+		$sql = "SELECT pg_catalog.has_sequence_privilege('{$f_schema}.{$sequence}','SELECT,USAGE') AS priv";
 
-		return $this->execute($sql);
+		return $this->selectField($sql, 'priv');
 	}
 
 	/**
