@@ -494,7 +494,7 @@
 				exit;
 			}
 			$this->setServerInfo('platform', $platform, $server_id);
-			$this->setServerInfo('pgVersion', $_connection->conn->pgVersion, $server_id);
+			$this->setServerInfo('pgVersion',/* $_connection->conn->pgVersion*/ "unknown version", $server_id);
 
 			// Create a database wrapper class for easy manipulation of the
 			// connection.
@@ -2437,10 +2437,10 @@
 
 		/**
 		 * Set server information.
-		 * @param $key parameter name to set, or null to replace all
+		 * @param $key string parameter name to set, or null to replace all
 		 *             params with the assoc-array in $value.
-		 * @param $value the new value, or null to unset the parameter
-		 * @param $server_id the server identifier, or null for current
+		 * @param $value string the new value, or null to unset the parameter
+		 * @param $server_id string the server identifier, or null for current
 		 *                   server.
 		 */
 		function setServerInfo($key, $value, $server_id = null)
