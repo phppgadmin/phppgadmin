@@ -11,6 +11,7 @@
 		'default' => 'Default',
 		'cappuccino' => 'Cappuccino',
 		'gotar' => 'Blue/Green',
-		'bootstrap' => 'Bootstrap3'
+		'bootstrap' => 'Bootstrap3',
+		'dark' => 'Dark'
 	);
 ?>
