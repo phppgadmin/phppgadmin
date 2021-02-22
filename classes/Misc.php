@@ -1333,6 +1333,10 @@
 			$server_info = $this->getServerInfo();
 			$reqvars = $this->getRequestVars('table');
 
+			if (!$conf['extra_session_security']) {
+				echo '<div class="alert-banner"><p><a href="http://phppgadmin.sourceforge.net/doku.php?id=faq#other_questions" target="_blank" rel="noopener noreferrer">', htmlspecialchars($lang['sessionsecuritywarning']), '</a></p></div>';
+			}
+
 			echo "<div class=\"topbar\"><table style=\"width: 100%\"><tr><td>";
 
 			if ($server_info && isset($server_info['platform']) && isset($server_info['username'])) {

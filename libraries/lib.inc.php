@@ -50,11 +50,36 @@
 	require_once('./classes/Misc.php');
 	$misc = new Misc();
 
-	// Start session (if not auto-started)
-	if (!ini_get('session.auto_start')) {
-		session_name('PPA_ID');
-		session_start();
-	}
+    // Session start: if extra_session_security is on, make sure cookie_samesite
+    // is on (exit if we fail); otherwise, just start the session
+    $our_session_name = 'PPA_ID';
+    if ($conf['extra_session_security']) {
+        if (version_compare(phpversion(), '7.3', '<')) {
+            exit('PHPPgAdmin cannot be fully secured while running under PHP versions before 7.3.  Please upgrade PHP if possible.  If you cannot upgrade, and you\'re willing to assume the risk of CSRF attacks, you can change the value of "extra_session_security" to false in your config.inc.php file.');
+        }
+        if (ini_get('session.auto_start')) {
+            // If session.auto_start is on, and the session doesn't have
+            // session.cookie_samesite set, destroy and re-create the session
+            if (session_name() !== $our_session_name) {
+                $setting = strtolower(ini_get('session.cookie_samesite'));
+                if ($setting !== 'lax' && $setting !== 'strict') {
+                    session_destroy();
+                    session_name($our_session_name);
+                    ini_set('session.cookie_samesite', 'Strict');
+                    session_start();
+                }
+            }
+        } else {
+            session_name($our_session_name);
+            ini_set('session.cookie_samesite', 'Strict');
+            session_start();
+        }
+    } else {
+        if (!ini_get('session.auto_start')) {
+            session_name($our_session_name);
+            session_start();
+        }
+    }
 
 	// Do basic PHP configuration checks
 	if (ini_get('magic_quotes_gpc')) {

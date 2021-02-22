@@ -136,6 +136,7 @@ td.opbutton1 a, td.opbutton2 a {
 	padding-left:6px;
 	padding-right:6px;
 }
+.alert-banner { margin-top: 0 }
 .topbar { border: 0 }
 .topbar, .topbar *, .trail, .tab, .crumb {
 	border: 0;
