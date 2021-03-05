@@ -81,6 +81,7 @@
 
 		$_server_info['username'] = $_POST['loginUsername'];
 		$_server_info['password'] = $_POST['loginPassword_'.md5($_POST['loginServer'])];
+		$_server_info['database'] = $_POST['loginDatabase'];
 
 		$misc->setServerInfo(null, $_server_info, $_POST['loginServer']);
 
@@ -247,10 +248,15 @@
 
 		// Connect to the current database, or if one is not specified
 		// then connect to the default database.
-		if (isset($_REQUEST['database']))
-			$_curr_db = $_REQUEST['database'];
-		else
-			$_curr_db = $_server_info['defaultdb'];
+                if (isset($_REQUEST['database'])) {
+                        $_curr_db = $_REQUEST['database'];
+                }
+                elseif (isset($_server_info['database'])) {
+                        $_curr_db = $_server_info['database'];
+                }
+                else {
+                        $_curr_db = $_server_info['defaultdb'];
+                };
 
 		include_once('./classes/database/Connection.php');
 
