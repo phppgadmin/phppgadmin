@@ -282,6 +282,7 @@
 	$lang['strusers'] = 'Users';
 	$lang['strusername'] = 'Username';
 	$lang['strpassword'] = 'Password';
+	$lang['strdatabase'] = 'Database';
 	$lang['strsuper'] = 'Superuser?';
 	$lang['strcreatedb'] = 'Create DB?';
 	$lang['strexpires'] = 'Expires';
