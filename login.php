@@ -47,6 +47,11 @@
 			<td><?php echo $lang['strpassword']; ?></td>
 			<td><input id="loginPassword" type="password" name="loginPassword_<?php echo $md5_server; ?>" size="24" /></td>
 		</tr>
+                <tr>
+                        <td><?php echo $lang['strdatabase']; ?></td>
+                        <td><input type="text" name="loginDatabase" value="<?php if (isset($_POST['loginDatabase']))
+echo htmlspecialchars($_POST['loginDatabase']); ?>" size="24" /></td>
+                </tr>
 	</table>
 <?php if (sizeof($conf['servers']) > 1) : ?>
 	<p><input type="checkbox" id="loginShared" name="loginShared" <?php echo isset($_POST['loginShared']) ? 'checked="checked"' : '' ?> /><label for="loginShared"><?php echo $lang['strtrycred'] ?></label></p>
@@ -57,6 +62,7 @@
 <script type="text/javascript">
 	var uname = document.login_form.loginUsername;
 	var pword = document.login_form.loginPassword_<?php echo $md5_server; ?>;
+	var dbase = document.login_form.loginDatabase;
 	if (uname.value == "") {
 		uname.focus();
 	} else {

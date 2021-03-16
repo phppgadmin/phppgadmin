@@ -255,6 +255,7 @@
 	$lang['strusers'] = 'Benutzer';
 	$lang['strusername'] = 'Benutzername';
 	$lang['strpassword'] = 'Passwort';
+	$lang['strdatabase'] = 'Datenbank';
 	$lang['strsuper'] = 'Superuser?';
 	$lang['strcreatedb'] = 'Datenbank erstellen?';
 	$lang['strexpires'] = 'Gültig bis';
