@@ -1802,13 +1802,15 @@
 			if (!is_string($strIniSize))
 				return false;
 
-			if (!preg_match ('/^(\d+)([bkm]*)$/i', $strIniSize,$a_IniParts))
+			if (!preg_match ('/^(\d+)([bkmg]*)$/i', $strIniSize,$a_IniParts))
 				return false;
 
 			$nSize = (double) $a_IniParts[1];
 			$strUnit = strtolower($a_IniParts[2]);
 
 			switch($strUnit) {
+				case 'g':
+					return ($nSize * (double) 1073741824);
 				case 'm':
 					return ($nSize * (double) 1048576);
 				case 'k':
