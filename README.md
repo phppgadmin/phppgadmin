@@ -1,9 +1,19 @@
 # phppgadmin
 the premier web-based administration tool for postgresql
 
-[toc]
+- [INSTALL](#install)
+- [CONTRIBUTE](#contribute)
+- [TRANSLATORS](#translators)
+- [CREDIT](#credit)
 
 # INSTALL
+
+* [1. Unpack your download](#1-unpack-your-download)
+* [2. Configure phpPgAdmin](#2-configure-phppgadmin)
+* [3. Ensure the statistics collector is enabled in PostgreSQL.](#3-ensure-the-statistics-collector-is-enabled-in-postgresql)
+* [4. Browse to the phpPgAdmin installation using a web browser.](#4-browse-to-the-phppgadmin-installation-using-a-web-browser)
+* [5. IMPORTANT - SECURITY](#5-important---security)
+
 ## 1. Unpack your download
 
 * If you've downloaded a tar.gz package, execute from a terminal:
@@ -45,6 +55,14 @@ Due to the large number of phpPgAdmin installations that have not set passwords 
 Once you are certain you have properly secured your database server, you can then disable '`extra_login_security`' so that you can log in as your database administrator using the administrator password.
 
 # CONTRIBUTE
+
+* [SOURCE REPOSITORY](#source-repository)
+* [Tips](#tips)
+* [Common Variable](#common-variable)
+* [Working with recordsets](#working-with-recordsets)
+* [Updating language files for the Mono-lingual](#updating-language-files-for-the-mono-lingual)
+* [Understanding the Work/Branch/Tag/Release Process](#understanding-the-work-branch-tag-release-process)
+* [Getting help](#getting-help)
 
 phpPgAdmin is Free/Open Source software and contributions are welcome from
 everyone. 
@@ -175,7 +193,7 @@ If you need to add or modify language strings for a new feature, the preferred m
 * modify `english.php` file only! 
 
 If you've done it correctly, when you create your patch, it should only have 
-diffs of the lang/english.php file. For more information on how the language system works, please see the [TRANSLATORS](##TRANSLATORS) part.
+diffs of the lang/english.php file. For more information on how the language system works, please see the [TRANSLATORS](#translators) part.
 
 ## Understanding the Work/Branch/Tag/Release Process
 
@@ -230,6 +248,15 @@ To Create a new translation:
 Thank you for your contribution! You have just made phpPgAdmin accessible to thousands more users!
 
 # CREDIT
+
+* [Project Administration & Major Projects](#project-administration---major-projects)
+* [Translators](#translators)
+* [Look & Feel](#look---feel)
+* [Contributors](#contributors)
+* [Third Party Libraries](#third-party-libraries)
+* [Corporate Sponsors](#corporate-sponsors)
+* [Project resources:](#project-resources-)
+* [Past Feature Sponsors:](#past-feature-sponsors-)
 
 ## Project Administration & Major Projects
 
