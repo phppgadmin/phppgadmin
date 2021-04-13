@@ -118,23 +118,20 @@ git push origin describe_my_fix
 
 5. Additionally, please mention the versions of PHP and PostgreSQL that you have tested against. 
 
-5. While we would like to enhance our automated testing, until that happens, we at least suggest reviewing the Pull Request on the website and verifying that your changes will merge cleanly. If not, please address any conflicts.
+6. While we would like to enhance our automated testing, until that happens, we at least suggest reviewing the Pull Request on the website and verifying that your changes will merge cleanly. If not, please address any conflicts.
 
-6. As a reminder, smaller patches are easier to digest and consume. If you mix multiple fixes or features into your Pull Requests, it is likely that your submission will not be merged. 
+7. As a reminder, smaller patches are easier to digest and consume. If you mix multiple fixes or features into your Pull Requests, it is likely that your submission will not be merged. 
 
-7. Please note that submitting code is considered a transfer of copyright to the phpPgAdmin project. phpPgAdmin is made available under the GPL v2 license.
+8. Please note that submitting code is considered a transfer of copyright to the phpPgAdmin project. phpPgAdmin is made available under the GPL v2 license.
 
 Push access to the main phpPgAdmin git repository can be granted to developers
 with a track record of useful contributions to phpPgAdmin at the discretion of the phpPgAdmin development team. 
                             
 ## Tips
 
-When you submit code to phpPgAdmin, we do expect it to adhere to the existing
-coding standards in the source.  So, instead of using your personal favourite
+When you submit code to phpPgAdmin, we do expect it to adhere to the existing coding standards in the source.  So, instead of using your personal favourite
 code layout style, please format it to look like surrounding code.
-In general, we want the code to be portable, standard compliant (e.g. to W3C (X)HTML and CSS) and independent of specific configurations of PHP, the web 
-server, PostgreSQL or the user browser. We also try to support as many versions
-as possible of these applications.
+In general, we want the code to be portable, standard compliant (e.g. to W3C (X)HTML and CSS) and independent of specific configurations of PHP, the web server, PostgreSQL or the user browser. We also try to support as many versions as possible of these applications.
 
 Test your code properly! For example, if you are developing a feature to create
 domains, try naming your domain all of the following:
@@ -147,18 +144,13 @@ domains, try naming your domain all of the following:
 
 Don't forget to make sure your changes still pass the existing Selenium test suite. Additionally, you should add or update the test suite as needed to cover your new features. 
 
-If you are adding a new class function, be sure to use the "`clean`",
-"`fieldClean`", "`arrayClean`" and "`fieldArrayClean`" functions to properly escape odd characters in user input. Examine existing functions that do similar things to yours to get yours right.
+If you are adding a new class function, be sure to use the `clean`, `fieldClean`, `arrayClean` and `fieldArrayClean` functions to properly escape odd characters in user input. Examine existing functions that do similar things to yours to get yours right.
 
-When writing data to the display, you should always `urlencode()` variables in
-HREFs and `htmlspecialchars()` variables in forms.  Rather than use `action=""`
-attributes in HTML form elements use `action="thisformname.php"`.  This ensures that browsers remove query strings when expanding the given relative URL into a full URL.
+When writing data to the display, you should always `urlencode()` variables in HREFs and `htmlspecialchars()` variables in forms.  Rather than use `action=""` attributes in HTML form elements use `action="thisformname.php"`.  This ensures that browsers remove query strings when expanding the given relative URL into a full URL.
 
-When working on database classes, always schema qualify your SQL where it is possible with the current schema ($data->_schema) for pg73+ classes. Then don't
-forget to write your method for older classes which don't support schemas.
+When working on database classes, always schema qualify your SQL where it is possible with the current schema ($data->_schema) for pg73+ classes. Then don't forget to write your method for older classes which don't support schemas.
 
-When working with git, always make sure to do a '`git pull`' both before you start; so you have the latest code to work with; and also again before you create your patch; to minimize the chance of having conflicts. If you plan to 
-submit your code via github pull requests, we strongly recommend doing your work in a feature specific branch. If you want to submit multiple patches, they should all live in their own branch. Remember, smaller changes are easier to review, approve, and merge. 
+When working with git, always make sure to do a '`git pull`' both before you start; so you have the latest code to work with; and also again before you create your patch; to minimize the chance of having conflicts. If you plan to submit your code via github pull requests, we strongly recommend doing your work in a feature specific branch. If you want to submit multiple patches, they should all live in their own branch. Remember, smaller changes are easier to review, approve, and merge. 
 
 
 ## Common Variable
@@ -170,7 +162,7 @@ submit your code via github pull requests, we strongly recommend doing your work
 
 ## Working with recordsets
 
-phpPgAdmin uses the ADODB database library for all its database access.  We have also written our own wrapper around the ADODB library to make it more object oriented (ADODB_base.pclass).
+phpPgAdmin uses the ADODB database library for all its database access.  We have also written our own wrapper around the ADODB library to make it more object oriented (`ADODB_base.pclass`).
 
 This is the general form for looping over a recordset:
 
