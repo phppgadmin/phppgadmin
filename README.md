@@ -12,7 +12,7 @@ the premier web-based administration tool for postgresql
 * [2. Configure phpPgAdmin](#2-configure-phppgadmin)
 * [3. Ensure the statistics collector is enabled in PostgreSQL.](#3-ensure-the-statistics-collector-is-enabled-in-postgresql)
 * [4. Browse to the phpPgAdmin installation using a web browser.](#4-browse-to-the-phppgadmin-installation-using-a-web-browser)
-* [5. IMPORTANT - SECURITY](#5-important---security)
+* [5. Impontart - Security](#5-important---security)
 
 ## 1. Unpack your download
 
@@ -45,7 +45,7 @@ phpPgAdmin will display table, index performance, and usage statistics if you ha
 ## 4. Browse to the phpPgAdmin installation using a web browser.  
 You might need cookies enabled for phpPgAdmin to work.
 
-## 5. IMPORTANT - SECURITY
+## 5. Important - Security
 
 PostgreSQL by default does not require you to use a password to log in.
 We **STRONGLY** recommend that you enable md5 passwords for local connections in your `pg_hba.conf`, and set a password for the default superuser account.
@@ -56,7 +56,7 @@ Once you are certain you have properly secured your database server, you can the
 
 # CONTRIBUTE
 
-* [SOURCE REPOSITORY](#source-repository)
+* [Source repository](#source-repository)
 * [Tips](#tips)
 * [Common Variable](#common-variable)
 * [Working with recordsets](#working-with-recordsets)
@@ -67,7 +67,7 @@ Once you are certain you have properly secured your database server, you can the
 phpPgAdmin is Free/Open Source software and contributions are welcome from
 everyone. 
 
-## SOURCE REPOSITORY
+## Source repository
 
 phpPgAdmin uses git for source control management. The phpPgAdmin git repository 
 is hosted at github:
