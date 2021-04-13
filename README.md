@@ -32,9 +32,8 @@ the premier web-based administration tool for postgresql
 
 ## 2. Configure phpPgAdmin
 
-* edit phpPgAdmin/conf/config.inc.php
-* If you mess up the configuration file, you can recover it from the
-   `config.inc.php-dist` file.
+* edit `phpPgAdmin/conf/config.inc.php`
+* If you mess up the configuration file, you can recover it from the `config.inc.php-dist` file.
 
 ## 3. Ensure the statistics collector is enabled in PostgreSQL.
 phpPgAdmin will display table, index performance, and usage statistics if you have enabled the PostgreSQL statistics collector. While this is normally enabled by default, to ensure it is running, make sure the following lines in your `postgresql.conf` are uncommented: 
