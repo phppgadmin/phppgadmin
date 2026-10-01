@@ -2438,11 +2438,11 @@
 				}
 			}
 
-			if (isset($_SESSION['webdbLogin'][$server_id])) {
+			if (isset($_SESSION['webdbLogin'][$server_id ?? ''])) {
 				if ($server_info === null)
-					return $_SESSION['webdbLogin'][$server_id];
+					return $_SESSION['webdbLogin'][$server_id ?? ''];
 
-				return array_merge($server_info, $_SESSION['webdbLogin'][$server_id]);
+				return array_merge($server_info, $_SESSION['webdbLogin'][$server_id ?? '']);
 			}
 
 			if ($server_info !== null) {
@@ -2481,14 +2481,14 @@
 
 			if ($key === null) {
 				if ($value === null)
-					unset($_SESSION['webdbLogin'][$server_id]);
+					unset($_SESSION['webdbLogin'][$server_id ?? '']);
 				else
-					$_SESSION['webdbLogin'][$server_id] = $value;
+					$_SESSION['webdbLogin'][$server_id ?? ''] = $value;
 			} else {
 				if ($value === null)
-					unset($_SESSION['webdbLogin'][$server_id][$key]);
+					unset($_SESSION['webdbLogin'][$server_id ?? ''][$key]);
 				else
-					$_SESSION['webdbLogin'][$server_id][$key] = $value;
+					$_SESSION['webdbLogin'][$server_id ?? ''][$key] = $value;
 			}
 		}
 
