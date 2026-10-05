@@ -2,6 +2,15 @@
 abstract class Plugin {
 
 	/**
+	 * Attributes
+	 * Declared here so that plugins which do not redeclare them themselves do
+	 * not rely on dynamic properties, which are deprecated as of PHP 8.2.
+	 */
+	protected $name;
+	protected $lang;
+	protected $conf;
+
+	/**
 	 * Constructor
 	 * Register the plugin's functions in hooks of PPA.
 	 * @param $language Current phpPgAdmin language.
@@ -19,12 +28,12 @@ abstract class Plugin {
 				include_once("{$plugin_directory}/lang/{$language}.php");
 			}
 
-			$this->lang = $plugin_lang;
+			$this->lang = $plugin_lang ?? array();
 		}
 
 		if (file_exists("{$plugin_directory}/conf/config.inc.php")) {
 			include_once("{$plugin_directory}/conf/config.inc.php");
-			$this->conf = $plugin_conf;
+			$this->conf = $plugin_conf ?? array();
 		}
 	}
 

@@ -80,7 +80,7 @@
 
 		$attrs = $data->getTableAttributes($_REQUEST['table']);
 		// Fetch all tablespaces from the database
-		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
+		$tablespaces = $data->hasTablespaces() ? $data->getTablespaces() : null;
 		
 		$misc->printTrail('table');
 		$misc->printTitle($lang['strcreateindex'],'pg.index.create');
@@ -143,7 +143,7 @@
 		echo "</tr>";
 		
 		// Tablespace (if there are any)
-		if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
+		if ($tablespaces !== null && $tablespaces->recordCount() > 0) {
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
 			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formSpc\">\n";
 			// Always offer the default (empty) option
@@ -247,8 +247,12 @@
 				$rowdata->fields['+constraints'] = $lang['strprimarykey'];
 				$actions['drop']['disable'] = true;
 			}
-			elseif ($data->phpBool($rowdata->fields['indisunique'])) {
+			elseif ($data->phpBool($rowdata->fields['indisunique']) and !$data->phpBool($rowdata->fields['indpred'])) {
 				$rowdata->fields['+constraints'] = $lang['struniquekey'];
+				$actions['drop']['disable'] = true;
+			}
+			elseif ($data->phpBool($rowdata->fields['indisexclusion'])) {
+				$rowdata->fields['+constraints'] = 'Exclusion';
 				$actions['drop']['disable'] = true;
 			}
 			else

@@ -16,8 +16,8 @@
 		'xml' => 'xml'
 	);
 
-	// Prevent timeouts on large exports (non-safe mode only)
-	if (!ini_get('safe_mode')) set_time_limit(0);
+	// Prevent timeouts on large exports
+	set_time_limit(0);
 
 	// if (!isset($_REQUEST['table']) && !isset($_REQUEST['query']))
 	// What must we do in this case? Maybe redirect to the homepage?
@@ -28,7 +28,10 @@
 		// Include application functions
 		$_no_output = true;
 		include_once('./libraries/lib.inc.php');
-		
+
+		$format = '';
+		$clean = false;
+		$oids = false;
 		switch ($_REQUEST['what']) {
 			case 'dataonly':
 				// Check to see if they have pg_dump set up and if they do, use that
@@ -71,7 +74,7 @@
 		if ($_REQUEST['output'] == 'download') {
 			// Set headers.  MSIE is totally broken for SSL downloading, so
 			// we need to have it download in-place as plain text
-			if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && isset($_SERVER['HTTPS'])) {
+			if (strstr(($_SERVER['HTTP_USER_AGENT'] ?? ''), 'MSIE') && isset($_SERVER['HTTPS'])) {
 				header('Content-Type: text/plain');
 			}
 			else {
@@ -101,7 +104,7 @@
 
 		// If the dump is not dataonly then dump the structure prefix
 		if ($_REQUEST['what'] != 'dataonly')
-			echo $data->getTableDefPrefix($_REQUEST['table'], $clean);
+			echo $data->getTableDefPrefix($_REQUEST['table'] ?? null, $clean);
 
 		// If the dump is not structureonly then dump the actual data
 		if ($_REQUEST['what'] != 'structureonly') {
@@ -113,9 +116,9 @@
 
 			// Execute the query, if set, otherwise grab all rows from the table
 			if (isset($_REQUEST['table']))
-				$rs = $data->dumpRelation($_REQUEST['table'], $oids);
+				$rs = $data->dumpRelation($_REQUEST['table'] ?? '', $oids);
 			else
-				$rs = $data->conn->Execute($_REQUEST['query']);
+				$rs = $data->conn->Execute($_REQUEST['query'] ?? '');
 
 			if ($format == 'copy') {
 				$data->fieldClean($_REQUEST['table']);
@@ -210,7 +213,7 @@
 			elseif ($format == 'sql') {
 				$data->fieldClean($_REQUEST['table']);
 				while (!$rs->EOF) {
-					echo "INSERT INTO \"{$_REQUEST['table']}\" (";
+					echo "INSERT INTO \"", $_REQUEST['table'] ?? '', "\" (";
 					$first = true;
 					$j = 0;
 					foreach ($rs->fields as $k => $v) {
@@ -288,7 +291,7 @@
 		if ($_REQUEST['what'] != 'dataonly') {
 			// Set fetch mode back to ASSOC for the table suffix to work
 			$data->conn->setFetchMode(ADODB_FETCH_ASSOC);
-			echo $data->getTableDefSuffix($_REQUEST['table']);
+			echo $data->getTableDefSuffix($_REQUEST['table'] ?? null);
 		}
 
 		// Finish the dump transaction

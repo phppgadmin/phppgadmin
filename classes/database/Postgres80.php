@@ -10,11 +10,11 @@ include_once('./classes/database/Postgres81.php');
 
 class Postgres80 extends Postgres81 {
 
-	var $major_version = 8.0;
+	public $major_version = 8.0;
 	// Map of database encoding names to HTTP encoding names.  If a
 	// database encoding does not appear in this list, then its HTTP
 	// encoding name is the same as its database encoding name.
-	var $codemap = array(
+	public $codemap = array(
 		'ALT' => 'CP866',
 		'EUC_CN' => 'GB2312',
 		'EUC_JP' => 'EUC-JP',

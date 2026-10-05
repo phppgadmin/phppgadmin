@@ -9,7 +9,7 @@ include_once('./classes/database/Postgres10.php');
 
 class Postgres96 extends Postgres10 {
 
-	var $major_version = 9.6;
+	public $major_version = 9.6;
 
 	/**
 	 * Constructor
@@ -52,6 +52,17 @@ class Postgres96 extends Postgres10 {
 		return $this->selectSet( $sql );
 	}
 
+	/**
+	 * Helper function that computes encrypted PostgreSQL passwords
+	 * SCRAM-SHA-256 was only introduced in PostgreSQL 10, so md5 is the best
+	 * this and any earlier version can do.
+	 * @param $username The username
+	 * @param $password The password
+	 * @return A password verifier suitable for ENCRYPTED PASSWORD
+	 */
+	function _encryptPassword($username, $password) {
+		return 'md5' . md5($password . $username);
+	}
 
 }
 ?>

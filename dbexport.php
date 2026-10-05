@@ -6,8 +6,8 @@
 	 * $Id: dbexport.php,v 1.22 2007/03/25 03:15:09 xzilla Exp $
 	 */
 
-	// Prevent timeouts on large exports (non-safe mode only)
-	if (!ini_get('safe_mode')) set_time_limit(0);
+	// Prevent timeouts on large exports
+	set_time_limit(0);
 
 	// Include application functions
 	$_no_output = true;
@@ -45,7 +45,7 @@
 			case 'download':
 				// Set headers.  MSIE is totally broken for SSL downloading, so
 				// we need to have it download in-place as plain text
-				if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && isset($_SERVER['HTTPS'])) {
+				if (strstr(($_SERVER['HTTP_USER_AGENT'] ?? ''), 'MSIE') && isset($_SERVER['HTTPS'])) {
 					header('Content-Type: text/plain');
 				}
 				else {
@@ -129,7 +129,7 @@
 		}
 
 		if (!$dumpall) {
-			putenv('PGDATABASE=' . $_REQUEST['database']);
+			putenv('PGDATABASE=' . ($_REQUEST['database'] ?? ''));
 		}
 
 		// Execute command and return the output to the screen

@@ -274,7 +274,8 @@
 			//If multi drop
 			if (isset($_REQUEST['ma'])) {
 				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					$a = safeUnserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					if (!is_array($a)) continue;
 					echo '<p>', sprintf($lang['strconfdropschema'], $misc->printVal($a['nsp'])), "</p>\n";
 					echo '<input type="hidden" name="nsp[]" value="', htmlspecialchars($a['nsp']), "\" />\n";
 				}
@@ -373,14 +374,14 @@
 		echo "<p><input type=\"radio\" id=\"output1\" name=\"output\" value=\"show\" checked=\"checked\" /><label for=\"output1\">{$lang['strshow']}</label>\n";
 		echo "<br/><input type=\"radio\" id=\"output2\" name=\"output\" value=\"download\" /><label for=\"output2\">{$lang['strdownload']}</label>\n";
 		// MSIE cannot download gzip in SSL mode - it's just broken
-		if (!(strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && isset($_SERVER['HTTPS']))) {
+		if (!(strstr(($_SERVER['HTTP_USER_AGENT'] ?? ''), 'MSIE') && isset($_SERVER['HTTPS']))) {
 			echo "<br /><input type=\"radio\" id=\"output3\" name=\"output\" value=\"gzipped\" /><label for=\"output3\">{$lang['strdownloadgzipped']}</label>\n";
 		}
 		echo "</p>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo "<input type=\"hidden\" name=\"subject\" value=\"schema\" />\n";
-        echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
-        echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
+		echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
+		echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
 		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";
@@ -402,20 +403,22 @@
 			'text'   => field('nspname'),
 			'icon'   => 'Schema',
 			'toolTip'=> field('nspcomment'),
-			'action' => url('redirect.php',
-							$reqvars,
-							array(
-								'subject' => 'schema',
-								'schema'  => field('nspname')
-							)
-						),
-			'branch' => url('schemas.php',
-							$reqvars,
-							array(
-								'action'  => 'subtree',
-								'schema'  => field('nspname')
-							)
-						),
+			'action' => url(
+				'redirect.php',
+				$reqvars,
+				array(
+					'subject' => 'schema',
+					'schema'  => field('nspname')
+				)
+			),
+			'branch' => url(
+				'schemas.php',
+				$reqvars,
+				array(
+					'action'  => 'subtree',
+					'schema'  => field('nspname')
+				)
+			),
 		);
 
 		$misc->printTree($schemas, $attrs, 'schemas');
@@ -435,15 +438,17 @@
 		$attrs = array(
 			'text'   => field('title'),
 			'icon'   => field('icon'),
-			'action' => url(field('url'),
-							$reqvars,
-							field('urlvars', array())
-						),
-			'branch' => url(field('url'),
-							$reqvars,
-							field('urlvars'),
-							array('action' => 'tree')
-						)
+			'action' => url(
+				field('url'),
+				$reqvars,
+				field('urlvars', array())
+			),
+			'branch' => url(
+				field('url'),
+				$reqvars,
+				field('urlvars'),
+				array('action' => 'tree')
+			)
 		);
 
 		$misc->printTree($items, $attrs, 'schema');
@@ -480,5 +485,3 @@
 	}
 
 	$misc->printFooter();
-
-?>

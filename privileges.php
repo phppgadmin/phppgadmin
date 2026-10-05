@@ -226,6 +226,7 @@
 		}
 		
 		// Links for granting to a user or group
+		$alllabel = $allurl = $alltxt = null;
 		switch ($_REQUEST['subject']) {
 			case 'table':
 			case 'view':
@@ -313,7 +314,7 @@
 		);
 
 		if (isset($allurl)) {
-			$navlinks[$alllabel] = array (
+			$navlinks[(string) $alllabel] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => $allurl,
@@ -326,7 +327,7 @@
 				'content' => $alltxt
 			);
 			if (isset($_REQUEST['schema'])) {
-				$navlinks[$alllabel]['attr']['href']['urlvars']['schema'] = $_REQUEST['schema'];
+				$navlinks[(string) $alllabel]['attr']['href']['urlvars']['schema'] = $_REQUEST['schema'];
 			}
 		}
 

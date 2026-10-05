@@ -35,6 +35,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 function keyword_replace($keywords, $text, $ncs = false)
 {
     $cm = ($ncs)? "i" : "";
+    $search = array();
+    $replace = array();
     foreach ($keywords as $keyword)
     {
         $search[]  = "/(\\b$keyword\\b)/" . $cm;
@@ -50,6 +52,8 @@ function keyword_replace($keywords, $text, $ncs = false)
 
 function preproc_replace($preproc, $text)
 {
+    $search = array();
+    $replace = array();
     foreach ($preproc as $proc)
     {
         $search[] = "/(\\s*#\s*$proc\\b)/";
@@ -236,7 +240,7 @@ function syntax_highlight_helper($text, $language)
     "try",          "typeof",       "uint",     "ulong",        "unchecked",
     "unsafe",       "ushort",       "using",    "virtual",      "volatile",
     "void",         "while"),
-    
+
     "Ruby" => array(
     "alias",        "and",          "begin",    "break",        "case",
     /*class*/       "def",          "defined",  "do",           "else",
@@ -275,12 +279,12 @@ function syntax_highlight_helper($text, $language)
         ),
 
     "PL/I" => array(
-    "A",            "ABS",            "ACOS",        "%ACTIVATE",    "ACTUALCOUNT", 
-    "ADD",            "ADDR",            "ADDREL",    "ALIGNED",        "ALLOCATE", 
-    "ALLOC",        "ALLOCATION",    "ALLOCN",    "ANY",            "ANYCONDITION", 
-    "APPEND",        "AREA",            "ASIN",        "ATAN",            "ATAND", 
-    "ATANH",        "AUTOMATIC",    "AUTO",        "B",            "B1", 
-    "B2",            "B3",            "B4",        "BACKUP_DATE",    "BASED", 
+    "A",            "ABS",            "ACOS",        "%ACTIVATE",    "ACTUALCOUNT",
+    "ADD",            "ADDR",            "ADDREL",    "ALIGNED",        "ALLOCATE",
+    "ALLOC",        "ALLOCATION",    "ALLOCN",    "ANY",            "ANYCONDITION",
+    "APPEND",        "AREA",            "ASIN",        "ATAN",            "ATAND",
+    "ATANH",        "AUTOMATIC",    "AUTO",        "B",            "B1",
+    "B2",            "B3",            "B4",        "BACKUP_DATE",    "BASED",
     "BATCH",        "BEGIN",        "BINARY",    "BIN",            "BIT",
     "BLOCK_BOUNDARY_FORMAT",        "BLOCK_IO",    "BLOCK_SIZE",    "BOOL",
     "BUCKET_SIZE",    "BUILTIN",        "BY",        "BYTE",            "BYTESIZE",
@@ -355,7 +359,7 @@ function syntax_highlight_helper($text, $language)
     "UFL",            "UNION",        "UNSPEC",    "UNTIL",        "UPDATE",
     "USER_OPEN",    "VALID",        "VALUE",    "VAL",            "VARIABLE",
     "VARIANT",        "VARYING",        "VAR",        "VAXCONDITION",    "VERIFY",
-    "WAIT_FOR_RECORD",                "%WARN",    "WARN",            "WHEN",    
+    "WAIT_FOR_RECORD",                "%WARN",    "WARN",            "WHEN",
     "WHILE",        "WORLD_PROTECTION",            "WRITE",        "WRITE_BEHIND",
     "WRITE_CHECK",    "X",            "ZERODIVIDE"),
 
@@ -412,7 +416,7 @@ function syntax_highlight_helper($text, $language)
     "generated", "get", "global", "go",
     "goto", "grant", "granted", "group",
     "grouping", "handler", "having", "hierarchy",
-    "hold", "host", "hour", "identity",
+    "hold", "host", "hour", "identity", "if",
     "ignore", "ilike", "immediate", "immutable",
     "implementation", "implicit", "in", "including",
     "increment", "index", "indicator", "infix",
@@ -427,7 +431,7 @@ function syntax_highlight_helper($text, $language)
     "left", "length", "less", "level",
     "like", "limit", "listen", "load",
     "local", "localtime", "localtimestamp", "location",
-    "locator", "lock", "lower", "m",
+    "locator", "lock", "loop", "lower", "m",
     "map", "match", "max", "maxvalue",
     "message_length", "message_octet_length", "message_text", "method",
     "min", "minute", "minvalue", "mod",
@@ -436,7 +440,7 @@ function syntax_highlight_helper($text, $language)
     "name", "names", "national", "natural",
     "nchar", "nclob", "new", "next",
     "no", "nocreatedb", "nocreateuser", "none",
-    "not", "nothing", "notify", "notnull",
+    "not", "nothing", "notice", "notify", "notnull",
     "null", "nullable", "nullif", "number",
     "numeric", "object", "octet_length", "of",
     "off", "offset", "oids", "old",
@@ -451,15 +455,15 @@ function syntax_highlight_helper($text, $language)
     "pli", "position", "postfix", "precision",
     "prefix", "preorder", "prepare", "preserve",
     "primary", "prior", "privileges", "procedural",
-    "procedure", "public", "read", "reads",
-    "real", "recheck", "recursive", "ref",
+    "procedure", "public", "quote_ident", "quote_literal", "raise", "read", "reads",
+    "real", "recheck", "record", "recursive", "ref", "refcursor",
     "references", "referencing", "reindex", "relative",
     "rename", "repeatable", "replace", "reset",
-    "restart", "restrict", "result", "return",
+    "restart", "restrict", /* "result", */ "return",
     "returned_length", "returned_octet_length", "returned_sqlstate", "returns",
     "revoke", "right", "role", "rollback",
     "rollup", "routine", "routine_catalog", "routine_name",
-    "routine_schema", "row", "rows", "row_count",
+    "routine_schema", "row", "rows", "row_count", "rowtype",
     "rule", "savepoint", "scale", "schema",
     "schema_name", "scope", "scroll", "search",
     "second", "section", "security", "select",
@@ -571,10 +575,10 @@ function lparen_putback_rtrim1($span, $lang, $ch)
     return rtrim1('(' . $span, $lang, $ch);
 }
 
-function prepend_xml_opentag($span, $lang, $ch) 
-{                                               
+function prepend_xml_opentag($span, $lang, $ch)
+{
     return '<span class="xml_tag">&lt;' . $span;
-}                                               
+}
 
 function proc_void($span, $lang, $ch)
 {
@@ -591,31 +595,44 @@ function syntax_highlight($text, $language)
 {
     if ($language == "Plain Text") return $text;
 
-    define("normal_text",   1, true);
-    define("dq_literal",    2, true);
-    define("dq_escape",     3, true);
-    define("sq_literal",    4, true);
-    define("sq_escape",     5, true);
-    define("slash_begin",   6, true);
-    define("star_comment",  7, true);
-    define("star_end",      8, true);
-    define("line_comment",  9, true);
-    define("html_entity",  10, true);
-    define("lc_escape",    11, true);
-    define("block_comment",12, true);
-    define("paren_begin",  13, true);
-    define("dash_begin",   14, true);
-    define("bt_literal",   15, true);
-    define("bt_escape",    16, true);
-    define("xml_tag_begin",17, true);
-    define("xml_tag",      18, true);
-    define("xml_pi",       19, true);
-    define("sch_normal",   20, true);
-    define("sch_stresc",    21, true);
-    define("sch_idexpr",   22, true);
-    define("sch_numlit",   23, true);
-    define("sch_chrlit",   24, true);
-    define("sch_strlit",   25, true);
+    // State transition tables, initialized up front
+    $initial_state = array();
+    $sch = array();
+    $c89 = array();
+    $perl = array();
+    $mirc = array();
+    $pascal = array();
+    $sql = array();
+    $xml = array();
+    $process = array();
+    $process_end = array();
+    $edges = array();
+
+    defined("normal_text") || define("normal_text", 1);
+    defined("dq_literal") || define("dq_literal", 2);
+    defined("dq_escape") || define("dq_escape", 3);
+    defined("sq_literal") || define("sq_literal", 4);
+    defined("sq_escape") || define("sq_escape", 5);
+    defined("slash_begin") || define("slash_begin", 6);
+    defined("star_comment") || define("star_comment", 7);
+    defined("star_end") || define("star_end", 8);
+    defined("line_comment") || define("line_comment", 9);
+    defined("html_entity") || define("html_entity", 10);
+    defined("lc_escape") || define("lc_escape", 11);
+    defined("block_comment") || define("block_comment", 12);
+    defined("paren_begin") || define("paren_begin", 13);
+    defined("dash_begin") || define("dash_begin", 14);
+    defined("bt_literal") || define("bt_literal", 15);
+    defined("bt_escape") || define("bt_escape", 16);
+    defined("xml_tag_begin") || define("xml_tag_begin", 17);
+    defined("xml_tag") || define("xml_tag", 18);
+    defined("xml_pi") || define("xml_pi", 19);
+    defined("sch_normal") || define("sch_normal", 20);
+    defined("sch_stresc") || define("sch_stresc", 21);
+    defined("sch_idexpr") || define("sch_idexpr", 22);
+    defined("sch_numlit") || define("sch_numlit", 23);
+    defined("sch_chrlit") || define("sch_chrlit", 24);
+    defined("sch_strlit") || define("sch_strlit", 25);
 
     $initial_state["Scheme"] = sch_normal;
 
@@ -820,32 +837,32 @@ function syntax_highlight($text, $language)
     $sql[lc_escape]["\r"]      = lc_escape;
     $sql[lc_escape][0]         = line_comment;
 
-    $xml[normal_text]["<"]     = xml_tag_begin;               
-    $xml[normal_text]["&"]     = html_entity;                 
-    $xml[normal_text][0]       = normal_text;                 
-    $xml[html_entity][";"]     = normal_text;                 
+    $xml[normal_text]["<"]     = xml_tag_begin;
+    $xml[normal_text]["&"]     = html_entity;
+    $xml[normal_text][0]       = normal_text;
+    $xml[html_entity][";"]     = normal_text;
     $xml[html_entity]["<"]     = xml_tag_begin;
-    $xml[html_entity][0]       = html_entity;                 
-    $xml[xml_tag_begin]["?"]   = xml_pi;                      
-    $xml[xml_tag_begin]["!"]   = line_comment;                
-    $xml[xml_tag_begin][0]     = xml_tag;                     
-    $xml[xml_tag][">"]         = normal_text;                 
-    $xml[xml_tag]["\""]        = dq_literal;           
-    $xml[xml_tag]["'"]         = sq_literal;                   
-    $xml[xml_tag][0]           = xml_tag;                     
-    $xml[xml_pi][">"]          = normal_text;                 
-    $xml[xml_pi][0]            = xml_tag;                     
-    $xml[line_comment][">"]    = normal_text;                 
-    $xml[line_comment][0]      = line_comment;                
-    $xml[dq_literal]["\""]     = xml_tag;                     
-    $xml[dq_literal]["&"]      = dq_escape;                   
-    $xml[dq_literal][0]        = dq_literal;                  
-    $xml[sq_literal]["'"]      = xml_tag;                     
-    $xml[sq_literal]["&"]      = sq_escape;                   
-    $xml[sq_literal][0]        = sq_literal;                  
-    $xml[dq_escape][";"]       = dq_literal;                  
-    $xml[dq_escape][0]         = dq_escape;                   
-    
+    $xml[html_entity][0]       = html_entity;
+    $xml[xml_tag_begin]["?"]   = xml_pi;
+    $xml[xml_tag_begin]["!"]   = line_comment;
+    $xml[xml_tag_begin][0]     = xml_tag;
+    $xml[xml_tag][">"]         = normal_text;
+    $xml[xml_tag]["\""]        = dq_literal;
+    $xml[xml_tag]["'"]         = sq_literal;
+    $xml[xml_tag][0]           = xml_tag;
+    $xml[xml_pi][">"]          = normal_text;
+    $xml[xml_pi][0]            = xml_tag;
+    $xml[line_comment][">"]    = normal_text;
+    $xml[line_comment][0]      = line_comment;
+    $xml[dq_literal]["\""]     = xml_tag;
+    $xml[dq_literal]["&"]      = dq_escape;
+    $xml[dq_literal][0]        = dq_literal;
+    $xml[sq_literal]["'"]      = xml_tag;
+    $xml[sq_literal]["&"]      = sq_escape;
+    $xml[sq_literal][0]        = sq_literal;
+    $xml[dq_escape][";"]       = dq_literal;
+    $xml[dq_escape][0]         = dq_escape;
+
     //
     // Main state transition table
     //
@@ -1036,15 +1053,15 @@ function syntax_highlight($text, $language)
     $edges["XML"][xml_tag . "," . normal_text] = '&gt;</span>';
     $edges["XML"][xml_tag_begin . "," . xml_pi] = '<span class="xml_pi">&lt;?';
     $edges["XML"][xml_tag_begin . "," . line_comment] = '<span class="comment">&lt;!';
-    $edges["XML"][line_comment . "," . normal_text] = '&gt;</span>'; 
+    $edges["XML"][line_comment . "," . normal_text] = '&gt;</span>';
     $edges["XML"][xml_tag .",". dq_literal]   = '<span class="literal">"';
     $edges["XML"][dq_literal . "," . xml_tag] = '"</span>';
     $edges["XML"][dq_literal . "," . dq_escape] = '<span class="html_entity">&amp;';
     $edges["XML"][dq_escape . "," . dq_literal] = '</span>';
     $edges["XML"][xml_tag .",". sq_literal]   = '<span class="literal">\'';
     $edges["XML"][sq_literal . "," . xml_tag] = '\'</span>';
-    $edges["XML"][sq_literal . "," . sq_escape] = '<span class="html_entity">&amp;'; 
-    $edges["XML"][sq_escape . "," . sq_literal] = '</span>'; 
+    $edges["XML"][sq_literal . "," . sq_escape] = '<span class="html_entity">&amp;';
+    $edges["XML"][sq_escape . "," . sq_literal] = '</span>';
 
     //
     // The State Machine
@@ -1061,9 +1078,8 @@ function syntax_highlight($text, $language)
         $text = substr($text, 1);
 
         $oldstate = $state;
-        $state = (array_key_exists($ch, $states[$language][$state]))?
-            $states[$language][$state][$ch] :
-            $states[$language][$state][0];
+        $stateRow = $states[$language][$state] ?? array();
+        $state = array_key_exists($ch, $stateRow) ? $stateRow[$ch] : ($stateRow[0] ?? $state);
 
         $span .= $ch;
 
@@ -1079,7 +1095,7 @@ function syntax_highlight($text, $language)
                 }
                 else
                 {
-                    $pf = $process[$language][$oldstate][0];
+                    $pf = $process[$language][$oldstate][0] ?? 'proc_void';
                     $output .= $pf($span, $language, $ch);
                 }
             }
@@ -1107,8 +1123,6 @@ function syntax_highlight($text, $language)
             array_key_exists("$state," . normal_text, $edges[$language]))
             $output .= $edges[$language]["$state," . normal_text];
     }
-                
+
     return $output;
 }
-
-?>

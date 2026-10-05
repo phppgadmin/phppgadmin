@@ -175,7 +175,7 @@
 			echo "\t<tr>\n\t\t<th class=\"data left\" style=\"width: 130px\">{$lang['strname']}</th>\n";
 			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"formNewRoleName\" size=\"15\" maxlength=\"{$data->_maxNameLen}\" value=\"" . htmlspecialchars($_POST['formNewRoleName']) . "\" />" : $misc->printVal($roledata->fields['rolname'])), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strpassword']}</th>\n";
-			echo "\t\t<td class=\"data1\"><input type=\"password\" size=\"15\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n\t</tr>\n";
+			echo "\t\t<td class=\"data1\"><input type=\"password\" size=\"15\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword'] ?? ''), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strconfirm']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input type=\"password\" size=\"15\" name=\"formConfirm\" value=\"\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\"><label for=\"formSuper\">{$lang['strsuper']}</label></th>\n";
@@ -194,10 +194,12 @@
 			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" id=\"formCanLogin\" name=\"formCanLogin\"", 
 				(isset($_POST['formCanLogin'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strconnlimit']}</th>\n";
-			echo "\t\t<td class=\"data1\"><input size=\"4\" name=\"formConnLimit\" value=\"", htmlspecialchars($_POST['formConnLimit']), "\" /></td>\n\t</tr>\n";
+			echo "\t\t<td class=\"data1\"><input size=\"4\" name=\"formConnLimit\" value=\"", htmlspecialchars($_POST['formConnLimit'] ?? ''), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strexpires']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input size=\"23\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td>\n\t</tr>\n";
 
+			$_POST['memberofold'] = $_POST['membersold'] = $_POST['adminmembersold'] = '';
+			$memberofold = $membersold = $adminmembersold = '';
 			if (!isset($_POST['memberof']))
 			{
 				$memberof = $data->getMemberOf($_REQUEST['rolename']);
@@ -210,7 +212,7 @@
 				}
 				else
 					$_POST['memberof'] = array();
-				$memberofold = implode(',', $_POST['memberof']);
+				$memberofold = implode(',', (array) $_POST['memberof']);
 			}
 			if (!isset($_POST['members']))
 			{
@@ -224,7 +226,7 @@
 				}
 				else
 					$_POST['members'] = array();
-				$membersold = implode(',', $_POST['members']);
+				$membersold = implode(',', (array) $_POST['members']);
 			}
 			if (!isset($_POST['adminmembers']))
 			{
@@ -238,7 +240,7 @@
 				}
 				else
 					$_POST['adminmembers'] = array();
-				$adminmembersold = implode(',', $_POST['adminmembers']);
+				$adminmembersold = implode(',', (array) $_POST['adminmembers']);
 			}
 			
 			$roles = $data->getRoles($_REQUEST['rolename']);

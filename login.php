@@ -6,7 +6,7 @@
 	 * $Id: login.php,v 1.38 2007/09/04 19:39:48 ioguix Exp $
 	 */
 	global $conf, $plugin_manager;
-	
+
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
 	// Check to see if the configuration file exists, if not, explain
 	require_once('./libraries/lib.inc.php');
@@ -17,14 +17,16 @@
 	$misc->printHeader($lang['strlogin']);
 	$misc->printBody();
 	$misc->printTrail('root');
-	
-	$server_info = $misc->getServerInfo($_REQUEST['server']);
-	
-	$misc->printTitle(sprintf($lang['strlogintitle'], $server_info['desc']));
-	
+
+	$server = (isset($_REQUEST['server']) && is_scalar($_REQUEST['server'])) ? (string) $_REQUEST['server'] : '';
+
+	$server_info = $misc->getServerInfo($server);
+
+	$misc->printTitle(sprintf($lang['strlogintitle'], $server_info['desc'] ?? ''));
+
 	if (isset($msg)) $misc->printMsg($msg);
 
-	$md5_server = md5($_REQUEST['server']);
+	$md5_server = md5($server);
 ?>
 
 <form id="login_form" action="redirect.php" method="post" name="login_form">
@@ -33,15 +35,17 @@
 	else $vars =& $_GET;
 	// Pass request vars through form (is this a security risk???)
 	foreach ($vars as $key => $val) {
+		$key = (string) $key;
 		if (substr($key,0,5) == 'login') continue;
-		echo "<input type=\"hidden\" name=\"", htmlspecialchars($key), "\" value=\"", htmlspecialchars($val), "\" />\n";
+		if (!is_scalar($val)) continue;
+		echo "<input type=\"hidden\" name=\"", htmlspecialchars($key), "\" value=\"", htmlspecialchars((string) $val), "\" />\n";
 	}
 ?>
-	<input type="hidden" name="loginServer" value="<?php echo htmlspecialchars($_REQUEST['server']); ?>" />
+	<input type="hidden" name="loginServer" value="<?php echo htmlspecialchars($server); ?>" />
 	<table class="navbar" border="0" cellpadding="5" cellspacing="3">
 		<tr>
 			<td><?php echo $lang['strusername']; ?></td>
-			<td><input type="text" name="loginUsername" value="<?php if (isset($_POST['loginUsername'])) echo htmlspecialchars($_POST['loginUsername']); ?>" size="24" /></td>
+			<td><input type="text" name="loginUsername" value="<?php if (isset($_POST['loginUsername']) && is_scalar($_POST['loginUsername'])) echo htmlspecialchars((string) $_POST['loginUsername']); ?>" size="24" /></td>
 		</tr>
 		<tr>
 			<td><?php echo $lang['strpassword']; ?></td>

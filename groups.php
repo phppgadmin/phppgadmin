@@ -29,13 +29,14 @@
 	/**
 	 * Show confirmation of drop user from group and perform actual drop
 	 */
-	function doDropMember($confirm) {
+	function doDropMember($confirm, $msg = '') {
 		global $data, $misc;
 		global $lang;
 
-		if ($confirm) { 
+		if ($confirm) {
 			$misc->printTrail('group');
 			$misc->printTitle($lang['strdropmember'],'pg.group.alter');
+			$misc->printMsg($msg);
 			
 			echo "<p>", sprintf($lang['strconfdropmember'], $misc->printVal($_REQUEST['user']), $misc->printVal($_REQUEST['group'])), "</p>\n";
 			

@@ -11,8 +11,8 @@
 	 * $Id: display.php,v 1.68 2008/04/14 12:44:27 ioguix Exp $
 	 */
 
-	// Prevent timeouts on large exports (non-safe mode only)
-	if (!ini_get('safe_mode')) set_time_limit(0);
+	// Prevent timeouts on large exports
+	set_time_limit(0);
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
@@ -29,9 +29,9 @@
 		global $lang;
 
 		if (is_array($_REQUEST['key']))
-           $key = $_REQUEST['key'];
-        else
-           $key = unserialize(urldecode($_REQUEST['key']));
+			$key = $_REQUEST['key'];
+		else
+			$key = safeUnserialize(urldecode($_REQUEST['key']));
 
 		if ($confirm) {
 			$misc->printTrail($_REQUEST['subject']);
@@ -50,7 +50,7 @@
 
 			echo "<form action=\"display.php\" method=\"post\" id=\"ac_form\">\n";
 			$elements = 0;
-			$error = true;			
+			$error = true;
 			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
 				echo "<table>\n";
 
@@ -64,29 +64,29 @@
 
 					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
 					$id = (($i % 2) == 0 ? '1' : '2');
-					
+
 					// Initialise variables
 					if (!isset($_REQUEST['format'][$attrs->fields['attname']]))
 						$_REQUEST['format'][$attrs->fields['attname']] = 'VALUE';
-					
+
 					echo "<tr class=\"data{$id}\">\n";
 					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
 					echo "<td style=\"white-space:nowrap;\">\n";
 					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
-					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"", 
+					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"",
 						htmlspecialchars($attrs->fields['type']), "\" /></td>";
 					$elements++;
 					echo "<td style=\"white-space:nowrap;\">\n";
 					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attname']), "]\">\n";
-					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
-					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
+					echo "<option value=\"VALUE\"", (($_REQUEST['format'][$attrs->fields['attname']] ?? null) == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
+					echo "<option value=\"EXPRESSION\"", (($_REQUEST['format'][$attrs->fields['attname']] ?? null) == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
 					$elements++;
 					echo "<td style=\"white-space:nowrap;\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->fields['attnotnull']) {
 						// Set initial null values
-						if ($_REQUEST['action'] == 'confeditrow' && $rs->fields[$attrs->fields['attname']] === null) {
+						if (($_REQUEST['action'] ?? '') == 'confeditrow' && $rs->fields[$attrs->fields['attname']] === null) {
 							$_REQUEST['nulls'][$attrs->fields['attname']] = 'on';
 						}
 						echo "<label><span><input type=\"checkbox\" name=\"nulls[{$attrs->fields['attname']}]\"",
@@ -101,7 +101,7 @@
 					$extras = array();
 
 					// If the column allows nulls, then we put a JavaScript action on the data field to unset the
-					// NULL checkbox as soon as anything is entered in the field.  We use the $elements variable to 
+					// NULL checkbox as soon as anything is entered in the field.  We use the $elements variable to
 					// keep track of which element offset we're up to.  We can't refer to the null checkbox by name
 					// as it contains '[' and ']' characters.
 					if (!$attrs->fields['attnotnull']) {
@@ -126,7 +126,7 @@
 				$error = false;
 			}
 			elseif ($rs->recordCount() != 1) {
-				echo "<p>{$lang['strrownotunique']}</p>\n";				
+				echo "<p>{$lang['strrownotunique']}</p>\n";
 			}
 			else {
 				echo "<p>{$lang['strinvalidparam']}</p>\n";
@@ -166,8 +166,8 @@
 		else {
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
-			
-			$status = $data->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], 
+
+			$status = $data->editRow($_POST['table'], $_POST['values'], $_POST['nulls'],
 				$_POST['format'], $_POST['types'], $key);
 			if ($status == 0)
 				doBrowse($lang['strrowupdated']);
@@ -177,7 +177,7 @@
 				doEditRow(true, $lang['strrowupdatedbad']);
 		}
 
-	}	
+	}
 
 	/**
 	 * Show confirmation of drop and perform actual drop
@@ -238,22 +238,22 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->deleteRow($_POST['table'], unserialize(urldecode($_POST['key'])));
+			$status = $data->deleteRow($_POST['table'], safeUnserialize(urldecode($_POST['key'])));
 			if ($status == 0)
 				doBrowse($lang['strrowdeleted']);
 			elseif ($status == -2)
 				doBrowse($lang['strrownotunique']);
-			else			
+			else
 				doBrowse($lang['strrowdeletedbad']);
 		}
-		
+
 	}
-	
-	/* build & return the FK information data structure 
+
+	/* build & return the FK information data structure
 	 * used when deciding if a field should have a FK link or not*/
 	function &getFKInfo() {
 		global $data, $misc, $lang;
-		 
+
 		// Get the foreign key(s) information from the current table
 		$fkey_information = array('byconstr' => array(), 'byfield' => array());
 
@@ -283,6 +283,7 @@
 
 						$fkey_information['byfield'][$constr['p_field']][] = $constr['conid'];
 					}
+					elseif ($constr['contype'] == 'p') $fkey_information['pkey'] = $constr['p_field'];
 					$constraints->moveNext();
 				}
 			}
@@ -291,7 +292,7 @@
 		return $fkey_information;
 	}
 
-	/* Print table header cells 
+	/* Print table header cells
 	 * @param $args - associative array for sort link parameters
 	 * */
 	function printTableHeaderCells(&$rs, $args, $withOid) {
@@ -339,7 +340,7 @@
 	function printTableRowCells(&$rs, &$fkey_information, $withOid) {
 		global $data, $misc, $conf;
 		$j = 0;
-		
+
 		if (!isset($_REQUEST['strings'])) $_REQUEST['strings'] = 'collapsed';
 
 		foreach ($rs->fields as $k => $v) {
@@ -393,7 +394,7 @@
 
 		$max_pages = 1;
 		// Retrieve page from query.  $max_pages is returned by reference.
-		$rs = $data->browseQuery('SELECT', $_REQUEST['table'], $_REQUEST['query'],  
+		$rs = $data->browseQuery('SELECT', $_REQUEST['table'], $_REQUEST['query'],
 			null, null, 1, 1, $max_pages);
 
 		echo "<a href=\"\" style=\"display:table-cell;\" class=\"fk_delete\"><img alt=\"[delete]\" src=\"". $misc->icon('Delete') ."\" /></a>\n";
@@ -404,7 +405,7 @@
 			 * we should show OID if show_oids is true
 			 * so we give true to withOid in functions below
 			 * as 3rd parameter */
-		
+
 			echo "<table><tr>";
 				printTableHeaderCells($rs, false, true);
 			echo "</tr>";
@@ -421,7 +422,7 @@
 		exit;
 	}
 
-	/** 
+	/**
 	 * Displays requested data
 	 */
 	function doBrowse($msg = '') {
@@ -433,7 +434,7 @@
 			$_REQUEST['page'] = 1;
 		if (!isset($_REQUEST['nohistory']))
 			$save_history = true;
-		
+
 		if (isset($_REQUEST['subject'])) {
 			$subject = $_REQUEST['subject'];
 			if (isset($_REQUEST[$subject])) $object = $_REQUEST[$subject];
@@ -454,7 +455,7 @@
 			$query = $data->getSelectSQL($_REQUEST['table'], array(), $_REQUEST['fkey'], $ops);
 			$_REQUEST['query'] = $query;
 		}
-		
+
 		if (isset($object)) {
 			if (isset($_REQUEST['query'])) {
 				$_SESSION['sqlquery'] = $_REQUEST['query'];
@@ -466,7 +467,10 @@
 			}
 		} else {
 			$misc->printTitle($lang['strqueryresults']);
-			/*we comes from sql.php, $_SESSION['sqlquery'] has been set there */
+			/* We come either from sql.php, which has already set $_SESSION['sqlquery'],
+			 * or from the query form below, which posts back an edited query. */
+			if (isset($_POST['query']))
+				$_SESSION['sqlquery'] = $_POST['query'];
 			$type = 'QUERY';
 		}
 
@@ -477,16 +481,16 @@
 
 		// If 'sortdir' is not set, default to ''
 		if (!isset($_REQUEST['sortdir'])) $_REQUEST['sortdir'] = '';
-	
-		// If 'strings' is not set, default to collapsed 
+
+		// If 'strings' is not set, default to collapsed
 		if (!isset($_REQUEST['strings'])) $_REQUEST['strings'] = 'collapsed';
-	
+
 		// Fetch unique row identifier, if this is a table browse request.
 		if (isset($object))
 			$key = $data->getRowIdentifier($object);
 		else
 			$key = array();
-		
+
 		// Set the schema search path
 		if (isset($_REQUEST['search_path'])) {
 			if ($data->setSearchPath(array_map('trim',explode(',',$_REQUEST['search_path']))) != 0) {
@@ -494,14 +498,31 @@
 			}
 		}
 
-		// Retrieve page from query.  $max_pages is returned by reference.
-		$rs = $data->browseQuery($type, 
-			isset($object) ? $object : null, 
-			isset($_SESSION['sqlquery']) ? $_SESSION['sqlquery'] : null,
-			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
-			$conf['max_rows'], $max_pages);
-
 		$fkey_information =& getFKInfo();
+
+		// Retrieve page from query.  $max_pages is returned by reference.
+		$max_pages = null;
+		$rs = $data->browseQuery($type,
+			isset($object) ? $object : null,
+			isset($_SESSION['sqlquery']) ? $_SESSION['sqlquery'] : null,
+			$_REQUEST['sortkey'] ?? null, $_REQUEST['sortdir'] ?? null, $_REQUEST['page'] ?? null,
+			$conf['max_rows'], $max_pages,
+			isset($fkey_information['pkey']) ? $fkey_information['pkey'] : null);
+
+		/* The requested page can be past the end of the result set, eg. when a new
+		 * query is submitted while browsing a later page of the previous one.  Fall
+		 * back to the last page instead of reporting no data at all. */
+		if ($rs === -3 && $max_pages >= 1
+				&& is_numeric($_REQUEST['page']) && $_REQUEST['page'] > $max_pages) {
+
+			$_REQUEST['page'] = (int)$max_pages;
+			$rs = $data->browseQuery($type,
+				isset($object) ? $object : null,
+				isset($_SESSION['sqlquery']) ? $_SESSION['sqlquery'] : null,
+				$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
+				$conf['max_rows'], $max_pages,
+				isset($fkey_information['pkey']) ? $fkey_information['pkey'] : null);
+		}
 
 		// Build strings for GETs in array
 		$_gets = array(
@@ -523,17 +544,30 @@
 		$_gets['strings'] = $_REQUEST['strings'];
 
 		if ($save_history && is_object($rs) && ($type == 'QUERY')) //{
-			$misc->saveScriptHistory($_REQUEST['query']);
+			$misc->saveScriptHistory($_SESSION['sqlquery']);
 
-		echo '<form method="POST" action="'.$_SERVER['REQUEST_URI'].'"><textarea width="90%" name="query" rows="5" cols="100" resizable="true">';
-		if (isset($_REQUEST['query'])) {
+		/* The query form must carry the current context (server, database, schema,
+		 * ...) in its own fields: display.php can be reached through a POST with an
+		 * empty query string, eg. right after saving an edited row. */
+		echo '<form method="post" action="display.php">';
+		foreach ($_gets as $_k => $_v) {
+			if ($_k == 'query') continue;
+			echo "<input type=\"hidden\" name=\"", htmlspecialchars($_k), "\" value=\"", htmlspecialchars($_v), "\" />\n";
+		}
+		echo "<input type=\"hidden\" name=\"page\" value=\"", htmlspecialchars($_REQUEST['page']), "\" />\n";
+		echo '<textarea width="90%" name="query" rows="5" cols="100" resizable="true">';
+		/* Show the query that was actually executed.  For SELECT and QUERY types that
+		 * is the session copy, since a GET link may only carry a truncated one. */
+		if ($type != 'TABLE' && isset($_SESSION['sqlquery'])) {
+			$query = $_SESSION['sqlquery'];
+		} elseif (isset($_REQUEST['query'])) {
 			$query = $_REQUEST['query'];
 		} else {
-			$query = "SELECT * FROM ".pg_escape_identifier($_REQUEST['schema']);
-			if ($_REQUEST['subject'] == 'view') {
-				$query = "{$query}.".pg_escape_identifier($_REQUEST['view']).";";
+			$query = "SELECT * FROM ".$data->escapeIdentifier($_REQUEST['schema'] ?? '');
+			if (($_REQUEST['subject'] ?? '') == 'view') {
+				$query = "{$query}.".$data->escapeIdentifier($_REQUEST['view'] ?? '').";";
 			} else {
-				$query = "{$query}.".pg_escape_identifier($_REQUEST['table']).";";
+				$query = "{$query}.".$data->escapeIdentifier($_REQUEST['table'] ?? '').";";
 			}
 		}
 		//$query = isset($_REQUEST['query'])? $_REQUEST['query'] : "select * from {$_REQUEST['schema']}.{$_REQUEST['table']};";
@@ -614,7 +648,7 @@
 
 			echo "</tr>\n";
 
-			$i = 0;		
+			$i = 0;
 			reset($rs->fields);
 			while (!$rs->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
@@ -624,11 +658,23 @@
 					$keys_array = array();
 					$has_nulls = false;
 					foreach ($key as $v) {
+						$finfo = $rs->fieldTypesArray();
+
 						if ($rs->fields[$v] === null) {
 							$has_nulls = true;
 							break;
 						}
-						$keys_array["key[{$v}]"] = $rs->fields[$v];
+
+						foreach ($finfo as $field) {
+							if ($field->name === $v) {
+								if ($field->type === 'bytea') {
+									$keys_array["key[{$v}]"] = $data->conn->BlobEncode($rs->fields[$v]);
+								} else {
+									$keys_array["key[{$v}]"] = $rs->fields[$v];
+								}
+
+							}
+						}
 					}
 					if ($has_nulls) {
 						echo "<td colspan=\"{$colspan}\">&nbsp;</td>\n";
@@ -747,7 +793,7 @@
 
 		// Create view and download
 		if (isset($_REQUEST['query']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
-			
+
 
 			// Report views don't set a schema, so we need to disable create view in that case
 			if (isset($_REQUEST['schema'])) {
@@ -829,29 +875,27 @@
 	$scripts .= "};\n";
 	$scripts .= "</script>\n";
 
-	// Set the title based on the subject of the request 
+	// Set the title based on the subject of the request
 	if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']])) {
 		if ($_REQUEST['subject'] == 'table') {
 			$misc->printHeader(
 				$lang['strtables'].': '.$_REQUEST[$_REQUEST['subject']],
 				$scripts
 			);
-		}
-		else if ($_REQUEST['subject'] == 'view') {
+		} else if ($_REQUEST['subject'] == 'view') {
 			$misc->printHeader(
 				$lang['strviews'].': '.$_REQUEST[$_REQUEST['subject']],
 				$scripts
 			);
-		} 
-        else if ($_REQUEST['subject'] == 'column') {
-            $misc->printHeader(
-                $lang['strcolumn'].': '.$_REQUEST[$_REQUEST['subject']],
-                $scripts
-            );
-        }
-	}
-	else	
+		} else if ($_REQUEST['subject'] == 'column') {
+			$misc->printHeader(
+				$lang['strcolumn'].': '.$_REQUEST[$_REQUEST['subject']],
+				$scripts
+			);
+		}
+	} else {
 		$misc->printHeader($lang['strqueryresults']);
+	}
 
 	$misc->printBody();
 
@@ -876,4 +920,3 @@
 	}
 
 	$misc->printFooter();
-?>

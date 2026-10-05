@@ -10,11 +10,11 @@ include_once('./classes/database/Postgres84.php');
 
 class Postgres83 extends Postgres84 {
 
-	var $major_version = 8.3;
+	public $major_version = 8.3;
 
 	// List of all legal privileges that can be applied to different types
 	// of objects.
-	var $privlist = array(
+	public $privlist = array(
   		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
   		'view' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
   		'sequence' => array('USAGE', 'SELECT', 'UPDATE', 'ALL PRIVILEGES'),
@@ -26,7 +26,7 @@ class Postgres83 extends Postgres84 {
 	);
 	// List of characters in acl lists and the privileges they
 	// refer to.
-	var $privmap = array(
+	public $privmap = array(
 		'r' => 'SELECT',
 		'w' => 'UPDATE',
 		'a' => 'INSERT',

@@ -11,10 +11,10 @@ include_once('./classes/database/Postgres80.php');
 
 class Postgres74 extends Postgres80 {
 
-	var $major_version = 7.4;
+	public $major_version = 7.4;
 	// List of all legal privileges that can be applied to different types
 	// of objects.
-	var $privlist = array(
+	public $privlist = array(
 		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
 		'view' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
 		'sequence' => array('SELECT', 'UPDATE', 'ALL PRIVILEGES'),

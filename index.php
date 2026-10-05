@@ -10,11 +10,17 @@
 	$_no_db_connection = true;
 	include_once('./libraries/lib.inc.php');
 	$misc->printHeader('', null, true);
-	
+
 	$rtl = (strcasecmp($lang['applangdir'], 'rtl') == 0);
-	
+
 	$cols = $rtl ? '*,'.$conf['left_width'] : $conf['left_width'].',*';
-	$mainframe = '<frame src="intro.php" name="detail" id="detail" frameborder="0" />'
+
+	if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST" && isset($_POST['_originalPath'])) {
+		$newPath = basename($_POST['_originalPath']);
+		$mainframe = '<frame src="' . $newPath . '" name="detail" id="detail" frameborder="0" />';
+	} else {
+		$mainframe = '<frame src="intro.php" name="detail" id="detail" frameborder="0" />';
+	}
 ?>
 <frameset cols="<?php echo $cols ?>">
 

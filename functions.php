@@ -137,7 +137,7 @@
 						($schema == $_POST['formFuncSchema']) ? ' selected="selected"' : '', ">", htmlspecialchars($schema), "</option>\n";
 					$schemas->moveNext();
 				}
-			    echo "</select>\n";
+				echo "</select>\n";
 			}
 			else echo $fndata->fields['proschema'];
 			echo "</td>\n";
@@ -190,9 +190,9 @@
 			if ($data->hasFunctionCosting()) {
 				echo "<tr><th class=\"data required\" colspan=\"5\">{$lang['strfunctioncosting']}</th></tr>\n";
 				echo "<td class=\"data1\" colspan=\"2\">{$lang['strexecutioncost']}: <input name=\"formCost\" size=\"16\" value=\"".
-					htmlspecialchars($_POST['formCost']) ."\" /></td>";
+					htmlspecialchars($_POST['formCost'] ?? '') ."\" /></td>";
 				echo "<td class=\"data1\" colspan=\"2\">{$lang['strresultrows']}: <input name=\"formRows\" size=\"16\" value=\"",
-					htmlspecialchars($_POST['formRows']) ,"\"", (!$fndata->fields['proretset']) ? 'disabled' : '', "/></td>";
+					htmlspecialchars($_POST['formRows'] ?? '') ,"\"", (!$fndata->fields['proretset']) ? 'disabled' : '', "/></td>";
 			}
 
 			// Display function properties
@@ -213,10 +213,10 @@
 				echo "</td></tr>\n";
 			}
 
-                        // function owner
-                        if ($data->hasFunctionAlterOwner()) {
-		            $users = $data->getUsers();
-                            echo "<tr><td class=\"data1\" colspan=\"5\">{$lang['strowner']}: <select name=\"formFuncOwn\">";
+			// function owner
+			if ($data->hasFunctionAlterOwner()) {
+				$users = $data->getUsers();
+				echo "<tr><td class=\"data1\" colspan=\"5\">{$lang['strowner']}: <select name=\"formFuncOwn\">";
 				while (!$users->EOF) {
 					$uname = $users->fields['usename'];
 					echo "<option value=\"", htmlspecialchars($uname), "\"",
@@ -224,9 +224,9 @@
 					$users->moveNext();
 				}
 				echo "</select>\n";
-			    echo "<input type=\"hidden\" name=\"original_owner\" value=\"", htmlspecialchars($fndata->fields['proowner']),"\" />\n";
-                            echo "</td></tr>\n";
-                        }
+				echo "<input type=\"hidden\" name=\"original_owner\" value=\"", htmlspecialchars($fndata->fields['proowner']),"\" />\n";
+				echo "</td></tr>\n";
+			}
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
@@ -251,7 +251,7 @@
 		$misc->printMsg($msg);
 
 		$funcdata = $data->getFunction($_REQUEST['function_oid']);
-
+		$func_full = '';
 		if ($funcdata->recordCount() > 0) {
 			// Deal with named parameters
 			if ($data->hasNamedParams()) {
@@ -347,11 +347,12 @@
 				echo "</td></tr>\n";
 			}
 
-                        echo "<tr><td class=\"data1\" colspan=\"5\">{$lang['strowner']}: ", htmlspecialchars($funcdata->fields['proowner']),"\n";
-                        echo "</td></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"5\">{$lang['strowner']}: ", htmlspecialchars($funcdata->fields['proowner']),"\n";
+			echo "</td></tr>\n";
 			echo "</table>\n";
+		} else {
+			echo "<p>{$lang['strnodata']}</p>\n";
 		}
-		else echo "<p>{$lang['strnodata']}</p>\n";
 
 		$navlinks = array(
 			'showall' => array (
@@ -425,7 +426,8 @@
 			//If multi drop
 			if (isset($_REQUEST['ma'])) {
 				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					$a = safeUnserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					if (!is_array($a)) continue;
 					echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($a['function'])), "</p>\n";
 					echo '<input type="hidden" name="function[]" value="', htmlspecialchars($a['function']), "\" />\n";
 					echo "<input type=\"hidden\" name=\"function_oid[]\" value=\"", htmlspecialchars($a['function_oid']), "\" />\n";
@@ -487,7 +489,7 @@
 	 */
 	function doCreate($msg = '',$szJS="") {
 		global $data, $misc;
-		global $lang;
+		global $conf, $lang;
 
 		$misc->printTrail('schema');
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
@@ -666,7 +668,7 @@
 			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">",
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		}
-		
+
 		// Display function comment
 		echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
 		echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\">",
@@ -784,6 +786,7 @@
 		$arrayProperArgs = array();
 		$nC = 0;
 		$szReturn = '';
+		$szMode = '';
 		foreach($arrayArgs as $pV) {
 			$arrayWords = explode(' ',$pV);
 			if(in_array($arrayWords[0],$arrayModes)===true) {
@@ -984,14 +987,15 @@
 			'text'    => $proto,
 			'icon'    => 'Function',
 			'toolTip' => field('procomment'),
-			'action'  => url('redirect.php',
-							$reqvars,
-							array(
-								'action' => 'properties',
-								'function' => $proto,
-								'function_oid' => field('prooid')
-							)
-						)
+			'action'  => url(
+				'redirect.php',
+				$reqvars,
+				array(
+					'action' => 'properties',
+					'function' => $proto,
+					'function_oid' => field('prooid')
+				)
+			)
 		);
 
 		$misc->printTree($funcs, $attrs, 'functions');
@@ -1034,5 +1038,3 @@
 	}
 
 	$misc->printFooter();
-
-?>

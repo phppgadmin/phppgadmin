@@ -1,7 +1,7 @@
 <?php
 
 	$script = ''; // init global value script
-	
+
 	/**
 	 * Show confirmation of cluster and perform cluster
 	 */
@@ -9,7 +9,7 @@
 		global $script, $data, $misc, $lang;
 
 		if (($type == 'table') && empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifytabletocluster']);
+			doAdmin($type, $lang['strspecifytabletocluster']);
 			return;
 		}
 
@@ -20,7 +20,8 @@
 
 				echo "<form action=\"{$script}\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					$a = safeUnserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					if (!is_array($a)) continue;
 					echo "<p>", sprintf($lang['strconfclustertable'], $misc->printVal($a['table'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
 				}
@@ -28,9 +29,9 @@
 			else {
 				$misc->printTrail($type);
 				$misc->printTitle($lang['strclusterindex'], 'pg.index.cluster');
-				
+
 				echo "<form action=\"{$script}\" method=\"post\">\n";
-				
+
 				if ($type == 'table') {
 					echo "<p>", sprintf($lang['strconfclustertable'], $misc->printVal($_REQUEST['object'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
@@ -41,7 +42,7 @@
 				}
 			}
 			echo "<input type=\"hidden\" name=\"action\" value=\"cluster\" />\n";
-			
+
 			echo $misc->form;
 
 			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strcluster']}\" />\n"; //TODO
@@ -58,12 +59,12 @@
 						if ($status == 0)
 							$msg.= sprintf('%s: %s<br />', htmlentities($o, ENT_QUOTES, 'UTF-8'), $lang['strclusteredgood']);
 						else {
-							doDefault($type, sprintf('%s%s: %s<br />', $msg, htmlentities($o, ENT_QUOTES, 'UTF-8'), $lang['strclusteredbad']));
+							doAdmin($type, sprintf('%s%s: %s<br />', $msg, htmlentities($o, ENT_QUOTES, 'UTF-8'), $lang['strclusteredbad']));
 							return;
 						}
 					}
 					 // Everything went fine, back to the Default page....
-					 doDefault($msg);
+					 doAdmin($type, $msg);
 				}
 				else {
 					$status = $data->clusterIndex($_REQUEST['object']);
@@ -84,7 +85,7 @@
 			}
 		}
 	}
-	
+
 	/**
 	 * Show confirmation of reindex and perform reindex
 	 */
@@ -92,7 +93,7 @@
 		global $script, $data, $misc, $lang, $_reload_browser;
 
 		if (($type == 'table') && empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifytabletoreindex']);
+			doAdmin($type, $lang['strspecifytabletoreindex']);
 			return;
 		}
 
@@ -103,7 +104,8 @@
 
 				echo "<form action=\"{$script}\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					$a = safeUnserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					if (!is_array($a)) continue;
 					echo "<p>", sprintf($lang['strconfreindextable'], $misc->printVal($a['table'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
 				}
@@ -111,9 +113,9 @@
 			else {
 				$misc->printTrail($type);
 				$misc->printTitle($lang['strreindex'], 'pg.reindex');
-				
+
 				echo "<form action=\"{$script}\" method=\"post\">\n";
-				
+
 				if ($type == 'table') {
 					echo "<p>", sprintf($lang['strconfreindextable'], $misc->printVal($_REQUEST['object'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
@@ -124,10 +126,10 @@
 				}
 			}
 			echo "<input type=\"hidden\" name=\"action\" value=\"reindex\" />\n";
-			
+
 			if ($data->hasForceReindex())
 				echo "<p><input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" /><label for=\"reindex_force\">{$lang['strforce']}</label></p>\n";
-			
+
 			echo $misc->form;
 
 			echo "<input type=\"submit\" name=\"reindex\" value=\"{$lang['strreindex']}\" />\n"; //TODO
@@ -143,13 +145,13 @@
 					if ($status == 0)
 						$msg.= sprintf('%s: %s<br />', htmlentities($o, ENT_QUOTES, 'UTF-8'), $lang['strreindexgood']);
 					else {
-						doDefault($type, sprintf('%s%s: %s<br />', $msg, htmlentities($o, ENT_QUOTES, 'UTF-8'), $lang['strreindexbad']));
+						doAdmin($type, sprintf('%s%s: %s<br />', $msg, htmlentities($o, ENT_QUOTES, 'UTF-8'), $lang['strreindexbad']));
 						return;
 					}
 				}
 				 // Everything went fine, back to the Default page....
 				 $_reload_browser = true;
-				 doDefault($msg);
+				 doAdmin($type, $msg);
 			}
 			else {
 				$status = $data->reindex(strtoupper($type), $_REQUEST['object'], isset($_REQUEST['reindex_force']));
@@ -162,7 +164,7 @@
 			}
 		}
 	}
-	
+
 	/**
 	 * Show confirmation of analyze and perform analyze
 	 */
@@ -170,7 +172,7 @@
 		global $script, $data, $misc, $lang, $_reload_browser;
 
 		if (($type == 'table') && empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifytabletoanalyze']);
+			doAdmin($type, $lang['strspecifytabletoanalyze']);
 			return;
 		}
 
@@ -181,7 +183,8 @@
 
 				echo "<form action=\"{$script}\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					$a = safeUnserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					if (!is_array($a)) continue;
 					echo "<p>", sprintf($lang['strconfanalyzetable'], $misc->printVal($a['table'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
 				}
@@ -189,9 +192,9 @@
 			else {
 				$misc->printTrail($type);
 				$misc->printTitle($lang['stranalyze'], 'pg.analyze');
-				
+
 				echo "<form action=\"{$script}\" method=\"post\">\n";
-				
+
 				if ($type == 'table') {
 					echo "<p>", sprintf($lang['strconfanalyzetable'], $misc->printVal($_REQUEST['object'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
@@ -217,13 +220,13 @@
 					if ($status == 0)
 						$msg.= sprintf('%s: %s<br />', htmlentities($o, ENT_QUOTES, 'UTF-8'), $lang['stranalyzegood']);
 					else {
-						doDefault($type, sprintf('%s%s: %s<br />', $msg, htmlentities($o, ENT_QUOTES, 'UTF-8'), $lang['stranalyzebad']));
+						doAdmin($type, sprintf('%s%s: %s<br />', $msg, htmlentities($o, ENT_QUOTES, 'UTF-8'), $lang['stranalyzebad']));
 						return;
 					}
 				}
 				 // Everything went fine, back to the Default page....
 				 $_reload_browser = true;
-				 doDefault($msg);
+				 doAdmin($type, $msg);
 			}
 			else {
 				//we must pass table here. When empty, analyze the whole db
@@ -245,7 +248,7 @@
 		global $script, $data, $misc, $lang, $_reload_browser;
 
 		if (($type == 'table') && empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifytabletovacuum']);
+			doAdmin($type, $lang['strspecifytabletovacuum']);
 			return;
 		}
 
@@ -256,7 +259,8 @@
 
 				echo "<form action=\"{$script}\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					$a = safeUnserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					if (!is_array($a)) continue;
 					echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($a['table'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
 				}
@@ -266,7 +270,7 @@
 				$misc->printTitle($lang['strvacuum'], 'pg.vacuum');
 
 				echo "<form action=\"{$script}\" method=\"post\">\n";
-				
+
 				if ($type == 'table') {
 					echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($_REQUEST['object'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
@@ -294,13 +298,13 @@
 					if ($status == 0)
 						$msg.= sprintf('%s: %s<br />', htmlentities($t, ENT_QUOTES, 'UTF-8'), $lang['strvacuumgood']);
 					else {
-						doDefault($type, sprintf('%s%s: %s<br />', $msg, htmlentities($t, ENT_QUOTES, 'UTF-8'), $lang['strvacuumbad']));
+						doAdmin($type, sprintf('%s%s: %s<br />', $msg, htmlentities($t, ENT_QUOTES, 'UTF-8'), $lang['strvacuumbad']));
 						return;
 					}
 				}
 				 // Everything went fine, back to the Default page....
 				 $_reload_browser = true;
-				 doDefault($msg);
+				 doAdmin($type, $msg);
 			}
 			else {
 				//we must pass table here. When empty, vacuum the whole db
@@ -320,24 +324,24 @@
 	 */
 	function doEditAutovacuum($type, $confirm, $msg='') {
 		global $script, $data, $misc, $lang;
-		
+
 		if (empty($_REQUEST['table'])) {
-			doAdmin($type, '', $lang['strspecifyeditvacuumtable']);
+			doAdmin($type, $lang['strspecifyeditvacuumtable']);
 			return;
 		}
-		
+
 		$script = ($type == 'database')? 'database.php' : 'tables.php';
-		
+
 		if ($confirm) {
 			$misc->printTrail($type);
 			$misc->printTitle(sprintf($lang['streditvacuumtable'], $misc->printVal($_REQUEST['table'])));
 			$misc->printMsg(sprintf($msg, $misc->printVal($_REQUEST['table'])));
 
 			if (empty($_REQUEST['table'])) {
-				doAdmin($type, '', $lang['strspecifyeditvacuumtable']);
+				doAdmin($type, $lang['strspecifyeditvacuumtable']);
 				return;
 			}
-			
+
 			$old_val = $data->getTableAutovacuum($_REQUEST['table']);
 			$defaults = $data->getAutovacuum();
 			$old_val = $old_val->fields;
@@ -398,17 +402,17 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->saveAutovacuum($_REQUEST['table'], $_POST['autovacuum_enabled'], $_POST['autovacuum_vacuum_threshold'], 
+			$status = $data->saveAutovacuum($_REQUEST['table'], $_POST['autovacuum_enabled'], $_POST['autovacuum_vacuum_threshold'],
 				$_POST['autovacuum_vacuum_scale_factor'], $_POST['autovacuum_analyze_threshold'], $_POST['autovacuum_analyze_scale_factor'],
 				$_POST['autovacuum_vacuum_cost_delay'], $_POST['autovacuum_vacuum_cost_limit']);
-			
+
 			if ($status == 0)
-				doAdmin($type, '', sprintf($lang['strsetvacuumtablesaved'], $_REQUEST['table']));
+				doAdmin($type, sprintf($lang['strsetvacuumtablesaved'], $_REQUEST['table']));
 			else
 				doEditAutovacuum($type, true, $lang['strsetvacuumtablefail']);
 		}
 	}
-	
+
 	/**
 	 * confirm drop autovacuum params for a table and drop it
 	 */
@@ -416,17 +420,17 @@
 		global $script, $data, $misc, $lang;
 
 		if (empty($_REQUEST['table'])) {
-			doAdmin($type, '', $lang['strspecifydelvacuumtable']);
+			doAdmin($type, $lang['strspecifydelvacuumtable']);
 			return;
 		}
-		
+
 		if ($confirm) {
 			$misc->printTrail($type);
 			$misc->printTabs($type,'admin');
-			
+
 			$script = ($type == 'database')? 'database.php' : 'tables.php';
 
-			printf("<p>{$lang['strdelvacuumtable']}</p>\n", 
+			printf("<p>{$lang['strdelvacuumtable']}</p>\n",
 				$misc->printVal("\"{$_GET['schema']}\".\"{$_GET['table']}\""));
 
 			echo "<form style=\"float: left\" action=\"{$script}\" method=\"post\">\n";
@@ -436,7 +440,7 @@
 			echo "<input type=\"hidden\" name=\"rel\" value=\"", htmlspecialchars(serialize(array($_REQUEST['schema'], $_REQUEST['table']))), "\" />\n";
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
 			echo "</form>\n";
-			
+
 			echo "<form action=\"{$script}\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"admin\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
@@ -445,14 +449,14 @@
 			echo "</form>\n";
 		}
 		else {
-			
+
 			$status = $data->dropAutovacuum($_POST['table']);
-			
+
 			if ($status == 0) {
-				doAdmin($type, '', sprintf($lang['strvacuumtablereset'], $misc->printVal($_POST['table'])));
+				doAdmin($type, sprintf($lang['strvacuumtablereset'], $misc->printVal($_POST['table'])));
 			}
 			else
-				doAdmin($type, '', sprintf($lang['strdelvacuumtablefail'], $misc->printVal($_POST['table'])));
+				doAdmin($type, sprintf($lang['strdelvacuumtablefail'], $misc->printVal($_POST['table'])));
 		}
 	}
 
@@ -461,19 +465,19 @@
 	 *
 	 * $Id: admin.php
 	 */
-	
+
 	function doAdmin($type, $msg = '') {
-		global $script, $data, $misc, $lang;	
+		global $script, $data, $misc, $lang;
 
 		$misc->printTrail($type);
 		$misc->printTabs($type,'admin');
 		$misc->printMsg($msg);
-		
+
 		if ($type == 'database')
 			printf("<p>{$lang['stradminondatabase']}</p>\n", $misc->printVal($_REQUEST['object']));
 		else
 			printf("<p>{$lang['stradminontable']}</p>\n", $misc->printVal($_REQUEST['object']));
-		
+
 		echo "<table style=\"width: 50%\">\n";
 		echo "<tr>\n";
 		echo "<th class=\"data\">";
@@ -490,13 +494,13 @@
 		echo "<th class=\"data\">";
 		$misc->printHelp($lang['strreindex'],'pg.index.reindex');
 		echo "</th>";
-		echo "</tr>";	
+		echo "</tr>";
 
 		// Vacuum
 		echo "<tr class=\"row1\">\n";
 		echo "<td style=\"text-align: center; vertical-align: bottom\">\n";
 		echo "<form action=\"{$script}\" method=\"post\">\n";
-		
+
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"confirm_vacuum\" />\n";
 		echo $misc->form;
 		if ($type == 'table') {
@@ -504,7 +508,7 @@
 			echo "<input type=\"hidden\" name=\"subject\" value=\"table\" />\n";
 		}
 		echo "<input type=\"submit\" value=\"{$lang['strvacuum']}\" /></p>\n";
-		echo "</form>\n";								
+		echo "</form>\n";
 		echo "</td>\n";
 
 		// Analyze
@@ -519,7 +523,7 @@
 		echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" /></p>\n";
 		echo "</form>\n";
 		echo "</td>\n";
-		
+
 		// Cluster
 		if ($data->hasRecluster()){
 			$disabled = '';
@@ -539,7 +543,7 @@
 			echo "</form>\n";
 			echo "</td>\n";
 		}
-		
+
 		// Reindex
 		echo "<td style=\"text-align: center; vertical-align: bottom\">\n";
 		echo "<form action=\"{$script}\" method=\"post\">\n";
@@ -566,20 +570,20 @@
 			echo "<br /><br /><h2>{$lang['strvacuumpertable']}</h2>";
 			echo '<p>' . (($defaults['autovacuum'] == 'on') ? $lang['strturnedon'] : $lang['strturnedoff'] ) . '</p>';
 			echo "<p class=\"message\">{$lang['strnotdefaultinred']}</p>";
-			
+
 			function enlight($f, $p) {
 				if ( isset($f[$p[0]]) and ($f[$p[0]] != $p[1]))
 					return "<span style=\"color:#F33;font-weight:bold\">". htmlspecialchars($f[$p[0]]) ."</span>";
 				return htmlspecialchars($p[1]);
 			}
-			
+
 			$columns = array(
 				'namespace' => array(
 					'title' => $lang['strschema'],
 					'field' => field('nspname'),
 					'url'   => "redirect.php?subject=schema&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
-				),	
+				),
 				'relname' => array(
 					'title' => $lang['strtable'],
 					'field' => field('relname'),
@@ -622,7 +626,7 @@
 					'type' => 'verbatim'
 				),
 			);
-			
+
 			// Maybe we need to check permissions here?
 			$columns['actions'] = array('title' => $lang['stractions']);
 
@@ -658,7 +662,7 @@
 			);
 
 			if ($type == 'table') {
-				unset($actions['edit']['vars']['schema'], 
+				unset($actions['edit']['vars']['schema'],
 					$actions['delete']['vars']['schema'],
 					$columns['namespace'],
 					$columns['relname']
@@ -666,7 +670,7 @@
 			}
 
 			$misc->printTable($autovac, $columns, $actions, 'admin-admin', $lang['strnovacuumconf']);
-			
+
 			if (($type == 'table') and ($autovac->recordCount() == 0)) {
 				echo "<br />";
 				echo "<a href=\"tables.php?action=confeditautovac&amp;{$misc->href}&amp;table=", htmlspecialchars($_REQUEST['table'])
@@ -674,10 +678,10 @@
 			}
 		}
 	}
-	
+
 	function adminActions($action, $type) {
 		global $script;
-		
+
 		if ($type == 'database') {
 			$_REQUEST['object'] = $_REQUEST['database'];
 			$script = 'database.php';
@@ -704,25 +708,25 @@
 			case 'cluster':
 				if (isset($_POST['cluster'])) doCluster($type);
 				// if multi-action from table canceled: back to the schema default page
-				else if (($type == 'table') && is_array($_REQUEST['object']) ) doDefault();
+				else if (($type == 'table') && is_array($_REQUEST['object']) ) doAdmin($type);
 				else doAdmin($type);
 				break;
 			case 'reindex':
 				if (isset($_POST['reindex'])) doReindex($type);
 				// if multi-action from table canceled: back to the schema default page
-				else if (($type == 'table') && is_array($_REQUEST['object']) ) doDefault();
+				else if (($type == 'table') && is_array($_REQUEST['object']) ) doAdmin($type);
 				else doAdmin($type);
 				break;
 			case 'analyze':
 				if (isset($_POST['analyze'])) doAnalyze($type);
 				// if multi-action from table canceled: back to the schema default page
-				else if (($type == 'table') && is_array($_REQUEST['object']) ) doDefault();
+				else if (($type == 'table') && is_array($_REQUEST['object']) ) doAdmin($type);
 				else doAdmin($type);
 				break;
 			case 'vacuum':
 				if (isset($_POST['vacuum'])) doVacuum($type);
 				// if multi-action from table canceled: back to the schema default page
-				else if (($type == 'table') && is_array($_REQUEST['object']) ) doDefault();
+				else if (($type == 'table') && is_array($_REQUEST['object']) ) doAdmin($type);
 				else doAdmin($type);
 				break;
 			case 'admin':
@@ -749,5 +753,3 @@
 		}
 		return true;
 	}
-
-?>

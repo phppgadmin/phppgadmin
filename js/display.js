@@ -1,15 +1,15 @@
 $(function() {
-	
+
 	/* init some needed tags and values */
-	
+
 	$('table#data').wrap('<div id="fkcontainer" class="fk" />');
 	$('#fkcontainer').append('<div id="root" />');
-	
-	jQuery.ppa = { 
+
+	jQuery.ppa = {
 		root: $('#root')
 	};
-	
-	$("a.fk").on('click', function (event) {
+
+	$(document).on('click', "a.fk", null, function (event) {
 		/* make the cursor being a waiting cursor */
 		$('body').css('cursor','wait');
 
@@ -54,7 +54,7 @@ $(function() {
 
 				/* creating the data div */
 				newdiv = $('<div class="fk '+divclass+'">').html(answer);
-				
+
 				/* highlight referencing fields */
 				newdiv.data('ref', this).data('refclass', $(this).attr('class').split(' ')[1])
 					.mouseenter(function (event) {
@@ -76,7 +76,7 @@ $(function() {
 				$('body').css('cursor','auto');
 			}
 		});
-		
+
 		return false; // do not refresh the page
 	});
 

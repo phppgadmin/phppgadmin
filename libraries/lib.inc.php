@@ -9,18 +9,19 @@
 	include_once('./libraries/decorator.inc.php');
 	include_once('./lang/translations.php');
 
-	// Set error reporting level to max
+	// Report everything.
 	error_reporting(E_ALL);
- 
+
 	// Application name
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '7.13.0';
+	$appVersion = '7.14.8-mod';
 
 	// PostgreSQL and PHP minimum version
+	global $postgresqlMinVer;
 	$postgresqlMinVer = '7.4';
-	$phpMinVer = '7.2';
+	$phpMinVer = '7.4';
 
 	// Check the version of PHP
 	if (version_compare(phpversion(), $phpMinVer, '<'))
@@ -50,29 +51,45 @@
 	require_once('./classes/Misc.php');
 	$misc = new Misc();
 
-	// Start session (if not auto-started)
-	if (!ini_get('session.auto_start')) {
-		session_name('PPA_ID');
-		session_start();
+	// Session start: if extra_session_security is on, make sure cookie_samesite
+	// is on (exit if we fail); otherwise, just start the session
+	$our_session_name = 'PPA_ID';
+	if (($conf['extra_session_security'] ?? true) === true) {
+		if (ini_get('session.auto_start')) {
+			// If session.auto_start is on, and the session doesn't have
+			// session.cookie_samesite set, destroy and re-create the session
+			if (session_name() !== $our_session_name) {
+				$setting = strtolower(ini_get('session.cookie_samesite'));
+
+				if ($setting !== 'lax' && $setting !== 'strict') {
+					session_destroy();
+					session_name($our_session_name);
+					ini_set('session.cookie_samesite', 'Strict');
+					session_start();
+				}
+			}
+		} else {
+			session_name($our_session_name);
+			ini_set('session.cookie_samesite', 'Strict');
+			session_start();
+		}
+	} else {
+		if (!ini_get('session.auto_start')) {
+			session_name($our_session_name);
+			session_start();
+		}
 	}
 
-	// Do basic PHP configuration checks
-	if (ini_get('magic_quotes_gpc')) {
-		$misc->stripVar($_GET);
-		$misc->stripVar($_POST);
-		$misc->stripVar($_COOKIE);
-		$misc->stripVar($_REQUEST);
-	}
-
-	// This has to be deferred until after stripVar above
 	$misc->setHREF();
 	$misc->setForm();
 
 	// Enforce PHP environment
-	ini_set('magic_quotes_runtime', 0);
-	ini_set('magic_quotes_sybase', 0);
 	ini_set('arg_separator.output', '&amp;');
 
+	foreach ($_POST as $_login_key => $_login_val) {
+		if (strncmp((string) $_login_key, 'login', 5) === 0 && !is_scalar($_login_val))
+			unset($_POST[$_login_key]);
+	}
 	// If login action is set, then set session variables
 	if (isset($_POST['loginServer']) && isset($_POST['loginUsername']) &&
 		isset($_POST['loginPassword_'.md5($_POST['loginServer'])])) {
@@ -236,7 +253,7 @@
 		$_server_info = $misc->getServerInfo();
 
 		/* starting with PostgreSQL 9.0, we can set the application name */
-		if(isset($_server_info['pgVersion']) && $_server_info['pgVersion'] >= 9)
+		if(isset($_server_info['pgVersion']) && version_compare($_server_info['pgVersion'], '9', '>='))
 			putenv("PGAPPNAME={$appName}_{$appVersion}");
 
 		// Redirect to the login form if not logged in
@@ -268,11 +285,94 @@
 		}
 	}
 
-	if (!function_exists("htmlspecialchars_decode")) {
-		function htmlspecialchars_decode($string, $quote_style = ENT_COMPAT) {
-			return strtr($string, array_flip(get_html_translation_table(HTML_SPECIALCHARS, $quote_style)));
-		}
-	}
-
 	$plugin_manager = new PluginManager($_language);
-?>
+
+	/**
+	 * Safe unserializer wrapper
+	 *
+	 * It does not unserialize data containing objects
+	 *
+	 * Function from phpMyAdmin version 5.2.1
+	 *
+	 * @param string $data Data to unserialize
+	 *
+	 * @return mixed|null
+	 */
+	function safeUnserialize(string $data) {
+		/* validate serialized data */
+		$length = strlen($data);
+		$depth = 0;
+		for ($i = 0; $i < $length; $i++) {
+			$value = $data[$i];
+
+			switch ($value) {
+				case '}':
+					/* end of array */
+					if ($depth <= 0) {
+						return null;
+					}
+
+					$depth--;
+					break;
+				case 's':
+					/* string */
+					// parse sting length
+					$strlen = intval(substr($data, $i + 2));
+					// string start
+					$i = strpos($data, ':', $i + 2);
+					if ($i === false) {
+						return null;
+					}
+
+					// skip string, quotes and ;
+					$i += 2 + $strlen + 1;
+					if ($data[$i] !== ';') {
+						return null;
+					}
+
+					break;
+
+				case 'b':
+				case 'i':
+				case 'd':
+					/* bool, integer or double */
+					// skip value to separator
+					$i = strpos($data, ';', $i);
+					if ($i === false) {
+						return null;
+					}
+
+					break;
+				case 'a':
+					/* array */
+					// find array start
+					$i = strpos($data, '{', $i);
+					if ($i === false) {
+						return null;
+					}
+
+					// remember nesting
+					$depth++;
+					break;
+				case 'N':
+					/* null */
+					// skip to end
+					$i = strpos($data, ';', $i);
+					if ($i === false) {
+						return null;
+					}
+
+					break;
+				default:
+					/* any other elements are not wanted */
+					return null;
+			}
+		}
+
+		// check unterminated arrays
+		if ($depth > 0) {
+			return null;
+		}
+
+		return unserialize($data);
+	}

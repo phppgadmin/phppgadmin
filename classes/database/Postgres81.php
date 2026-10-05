@@ -10,10 +10,10 @@ include_once('./classes/database/Postgres82.php');
 
 class Postgres81 extends Postgres82 {
 
-	var $major_version = 8.1;
+	public $major_version = 8.1;
 	// List of all legal privileges that can be applied to different types
 	// of objects.
-	var $privlist = array(
+	public $privlist = array(
 		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
 		'view' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
 		'sequence' => array('SELECT', 'UPDATE', 'ALL PRIVILEGES'),
@@ -25,7 +25,7 @@ class Postgres81 extends Postgres82 {
 	);
 	// List of characters in acl lists and the privileges they
 	// refer to.
-	var $privmap = array(
+	public $privmap = array(
 		'r' => 'SELECT',
 		'w' => 'UPDATE',
 		'a' => 'INSERT',
@@ -39,7 +39,7 @@ class Postgres81 extends Postgres82 {
 		'T' => 'TEMPORARY'
 	);
 	// Array of allowed index types
-	var $typIndexes = array('BTREE', 'RTREE', 'GIST', 'HASH');
+	public $typIndexes = array('BTREE', 'RTREE', 'GIST', 'HASH');
 
 	/**
 	 * Constructor

@@ -72,6 +72,26 @@ body.browser {
 }
 .ac_values {width:100%}
 
+/** alert banner **/
+.alert-banner {
+	background-color: #FEEFB3;
+	border: 1px dotted #9F6000;
+	color: #9F6000;
+	padding: 4px;
+	margin: 4px 0;
+}
+.alert-banner p {
+	margin: 0;
+	padding: 0;
+}
+.alert-banner p:before {
+	content: url(../../images/themes/default/ObjectNotFound.png);
+	vertical-align: -20%;
+}
+.alert-banner p a {
+	color: #9F6000;
+}
+
 /** bottom link back to top **/
 .bottom_link {
 	position: fixed; 

@@ -9,7 +9,7 @@ include_once('./classes/database/Postgres94.php');
 
 class Postgres93 extends Postgres94 {
 
-	var $major_version = 9.3;
+	public $major_version = 9.3;
 
 	/**
 	 * Constructor

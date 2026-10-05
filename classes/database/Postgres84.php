@@ -10,11 +10,11 @@ include_once('./classes/database/Postgres90.php');
 
 class Postgres84 extends Postgres90 {
 
-	var $major_version = 8.4;
+	public $major_version = 8.4;
 
 	// List of all legal privileges that can be applied to different types
 	// of objects.
-	var $privlist = array(
+	public $privlist = array(
   		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
   		'view' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
   		'sequence' => array('USAGE', 'SELECT', 'UPDATE', 'ALL PRIVILEGES'),

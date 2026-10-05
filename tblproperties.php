@@ -61,7 +61,7 @@
 		// Fetch all users
 		$users = $data->getUsers();
 		// Fetch all tablespaces from the database
-		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces(true);
+		$tablespaces = $data->hasTablespaces() ? $data->getTablespaces(true) : null;
 
 		if ($table->recordCount() > 0) {
 
@@ -104,17 +104,17 @@
 			}
 
 			// Tablespace (if there are any)
-			if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
+			if ($tablespaces !== null && $tablespaces->recordCount() > 0) {
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
 				echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"tablespace\">\n";
 				// Always offer the default (empty) option
 				echo "\t\t\t\t<option value=\"\"",
-					($_POST['tablespace'] == '') ? ' selected="selected"' : '', "></option>\n";
+					($_POST['tablespace'] ?? '') == '' ? ' selected="selected"' : '', "></option>\n";
 				// Display all other tablespaces
 				while (!$tablespaces->EOF) {
 					$spcname = htmlspecialchars($tablespaces->fields['spcname']);
 					echo "\t\t\t\t<option value=\"{$spcname}\"",
-						($spcname == $_POST['tablespace']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
+						($spcname == ($_POST['tablespace'] ?? '')) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
 					$tablespaces->moveNext();
 				}
 				echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";

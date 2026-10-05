@@ -88,6 +88,10 @@ tr.data1, tr.data2, tr.data3 {
 tr.data1:hover, tr.data2:hover, tr.data3:hover {
 	background-color: #39663e;
 }
+abbr[title] {
+	text-decoration: none;
+	opacity: 0.80;
+}
 .row1, .data1 {
 	background-color: #2b482e;
 	text-align: left;
@@ -136,6 +140,7 @@ td.opbutton1 a, td.opbutton2 a {
 	padding-left:6px;
 	padding-right:6px;
 }
+.alert-banner { margin-top: 0 }
 .topbar { border: 0 }
 .topbar, .topbar *, .trail, .tab, .crumb {
 	border: 0;

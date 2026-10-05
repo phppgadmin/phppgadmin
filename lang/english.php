@@ -21,7 +21,7 @@
 	$lang['strreportbug'] = 'Report a Bug';
 	$lang['strviewfaq'] = 'View online FAQ';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
-	
+
 	// Basic strings
 	$lang['strlogin'] = 'Login';
 	$lang['strloginfailed'] = 'Login failed';
@@ -150,11 +150,11 @@
 	$lang['strgotoppage'] = 'back to top';
 	$lang['strtheme'] = 'Theme';
 	$lang['strcluster'] = 'Cluster';
-	
+
 	// Admin
 	$lang['stradminondatabase'] = 'The following administrative tasks apply on the whole %s database.';
 	$lang['stradminontable'] = 'The following administrative tasks apply on the table %s.';
-	
+
 	// User-supplied SQL history
 	$lang['strhistory'] = 'History';
 	$lang['strnohistory'] = 'No history.';
@@ -165,7 +165,7 @@
 	$lang['strnodatabaseselected'] = 'Please, select a database.';
 
 	// Database sizes
-	$lang['strnoaccess'] = 'No Access'; 
+	$lang['strnoaccess'] = 'No Access';
 	$lang['strsize'] = 'Size';
 	$lang['strbytes'] = 'bytes';
 	$lang['strkb'] = 'kB';
@@ -276,7 +276,7 @@
 	// Columns
 	$lang['strcolprop'] = 'Column properties';
 	$lang['strnotableprovided'] = 'No table provided!';
-		
+
 	// Users
 	$lang['struser'] = 'User';
 	$lang['strusers'] = 'Users';
@@ -303,7 +303,7 @@
 	$lang['strpasswordchangedbad'] = 'Failed to change password.';
 	$lang['strpasswordshort'] = 'Password is too short.';
 	$lang['strpasswordconfirm'] = 'Password does not match confirmation.';
-	
+
 	// Groups
 	$lang['strgroup'] = 'Group';
 	$lang['strgroups'] = 'Groups';
@@ -435,7 +435,7 @@
 	$lang['strnosequences'] = 'No sequences found.';
 	$lang['strcreatesequence'] = 'Create sequence';
 	$lang['strlastvalue'] = 'Last value';
-	$lang['strincrementby'] = 'Increment by';	
+	$lang['strincrementby'] = 'Increment by';
 	$lang['strstartvalue'] = 'Start value';
 	$lang['strrestartvalue'] = 'Restart value';
 	$lang['strmaxvalue'] = 'Max value';
@@ -463,7 +463,7 @@
  	$lang['strsequencenextval'] = 'Sequence incremented.';
  	$lang['strsequencenextvalbad'] = 'Sequence increment failed.';
 	$lang['strspecifysequencetodrop'] = 'You must specify at least one sequence to drop.';
-	
+
 	// Indexes
 	$lang['strindex'] = 'Index';
 	$lang['strindexes'] = 'Indexes';
@@ -674,9 +674,9 @@
 	$lang['strconfdropdomain'] = 'Are you sure you want to drop the domain "%s"?';
 	$lang['strdomainneedsname'] = 'You must give a name for your domain.';
 	$lang['strdomaincreated'] = 'Domain created.';
-	$lang['strdomaincreatedbad'] = 'Domain creation failed.';	
+	$lang['strdomaincreatedbad'] = 'Domain creation failed.';
 	$lang['strdomainaltered'] = 'Domain altered.';
-	$lang['strdomainalteredbad'] = 'Domain alteration failed.';	
+	$lang['strdomainalteredbad'] = 'Domain alteration failed.';
 
 	// Operators
 	$lang['stroperator'] = 'Operator';
@@ -712,18 +712,18 @@
 	$lang['strimplicit'] = 'Implicit';
 	$lang['strinassignment'] = 'In assignment';
 	$lang['strbinarycompat'] = '(Binary compatible)';
-	
+
 	// Conversions
 	$lang['strconversions'] = 'Conversions';
 	$lang['strnoconversions'] = 'No conversions found.';
 	$lang['strsourceencoding'] = 'Source encoding';
 	$lang['strtargetencoding'] = 'Target encoding';
-	
+
 	// Languages
 	$lang['strlanguages'] = 'Languages';
 	$lang['strnolanguages'] = 'No languages found.';
 	$lang['strtrusted'] = 'Trusted';
-	
+
 	// Info
 	$lang['strnoinfo'] = 'No information available.';
 	$lang['strreferringtables'] = 'Referring tables';
@@ -807,6 +807,7 @@
 	$lang['strloading'] = 'Loading...';
 	$lang['strerrorloading'] = 'Error Loading';
 	$lang['strclicktoreload'] = 'Click to reload';
+	$lang['sessionsecuritywarning'] = 'You are running phpPgAdmin with session security disabled. This is a potential security risk!';
 
 	// Autovacuum
 	$lang['strautovacuum'] = 'Autovacuum';
@@ -844,7 +845,7 @@
 	$lang['strpreparedxacts'] = 'Prepared transactions';
 	$lang['strxactid'] = 'Transaction ID';
 	$lang['strgid'] = 'Global ID';
-	
+
 	// Fulltext search
 	$lang['strfulltext'] = 'Full Text Search';
 	$lang['strftsconfig'] = 'FTS configuration';
@@ -903,4 +904,3 @@
 	$lang['strpluginnotfound'] = 'Error: plugin \'%s\' not found. Check if this plugin exists in the plugins/ directory, or if this plugins has a plugin.php file. Plugin\'s names are case sensitive';
 	$lang['stractionnotfound'] = 'Error: action \'%s\' not found in the \'%s\' plugin, or it was not specified as an action.';
 	$lang['strhooknotfound'] = 'Error: hook \'%s\' is not avaliable.';
-?>

@@ -7,10 +7,10 @@
  */
 class ArrayRecordSet {
 
-	var $_array;
-	var $_count;
-	var $EOF = false;
-	var $fields;
+	private $_array;
+	private $_count;
+	public $EOF = false;
+	public $fields;
 	
 	function __construct($data) {
 		$this->_array = $data;

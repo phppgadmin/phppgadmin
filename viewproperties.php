@@ -51,7 +51,7 @@
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
 			echo "\t\t<td class=\"data1\"><textarea rows=\"3\" cols=\"32\" name=\"formComment\">", 
-				htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
+				htmlspecialchars($_POST['formComment'] ?? ''), "</textarea></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
@@ -200,13 +200,13 @@
 				}
 
 				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
-					htmlspecialchars($_REQUEST['field']), "\" /></td>";
+					htmlspecialchars($_REQUEST['field'] ?? ''), "\" /></td>";
 				
 				echo "<td>", $misc->printVal($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "</td>";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
-				echo "<td><input name=\"comment\" size=\"32\" value=\"", 
-					htmlspecialchars($_REQUEST['comment']), "\" /></td>";
+				echo "<td><input name=\"comment\" size=\"32\" value=\"",
+					htmlspecialchars($_REQUEST['comment'] ?? ''), "\" /></td>";
 				
 				echo "</table>\n";
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"properties\" />\n";
@@ -214,7 +214,7 @@
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
-				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault'] ?? ''), "\" />\n";
 				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";

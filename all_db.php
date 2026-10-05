@@ -89,36 +89,35 @@
 		}
 
 		if ($confirm) {
+			$misc->printTrail('database');
+			$misc->printTitle($lang['strdrop'], 'pg.database.drop');
 
-            $misc->printTrail('database');
-            $misc->printTitle($lang['strdrop'], 'pg.database.drop');
+			echo "<form action=\"all_db.php\" method=\"post\">\n";
 
-	        echo "<form action=\"all_db.php\" method=\"post\">\n";
-            //If multi drop
-            if (isset($_REQUEST['ma'])) {
-
-			    foreach($_REQUEST['ma'] as $v) {
-			        $a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
-				    echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($a['database'])), "</p>\n";
-				    printf('<input type="hidden" name="dropdatabase[]" value="%s" />', htmlspecialchars($a['database']));
-			    }
+			// If multi drop
+			if (isset($_REQUEST['ma'])) {
+				foreach($_REQUEST['ma'] as $v) {
+					$a = safeUnserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					if (!is_array($a)) continue;
+					echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($a['database'])), "</p>\n";
+					printf('<input type="hidden" name="dropdatabase[]" value="%s" />', htmlspecialchars($a['database']));
+				}
 
 			} else {
-		            echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['dropdatabase'])), "</p>\n";
-			        echo "<input type=\"hidden\" name=\"dropdatabase\" value=\"", htmlspecialchars($_REQUEST['dropdatabase']), "\" />\n";
-            }// END if multi drop
+				echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['dropdatabase'])), "</p>\n";
+				echo "<input type=\"hidden\" name=\"dropdatabase\" value=\"", htmlspecialchars($_REQUEST['dropdatabase']), "\" />\n";
+			}
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-        	echo $misc->form;
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
-		} // END confirm
-		else {
-            //If multi drop
-            if (is_array($_REQUEST['dropdatabase'])) {
-                $msg = '';
-                foreach($_REQUEST['dropdatabase'] as $d) {
+		} else {
+			// If multi drop
+			if (is_array($_REQUEST['dropdatabase'])) {
+				$msg = '';
+				foreach($_REQUEST['dropdatabase'] as $d) {
 					$status = $data->dropDatabase($d);
 					if ($status == 0)
 						$msg.= sprintf('%s: %s<br />', htmlentities($d, ENT_QUOTES, 'UTF-8'), $lang['strdatabasedropped']);
@@ -126,20 +125,20 @@
 						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($d, ENT_QUOTES, 'UTF-8'), $lang['strdatabasedroppedbad']));
 						return;
 					}
-				}// Everything went fine, back to Default page...
-                $_reload_drop_database = true;
-                doDefault($msg);
-            } else {
-			    $status = $data->dropDatabase($_POST['dropdatabase']);
-			    if ($status == 0) {
-				    $_reload_drop_database = true;
-				    doDefault($lang['strdatabasedropped']);
-			    }
-			    else
-				    doDefault($lang['strdatabasedroppedbad']);
-            }
-		}//END DROP
-    }// END FUNCTION
+				} // Everything went fine, back to Default page...
+				$_reload_drop_database = true;
+				doDefault($msg);
+			} else {
+				$status = $data->dropDatabase($_POST['dropdatabase']);
+				if ($status == 0) {
+					$_reload_drop_database = true;
+					doDefault($lang['strdatabasedropped']);
+				} else {
+					doDefault($lang['strdatabasedroppedbad']);
+				}
+			}
+		}
+	}
 
 
 	/**
@@ -156,7 +155,7 @@
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		// Default encoding is that in language file
 		if (!isset($_POST['formEncoding'])) {
-		    $_POST['formEncoding'] = '';
+			$_POST['formEncoding'] = '';
 		}
 		if (!isset($_POST['formTemplate'])) $_POST['formTemplate'] = 'template1';
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
@@ -166,7 +165,7 @@
 		$templatedbs = $data->getDatabases(false);
 
 		// Fetch all tablespaces from the database
-		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
+		$tablespaces = $data->hasTablespaces() ? $data->getTablespaces() : null;
 
 		echo "<form action=\"all_db.php\" method=\"post\">\n";
 		echo "<table>\n";
@@ -177,15 +176,15 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strtemplatedb']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n";
 		echo "\t\t\t<select name=\"formTemplate\">\n";
-		// Always offer template0 and template1 
+		// Always offer template0 and template1
 		echo "\t\t\t\t<option value=\"template0\"",
 			($_POST['formTemplate'] == 'template0') ? ' selected="selected"' : '', ">template0</option>\n";
 		echo "\t\t\t\t<option value=\"template1\"",
 			($_POST['formTemplate'] == 'template1') ? ' selected="selected"' : '', ">template1</option>\n";
 		while (!$templatedbs->EOF) {
 			$dbname = htmlspecialchars($templatedbs->fields['datname']);
-			if ($dbname != 'template1') { 
-				// filter out for $conf[show_system] users so we don't get duplicates 
+			if ($dbname != 'template1') {
+				// filter out for $conf[show_system] users so we don't get duplicates
 				echo "\t\t\t\t<option value=\"{$dbname}\"",
 					($dbname == $_POST['formTemplate']) ? ' selected="selected"' : '', ">{$dbname}</option>\n";
 			}
@@ -199,8 +198,8 @@
 		echo "\t\t<td class=\"data1\">\n";
 		echo "\t\t\t<select name=\"formEncoding\">\n";
 		echo "\t\t\t\t<option value=\"\"></option>\n";
-		while (list ($key) = each ($data->codemap)) {
-		    echo "\t\t\t\t<option value=\"", htmlspecialchars($key), "\"",
+		foreach ($data->codemap as $key => $value) {
+			echo "\t\t\t\t<option value=\"", htmlspecialchars($key), "\"",
 				($key == $_POST['formEncoding']) ? ' selected="selected"' : '', ">",
 				$misc->printVal($key), "</option>\n";
 		}
@@ -225,7 +224,7 @@
 		}
 
 		// Tablespace (if there are any)
-		if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
+		if ($tablespaces !== null && $tablespaces->recordCount() > 0) {
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
 			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formSpc\">\n";
 			// Always offer the default (empty) option
@@ -282,9 +281,9 @@
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strdatabasecreated']);
-			}
-			else
+			} else {
 				doCreate($lang['strdatabasecreatedbad']);
+			}
 		}
 	}
 
@@ -397,51 +396,51 @@
 
 		$actions = array(
 			'multiactions' => array(
-			    'keycols' => array('database' => 'datname'),
-			    'url' => 'all_db.php',
-			    'default' => null,
+				'keycols' => array('database' => 'datname'),
+				'url' => 'all_db.php',
+				'default' => null,
 			),
 			'drop' => array(
-			    'content' => $lang['strdrop'],
-			    'attr'=> array (
-				'href' => array (
-				    'url' => 'all_db.php',
-				    'urlvars' => array (
-					'subject' => 'database',
-					'action' => 'confirm_drop',
-					'dropdatabase' => field('datname')
-				    )
-				)
-			    ),
-			    'multiaction' => 'confirm_drop',
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'all_db.php',
+						'urlvars' => array (
+							'subject' => 'database',
+							'action' => 'confirm_drop',
+							'dropdatabase' => field('datname')
+						)
+					)
+				),
+				'multiaction' => 'confirm_drop',
 			),
 			'privileges' => array(
-			    'content' => $lang['strprivileges'],
-			    'attr'=> array (
-				'href' => array (
-				    'url' => 'privileges.php',
-				    'urlvars' => array (
-					'subject' => 'database',
-					'database' => field('datname')
-				    )
+				'content' => $lang['strprivileges'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'privileges.php',
+						'urlvars' => array (
+							'subject' => 'database',
+							'database' => field('datname')
+						)
+					)
 				)
-			    )
 			)
 		);
 		if ($data->hasAlterDatabase() ) {
-		    $actions['alter'] = array(
-			'content' => $lang['stralter'],
-			'attr'=> array (
-			    'href' => array (
-				'url' => 'all_db.php',
-				'urlvars' => array (
-				    'subject' => 'database',
-				    'action' => 'confirm_alter',
-				    'alterdatabase' => field('datname')
+			$actions['alter'] = array(
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'all_db.php',
+						'urlvars' => array (
+							'subject' => 'database',
+							'action' => 'confirm_alter',
+							'alterdatabase' => field('datname')
+						)
+					)
 				)
-			    )
-			)
-		    );
+			);
 		}
 
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
@@ -452,18 +451,18 @@
 		$misc->printTable($databases, $columns, $actions, 'all_db-databases', $lang['strnodatabases']);
 
 		$navlinks = array (
-		    'create' => array (
-			'attr'=> array (
-			    'href' => array (
-				'url' => 'all_db.php',
-				'urlvars' => array (
-				    'action' => 'create',
-				    'server' => $_REQUEST['server']
-				)
-			    )
-			),
-			'content' => $lang['strcreatedatabase']
-		    )
+			'create' => array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'all_db.php',
+						'urlvars' => array (
+							'action' => 'create',
+							'server' => $_REQUEST['server']
+						)
+					)
+				),
+				'content' => $lang['strcreatedatabase']
+			)
 		);
 		$misc->printNavLinks($navlinks, 'all_db-databases', get_defined_vars());
 	}
@@ -479,17 +478,19 @@
 			'text'   => field('datname'),
 			'icon'   => 'Database',
 			'toolTip'=> field('datcomment'),
-			'action' => url('redirect.php',
-							$reqvars,
-							array('database' => field('datname'))
-						),
-			'branch' => url('database.php',
-							$reqvars,
-							array(
-								'action' => 'tree',
-								'database' => field('datname')
-							)
-						),
+			'action' => url(
+				'redirect.php',
+				$reqvars,
+				array('database' => field('datname'))
+			),
+			'branch' => url(
+				'database.php',
+				$reqvars,
+				array(
+					'action' => 'tree',
+					'database' => field('datname')
+				)
+			),
 		);
 
 		$misc->printTree($databases, $attrs, 'databases');
@@ -532,5 +533,3 @@
 	}
 
 	$misc->printFooter();
-
-?>

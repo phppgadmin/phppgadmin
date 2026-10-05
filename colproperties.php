@@ -10,12 +10,14 @@
 	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	if (isset($_REQUEST['table']))
+
+	if (isset($_REQUEST['table'])) {
 		$tableName =& $_REQUEST['table'];
-	elseif (isset($_REQUEST['view']))
+	} else if (isset($_REQUEST['view'])) {
 		$tableName =& $_REQUEST['view'];
-	else 
+	} else {
 		die($lang['strnotableprovided']);
+	}
 
 	/**
 	 * Displays a screen where they can alter a column
@@ -29,7 +31,7 @@
 		switch ($_REQUEST['stage']) {
 			case 1:
 				$misc->printTrail('column');
-				$misc->printTitle($lang['stralter'], 'pg.column.alter'); 
+				$misc->printTitle($lang['stralter'], 'pg.column.alter');
 				$misc->printMsg($msg);
 
 				echo "<script src=\"tables.js\" type=\"text/javascript\"></script>";
@@ -69,76 +71,77 @@
 					// XXX: HACKY
 					if ($column->fields['type'] != $column->fields['base_type'] && preg_match('/\\(([0-9, ]*)\\)/', $column->fields['type'], $bits)) {
 						$_REQUEST['length'] = $bits[1];
-					}
-					else
+					} else {
 						$_REQUEST['length'] = '';
+					}
+
 					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->fields['adsrc'];
 					if ($column->fields['attnotnull']) $_REQUEST['notnull'] = 'YES';
 					$_REQUEST['comment'] = $column->fields['comment'];
-				}				
+				}
 
 				// Column name
 				echo "<tr><td><input name=\"field\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-					htmlspecialchars($_REQUEST['field']), "\" /></td>\n";
-					
+					htmlspecialchars($_REQUEST['field'] ?? ''), "\" /></td>\n";
+
 				// Column type
 				$escaped_predef_types = array(); // the JS escaped array elements
 				if ($data->hasAlterColumnType()) {
 					// Fetch all available types
 					$types = $data->getTypes(true, false, true);
 					$types_for_js = array();
-					
-					echo "<td><select name=\"type\" id=\"type\" onchange=\"checkLengths(document.getElementById('type').value,'');\">\n";				
+
+					echo "<td><select name=\"type\" id=\"type\" onchange=\"checkLengths(document.getElementById('type').value,'');\">\n";
 					while (!$types->EOF) {
 						$typname = $types->fields['typname'];
 						$types_for_js[] = $typname;
-						echo "\t<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
+						echo "\t<option value=\"", htmlspecialchars($typname), "\"", ($typname == ($_REQUEST['type'] ?? '')) ? ' selected="selected"' : '', ">",
 							$misc->printVal($typname), "</option>\n";
 						$types->moveNext();
 					}
 					echo "</select></td>\n";
-					
+
 					// Output array type selector
 					echo "<td><select name=\"array\">\n";
-					echo "\t<option value=\"\"", ($_REQUEST['array'] == '') ? ' selected="selected"' : '', "></option>\n";
-					echo "\t<option value=\"[]\"", ($_REQUEST['array'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
+					echo "\t<option value=\"\"", (($_REQUEST['array'] ?? '') == '') ? ' selected="selected"' : '', "></option>\n";
+					echo "\t<option value=\"[]\"", (($_REQUEST['array'] ?? '') == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 					echo "</select></td>\n";
 					$predefined_size_types = array_intersect($data->predefined_size_types, $types_for_js);
 					foreach($predefined_size_types as $value) {
 						$escaped_predef_types[] = "'{$value}'";
 					}
-	
+
 					echo "<td><input name=\"length\" id=\"lengths\" size=\"8\" value=\"",
-						htmlspecialchars($_REQUEST['length']), "\" /></td>\n";
+						htmlspecialchars($_REQUEST['length'] ?? ''), "\" /></td>\n";
 				} else {
 					// Otherwise draw the read-only type name
 					echo "<td>", $misc->printVal($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "</td>\n";
 				}
-				
+
 				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
-				echo "<td><input name=\"default\" size=\"20\" value=\"", 
-					htmlspecialchars($_REQUEST['default']), "\" /></td>\n";
-				echo "<td><input name=\"comment\" size=\"40\" value=\"", 
-					htmlspecialchars($_REQUEST['comment']), "\" /></td></tr>\n";
+				echo "<td><input name=\"default\" size=\"20\" value=\"",
+					htmlspecialchars($_REQUEST['default'] ?? ''), "\" /></td>\n";
+				echo "<td><input name=\"comment\" size=\"40\" value=\"",
+					htmlspecialchars($_REQUEST['comment'] ?? ''), "\" /></td></tr>\n";
 				echo "</table>\n";
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"properties\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
-				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault'] ?? ''), "\" />\n";
 				if ($column->fields['attnotnull']) echo "<input type=\"hidden\" name=\"oldnotnull\" value=\"on\" />\n";
 				echo "<input type=\"hidden\" name=\"oldtype\" value=\"", htmlspecialchars($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "\" />\n";
 				// Add hidden variables to suppress error notices if we don't support altering column type
 				if (!$data->hasAlterColumnType()) {
-					echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";				
-					echo "<input type=\"hidden\" name=\"length\" value=\"", htmlspecialchars($_REQUEST['length']), "\" />\n";				
-					echo "<input type=\"hidden\" name=\"array\" value=\"", htmlspecialchars($_REQUEST['array']), "\" />\n";				
+					echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type'] ?? ''), "\" />\n";
+					echo "<input type=\"hidden\" name=\"length\" value=\"", htmlspecialchars($_REQUEST['length'] ?? ''), "\" />\n";
+					echo "<input type=\"hidden\" name=\"array\" value=\"", htmlspecialchars($_REQUEST['array'] ?? ''), "\" />\n";
 				}
 				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
-				echo "<script type=\"text/javascript\">predefined_lengths = new Array(". implode(",",$escaped_predef_types) .");checkLengths(document.getElementById('type').value,'');</script>\n";		
+				echo "<script type=\"text/javascript\">predefined_lengths = new Array(". implode(",",$escaped_predef_types) .");checkLengths(document.getElementById('type').value,'');</script>\n";
 				break;
 			case 2:
 				// Check inputs
@@ -148,8 +151,8 @@
 					return;
 				}
 				if (!isset($_REQUEST['length'])) $_REQUEST['length'] = '';
-				$status = $data->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
-							     isset($_REQUEST['notnull']), isset($_REQUEST['oldnotnull']), 
+				$status = $data->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'],
+							     isset($_REQUEST['notnull']), isset($_REQUEST['oldnotnull']),
 							     $_REQUEST['default'], $_REQUEST['olddefault'],
 							     $_REQUEST['type'], $_REQUEST['length'], $_REQUEST['array'], $_REQUEST['oldtype'],
 							     $_REQUEST['comment']);
@@ -182,14 +185,15 @@
 			global $data;
 			$rowdata->fields['+type'] = $data->formatType($rowdata->fields['type'], $rowdata->fields['atttypmod']);
 		}
-		
-		if (empty($_REQUEST['column']))
+
+		if (empty($_REQUEST['column'])) {
 			$msg.= "<br/>{$lang['strnoobjects']}";
-		
-			$misc->printTrail('column');
-			//$misc->printTitle($lang['strcolprop']);
-			$misc->printTabs('column','properties');
-			$misc->printMsg($msg);
+		}
+
+		$misc->printTrail('column');
+		//$misc->printTitle($lang['strcolprop']);
+		$misc->printTabs('column','properties');
+		$misc->printMsg($msg);
 
 		if (! empty($_REQUEST['column'])) {
 			// Get table
@@ -211,7 +215,7 @@
 					'field' => field('+type'),
 				)
 			);
-		
+
 			if ($isTable) {
 				$column['notnull'] = array(
 					'title' => $lang['strnotnull'],
@@ -340,7 +344,5 @@
 				doDefault();
 				break;
 		}
-	
-	$misc->printFooter();
 
-?>
+	$misc->printFooter();

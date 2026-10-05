@@ -62,13 +62,13 @@
 			echo "<td class=\"data1\"><input type=\"checkbox\" id=\"domnotnull\" name=\"domnotnull\"", (isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" value=\"", 
-				htmlspecialchars($_POST['domdefault']), "\" /></td></tr>\n";
+				htmlspecialchars($_POST['domdefault'] ?? ''), "\" /></td></tr>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"domowner\">";
 			while (!$users->EOF) {
 				$uname = $users->fields['usename'];
 				echo "<option value=\"", htmlspecialchars($uname), "\"",
-					($uname == $_POST['domowner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
+					($uname == ($_POST['domowner'] ?? '')) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 				$users->moveNext();
 			}
 			echo "</select></td></tr>\n";				

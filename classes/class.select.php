@@ -11,10 +11,9 @@
 * 
 */
 class XHtmlSimpleElement {
-	var $_element;
-	var $_siblings = array();
-	var $_htmlcode;	
-	var $_attributes = array();
+	protected $_element;
+	private $_htmlcode;	
+	protected $_attributes = array();
 
 	
 	/**
@@ -50,7 +49,7 @@ class XHtmlSimpleElement {
 	*/
 	function _html() {
 		$this->_htmlcode = "<";
-		foreach ($this->_attributeCollection as $attribute => $value) {
+		foreach ($this->_attributes as $attribute => $value) {
 			if (!empty($value)) $this->_htmlcode .= " {$attribute}=\"{$value}\"";
 		}
 		$this->_htmlcode .= "/>";
@@ -89,9 +88,9 @@ class XHtmlSimpleElement {
 * 
 */
 class XHtmlElement extends XHtmlSimpleElement {
-	var $_text     = null;	
-	var $_htmlcode = "";
-	var $_siblings = array();
+	private $_text     = null;	
+	private $_htmlcode = "";
+	private $_siblings = array();
 
 	function __construct($text = null) {
 		parent::__construct();
@@ -104,7 +103,7 @@ class XHtmlElement extends XHtmlSimpleElement {
 	* 
 	* @param	XHtmlElement 	The element to become a child of element
 	*/
-	function add(&$object) {
+	function add($object) {
 		array_push($this->_siblings, $object);
 	}
 
@@ -178,7 +177,7 @@ class XHTML_Option extends XHtmlElement {
 
 
 class XHTML_Select extends XHTMLElement {
-	var $_data;
+	private $_data;
 
 	function __construct($name, $multiple = false, $size = null) {
 		parent::__construct();					
@@ -190,7 +189,7 @@ class XHTML_Select extends XHTMLElement {
 		
 	}
 	
-	function set_data(&$data, $delim = ",") {
+	function set_data($data, $delim = ",") {
 		switch (gettype($data)) {
 			case "string":
 				$this->_data = explode($delim, $data);

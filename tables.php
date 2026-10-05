@@ -32,7 +32,7 @@
 		switch ($_REQUEST['stage']) {
 			case 1:
 				// Fetch all tablespaces from the database
-				if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
+				$tablespaces = $data->hasTablespaces() ? $data->getTablespaces() : null;
 
 				$misc->printTrail('schema');
 				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
@@ -54,7 +54,7 @@
 				}
 
 				// Tablespace (if there are any)
-				if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
+				if ($tablespaces !== null && $tablespaces->recordCount() > 0) {
 					echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
 					echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"spcname\">\n";
 					// Always offer the default (empty) option
@@ -255,7 +255,7 @@
 			if (!isset($_REQUEST['tablespace'])) $_REQUEST['tablespace'] = '';
 
 			$misc->printTrail('schema');
-		    $misc->printTitle($lang['strcreatetable'], 'pg.table.create');
+			$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
 			$misc->printMsg($msg);
 
 			$tbltmp = $data->getTables(true);
@@ -330,9 +330,9 @@
 
 			if (!isset($_REQUEST['tablespace'])) $_REQUEST['tablespace'] = '';
 
-			$status = $data->createTableLike($_REQUEST['name'], unserialize($_REQUEST['like']), isset($_REQUEST['withdefaults']),
+			$status = $data->createTableLike($_REQUEST['name'], safeUnserialize($_REQUEST['like']), isset($_REQUEST['withdefaults']),
 				isset($_REQUEST['withconstraints']), isset($_REQUEST['withindexes']), $_REQUEST['tablespace']);
-				
+
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strtablecreated']);
@@ -461,7 +461,7 @@
 		if ($confirm) {
 			$misc->printTrail('table');
 			$misc->printTabs('table','insert');
-			
+
 			$misc->printMsg($msg);
 
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
@@ -488,12 +488,21 @@
 					$fields[$attrs->fields['attnum']] = $attrs->fields['attname'];
 					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
 					// Set up default value if there isn't one already
-					if (!isset($_REQUEST['values'][$attrs->fields['attnum']]))
-						$_REQUEST['values'][$attrs->fields['attnum']] = $attrs->fields['adsrc'];
+					if (!isset($_REQUEST['values'][$attrs->fields['attnum']])) {
+						// Identity (PostgreSQL 10+) and generated (PostgreSQL 12+)
+						// columns cannot take an explicit value on insert: prefill
+						// them with the DEFAULT keyword, as nextval() is prefilled
+						// for serial columns
+						if (!empty($attrs->fields['attidentity']) || !empty($attrs->fields['attgenerated']))
+							$_REQUEST['values'][$attrs->fields['attnum']] = 'DEFAULT';
+						else
+							$_REQUEST['values'][$attrs->fields['attnum']] = $attrs->fields['adsrc'];
+					}
 					// Default format to 'VALUE' if there is no default,
 					// otherwise default to 'EXPRESSION'
 					if (!isset($_REQUEST['format'][$attrs->fields['attnum']]))
-						$_REQUEST['format'][$attrs->fields['attnum']] = ($attrs->fields['adsrc'] === null) ? 'VALUE' : 'EXPRESSION';
+						$_REQUEST['format'][$attrs->fields['attnum']] = ($attrs->fields['adsrc'] === null
+							&& empty($attrs->fields['attidentity']) && empty($attrs->fields['attgenerated'])) ? 'VALUE' : 'EXPRESSION';
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr class=\"data{$id}\">\n";
@@ -544,7 +553,7 @@
 				echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
 				echo "<input type=\"submit\" name=\"insertandrepeat\" accesskey=\"r\" value=\"{$lang['strinsertandrepeat']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
-				
+
 				if($fksprops !== false) {
 					if ($conf['autocomplete'] != 'default off')
 						echo "<input type=\"checkbox\" id=\"no_ac\" value=\"1\" checked=\"checked\" /><label for=\"no_ac\">{$lang['strac']}</label>\n";
@@ -553,7 +562,7 @@
 				}
 				echo "</p>\n";
 			}
-			else { 
+			else {
 				echo "<p>{$lang['strnofieldsforinsert']}</p>\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			}
@@ -563,7 +572,7 @@
 		else {
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
-			$_POST['fields'] = unserialize(htmlspecialchars_decode($_POST['fields'], ENT_QUOTES));
+			$_POST['fields'] = safeUnserialize(htmlspecialchars_decode($_POST['fields'], ENT_QUOTES));
 
 			if ($_SESSION['counter']++ == $_POST['protection_counter']) {
 				$status = $data->insertRow($_POST['table'], $_POST['fields'], $_POST['values'],
@@ -604,7 +613,8 @@
 
 				echo "<form action=\"tables.php\" method=\"post\">\n";
 				foreach ($_REQUEST['ma'] as $v) {
-					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					$a = safeUnserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					if (!is_array($a)) continue;
 					echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($a['table'])), "</p>\n";
 					printf('<input type="hidden" name="table[]" value="%s" />', htmlspecialchars($a['table']));
 				}
@@ -669,7 +679,8 @@
 
 				echo "<form action=\"tables.php\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					$a = safeUnserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					if (!is_array($a)) continue;
 					echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($a['table'])), "</p>\n";
 					printf('<input type="hidden" name="table[]" value="%s" />', htmlspecialchars($a['table']));
 				}
@@ -930,7 +941,7 @@
 		}
 		$misc->printNavLinks($navlinks, 'tables-tables', get_defined_vars());
 	}
-	
+
 	require('./admin.php');
 
 	/**
@@ -1052,5 +1063,3 @@
 	}
 
 	$misc->printFooter();
-
-?>

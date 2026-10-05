@@ -10,8 +10,8 @@
 	class Reports {
 
 		// A database driver
-		var $driver;
-		var $conf;
+		public $driver;
+		public $conf;
 
 		/* Constructor */
 		function __construct(&$conf, &$status) {
@@ -33,17 +33,17 @@
 
 		/**
 		 * Finds all reports
-		 * @return A recordset
+		 * @return \ADORecordSet|int A recordset, or an error status on failure
 		 */
-		function getReports() {
-			global $misc;
-			// Filter for owned reports if necessary
-			if ($this->conf['owned_reports_only']) {
-				$server_info = $misc->getServerInfo();
-				$filter['created_by'] = $server_info['username'];
-				$ops = array('created_by' => '=');
-			}
-			else $filter = $ops = array();
+	function getReports() {
+		global $misc;
+		// Filter for owned reports if necessary
+		$filter = $ops = array();
+		if ($this->conf['owned_reports_only']) {
+			$server_info = $misc->getServerInfo();
+			$filter['created_by'] = $server_info['username'];
+			$ops = array('created_by' => '=');
+		}
 
 			$sql = $this->driver->getSelectSQL($this->conf['reports_table'],
 				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql', 'paginate'),

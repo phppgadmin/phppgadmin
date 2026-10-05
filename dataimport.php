@@ -6,8 +6,8 @@
 	 * $Id: dataimport.php,v 1.11 2007/01/22 16:33:01 soranzo Exp $
 	 */
 
-	// Prevent timeouts on large exports (non-safe mode only)
-	if (!ini_get('safe_mode')) set_time_limit(0);
+	// Prevent timeouts on large exports
+	set_time_limit(0);
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
@@ -214,10 +214,14 @@
 					// Set delimiter to tabs or commas
 					if ($_REQUEST['format'] == 'csv') $csv_delimiter = ',';
 					else $csv_delimiter = "\t";
+					// Pass the enclosure and escape characters explicitly: relying on
+					// the defaults is deprecated as of PHP 8.4, and an empty escape
+					// character matches the RFC 4180 style CSV that dataexport.php
+					// writes, where quotes are doubled and backslashes are literal.
 					// Get first line of field names
-					$fields = fgetcsv($fd, $csv_max_line, $csv_delimiter);
+					$fields = fgetcsv($fd, $csv_max_line, $csv_delimiter, '"', '');
 					$row = 2; //We start on the line AFTER the field names
-					while ($line = fgetcsv($fd, $csv_max_line, $csv_delimiter)) {
+					while ($line = fgetcsv($fd, $csv_max_line, $csv_delimiter, '"', '')) {
 						// Build value map
 						$t_fields = array();
 						$vars = array();
@@ -264,8 +268,6 @@
 						$line = fgets($fd, 4096);
 						xml_parse($parser, $line);
 					}
-					
-					xml_parser_free($parser);
 					break;
 				default:
 					// Unknown type

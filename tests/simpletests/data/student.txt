@@ -1,2 +1,0 @@
-"id" "name" "birthday" "resume"
-"2" "testname" "2005-05-31" "test resume."

@@ -11,8 +11,8 @@
 
 	 global $lang;
 
-	// Prevent timeouts on large exports (non-safe mode only)
-	if (!ini_get('safe_mode')) set_time_limit(0);
+	// Prevent timeouts on large exports
+	set_time_limit(0);
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
@@ -32,10 +32,10 @@
 			switch (pg_result_status($rs)) {
 				case PGSQL_TUPLES_OK:
 					// If rows returned, then display the results
-					$num_fields = pg_numfields($rs);
+					$num_fields = pg_num_fields($rs);
 					echo "<p><table>\n<tr>";
 					for ($k = 0; $k < $num_fields; $k++) {
-						echo "<th class=\"data\">", $misc->printVal(pg_fieldname($rs, $k)), "</th>";
+						echo "<th class=\"data\">", $misc->printVal(pg_field_name($rs, $k)), "</th>";
 					}
 		
 					$i = 0;
@@ -44,7 +44,7 @@
 						$id = (($i % 2) == 0 ? '1' : '2');
 						echo "<tr class=\"data{$id}\">\n";
 						foreach ($row as $k => $v) {
-							echo "<td style=\"white-space:nowrap;\">", $misc->printVal($v, pg_fieldtype($rs, $k), array('null' => true)), "</td>";
+							echo "<td style=\"white-space:nowrap;\">", $misc->printVal($v, pg_field_type($rs, $k), array('null' => true)), "</td>";
 						}							
 						echo "</tr>\n";
 						$row = pg_fetch_row($rs);
@@ -54,15 +54,8 @@
 					echo $i, " {$lang['strrows']}</p>\n";
 					break;
 				case PGSQL_COMMAND_OK:
-					// If we have the command completion tag
-					if (version_compare(phpversion(), '4.3', '>=')) {
-						echo htmlspecialchars(pg_result_status($rs, PGSQL_STATUS_STRING)), "<br/>\n";
-					}
-					// Otherwise if any rows have been affected
-					elseif ($data->conn->Affected_Rows() > 0) {
-						echo $data->conn->Affected_Rows(), " {$lang['strrowsaff']}<br/>\n";
-					}
-					// Otherwise output nothing...
+					// Print the command completion tag
+					echo htmlspecialchars(pg_result_status($rs, PGSQL_STATUS_STRING)), "<br/>\n";
 					break;
 				case PGSQL_EMPTY_QUERY:
 					break;
